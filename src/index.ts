@@ -5,3 +5,7 @@ export { default as useSkyflow } from './hooks/useSkyflow';
 export { default as useCollectContainer } from './hooks/useCollectContainer';
 export { default as InputField } from './components/InputField';
 export { default as PinElement } from './components/PinElement';
+export { default as CardHolderElement } from './components/CardHolderNameElement';
+export { default as CvvElement } from './components/CvvElement';
+export { default as ExpirationMonthElement } from './components/ExpirationMonthElement';
+export { default as ExpirationYearElement } from './components/ExpirationYearElement';

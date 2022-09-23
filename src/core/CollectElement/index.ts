@@ -1,12 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { isEmpty } from 'lodash';
-import { validatePin } from '../../core-utils/element-validations';
+import {
+  validateCardHolderName,
+  validateCvv,
+  validateExpiryMonth,
+  validateExpiryYear,
+  validatePin,
+} from '../../core-utils/element-validations';
 import {
   CollectElementInput,
   CollectElementState,
   ElementType,
 } from '../../utils/constants';
+import {
+  appendZeroToOne,
+  formatExpirationMonthValue,
+} from '../../utils/helpers';
 import SkyflowElement from '../SkyflowElement';
 
 class CollectElement extends SkyflowElement {
@@ -54,8 +64,11 @@ class CollectElement extends SkyflowElement {
   }
 
   onChangeElement(value: string) {
-    console.warn('change event triggerd', value);
-    this.updateElement(value);
+    if (this.#elementType === ElementType.EXPIRATION_MONTH) {
+      this.updateElement(formatExpirationMonthValue(value));
+    } else {
+      this.updateElement(value);
+    }
   }
   onFocusElement() {
     this.#state = {
@@ -67,7 +80,11 @@ class CollectElement extends SkyflowElement {
 
   onBlurElement() {
     console.debug('blur', this.#state);
-    this.updateElement(this.#state.value);
+    if (this.#elementType === ElementType.EXPIRATION_MONTH) {
+      this.updateElement(appendZeroToOne(this.#state.value));
+    } else {
+      this.updateElement(this.#state.value);
+    }
     this.#state = {
       ...this.#state,
       isFocused: false,
@@ -90,8 +107,25 @@ class CollectElement extends SkyflowElement {
   private updateElement(value: string) {
     let validStatus = this.#options?.required ? !isEmpty(value) : true;
 
-    if (this.#elementType === ElementType.PIN) {
-      validStatus = validStatus && validatePin(value);
+    switch (this.#elementType) {
+      case ElementType.PIN:
+        validStatus = validStatus && validatePin(value);
+        break;
+      case ElementType.CVV:
+        validStatus = validStatus && validateCvv(value);
+        break;
+      case ElementType.CARDHOLDER_NAME:
+        validStatus = validStatus && validateCardHolderName(value);
+        break;
+      case ElementType.EXPIRATION_MONTH:
+        validStatus = validStatus && validateExpiryMonth(value);
+        break;
+      case ElementType.EXPIRATION_YEAR:
+        validStatus =
+          validStatus && validateExpiryYear(value, this.#options?.format);
+        break;
+      default:
+        validStatus = true;
     }
     this.#state = {
       ...this.#state,
