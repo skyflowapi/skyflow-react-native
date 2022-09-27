@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  CardType,
+  CARD_TYPE_REGEX,
+  DEFAULT_CARD_LENGTH_RANGE,
   ELEMENTS_CONSTANTS_LIST,
   TWO_DIGIT_YEAR_FORMAT,
 } from '../../core/constants';
@@ -51,4 +55,33 @@ export const validateExpiryDate = (date: string, format: string) => {
   maxDate.setFullYear(today.getFullYear() + 50);
 
   return expiryDate > today && expiryDate <= maxDate;
+};
+
+export const validateCreditCardNumber = (cardNumber: string) => {
+  const value = cardNumber.replace(/[\s-]/g, '');
+  let sum = 0;
+  let shouldDouble = false;
+
+  for (let i = value.length - 1; i >= 0; i -= 1) {
+    let digit = parseInt(value.charAt(i), 10);
+
+    if (shouldDouble) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+
+    sum += digit;
+    shouldDouble = !shouldDouble;
+  }
+  return sum % 10 === 0;
+};
+
+export const validateCardNumberLengthCheck = (
+  cardNumber: string = '',
+  cardType: CardType
+): boolean => {
+  const cardLength = cardNumber.replace(/[\s-]/g, '').length;
+  const validLengths: number[] =
+    CARD_TYPE_REGEX[cardType]?.cardLengthRange || DEFAULT_CARD_LENGTH_RANGE;
+  return validLengths.includes(cardLength);
 };

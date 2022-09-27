@@ -3,7 +3,10 @@
 import { isEmpty } from 'lodash';
 import {
   validateCardHolderName,
+  validateCardNumberLengthCheck,
+  validateCreditCardNumber,
   validateCvv,
+  validateExpiryDate,
   validateExpiryMonth,
   validateExpiryYear,
   validatePin,
@@ -15,8 +18,12 @@ import {
 } from '../../utils/constants';
 import {
   appendZeroToOne,
+  detectCardType,
+  formatCardNumber,
+  formatExpirationDate,
   formatExpirationMonthValue,
 } from '../../utils/helpers';
+import { CardType } from '../constants';
 import SkyflowElement from '../SkyflowElement';
 
 class CollectElement extends SkyflowElement {
@@ -27,6 +34,8 @@ class CollectElement extends SkyflowElement {
   #label: string;
   errorText: string;
   hasError: boolean;
+  // only for card number element
+  #cardType: CardType | undefined;
 
   constructor(
     elementInput: CollectElementInput,
@@ -38,6 +47,9 @@ class CollectElement extends SkyflowElement {
     this.#elementType = elementInput.type;
     if (elementInput.label) {
       this.#label = elementInput.label;
+    }
+    if (this.#elementType === ElementType.CARD_NUMBER) {
+      this.#cardType = CardType.DEFAULT;
     }
     this.#options = options;
     this.#state = {
@@ -63,11 +75,24 @@ class CollectElement extends SkyflowElement {
     return this.#elementInput;
   }
 
+  getCardType() {
+    return this.#cardType;
+  }
+
   onChangeElement(value: string) {
-    if (this.#elementType === ElementType.EXPIRATION_MONTH) {
-      this.updateElement(formatExpirationMonthValue(value));
-    } else {
-      this.updateElement(value);
+    switch (this.#elementType) {
+      case ElementType.EXPIRATION_MONTH:
+        this.updateElement(formatExpirationMonthValue(value));
+        break;
+      case ElementType.EXPIRATION_DATE:
+        this.updateElement(formatExpirationDate(value, this.#options.format));
+        break;
+      case ElementType.CARD_NUMBER:
+        this.#cardType = detectCardType(value);
+        this.updateElement(formatCardNumber(value, this.#cardType));
+        break;
+      default:
+        this.updateElement(value);
     }
   }
   onFocusElement() {
@@ -92,7 +117,6 @@ class CollectElement extends SkyflowElement {
   }
 
   private updateError(showError: boolean) {
-    console.log('Update error Function Called..!', showError);
     if (showError) {
       this.errorText = this.#label
         ? `Invalid ${this.#elementInput.label}`
@@ -123,6 +147,19 @@ class CollectElement extends SkyflowElement {
       case ElementType.EXPIRATION_YEAR:
         validStatus =
           validStatus && validateExpiryYear(value, this.#options?.format);
+        break;
+      case ElementType.EXPIRATION_DATE:
+        validStatus =
+          validStatus && validateExpiryDate(value, this.#options?.format);
+        break;
+      case ElementType.CARD_NUMBER:
+        validStatus =
+          validStatus &&
+          validateCreditCardNumber(value) &&
+          validateCardNumberLengthCheck(
+            value,
+            this.#cardType || CardType.DEFAULT
+          );
         break;
       default:
         validStatus = true;

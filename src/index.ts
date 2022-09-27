@@ -9,3 +9,5 @@ export { default as CardHolderElement } from './components/CardHolderNameElement
 export { default as CvvElement } from './components/CvvElement';
 export { default as ExpirationMonthElement } from './components/ExpirationMonthElement';
 export { default as ExpirationYearElement } from './components/ExpirationYearElement';
+export { default as ExpirationDateElement } from './components/ExpirationDateElement';
+export { default as CardNumberElement } from './components/CardNumberElement';
