@@ -1,8 +1,13 @@
-export { default as CardNumberField } from './CardNumberField';
 export { default as SkyflowProvider } from './components/SkyflowProvider';
-export { IConfig, ElementType, Env, LogLevel } from './utils/constants';
-export { default as useSkyflow } from './hooks/useSkyflow';
+export {
+  IConfig,
+  ElementType,
+  Env,
+  LogLevel,
+  ValidationRuleType,
+} from './utils/constants';
 export { default as useCollectContainer } from './hooks/useCollectContainer';
+export { default as useRevealConatiner } from './hooks/useRevealContainer';
 export { default as InputField } from './components/InputField';
 export { default as PinElement } from './components/PinElement';
 export { default as CardHolderElement } from './components/CardHolderNameElement';
@@ -11,3 +16,4 @@ export { default as ExpirationMonthElement } from './components/ExpirationMonthE
 export { default as ExpirationYearElement } from './components/ExpirationYearElement';
 export { default as ExpirationDateElement } from './components/ExpirationDateElement';
 export { default as CardNumberElement } from './components/CardNumberElement';
+export { default as RevealElement } from './components/RevealElement';
