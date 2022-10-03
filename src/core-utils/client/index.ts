@@ -1,4 +1,5 @@
 import { ContentType } from '../../utils/constants';
+import SkyflowError from '../../utils/skyflow-error';
 
 export interface IClientRequest {
   body?: any;
@@ -18,8 +19,8 @@ export interface IClientRequest {
 class Client {
   constructor() {}
 
-  request = (request: IClientRequest) =>
-    new Promise((resolve, reject) => {
+  request = (request: IClientRequest) => {
+    return new Promise((resolve, reject) => {
       const httpRequest = new XMLHttpRequest();
       if (!httpRequest) {
         reject('connection error');
@@ -74,24 +75,42 @@ class Client {
                 ? `${description?.error?.message} - requestId: ${requestId}`
                 : description?.error?.message;
             }
-            reject({
-              code: httpRequest.status,
-              description,
-            });
+            reject(
+              new SkyflowError(
+                {
+                  code: httpRequest.status,
+                  description,
+                },
+                [],
+                true
+              )
+            );
           } else if (contentType && contentType.includes('text/plain')) {
-            reject({
-              code: httpRequest.status,
-              description: requestId
-                ? `${httpRequest.response} - requestId: ${requestId}`
-                : httpRequest.response,
-            });
+            reject(
+              new SkyflowError(
+                {
+                  code: httpRequest.status,
+                  description: requestId
+                    ? `${httpRequest.response} - requestId: ${requestId}`
+                    : httpRequest.response,
+                },
+                [],
+                true
+              )
+            );
           } else {
-            reject({
-              code: httpRequest.status,
-              description: requestId
-                ? `Error Occured - requestId: ${requestId}`
-                : 'Error Occured',
-            });
+            reject(
+              new SkyflowError(
+                {
+                  code: httpRequest.status,
+                  description: requestId
+                    ? `Error Occured - requestId: ${requestId}`
+                    : 'Error Occured',
+                },
+                [],
+                true
+              )
+            );
           }
         }
         if (contentType && contentType.includes('application/json')) {
@@ -106,6 +125,7 @@ class Client {
         );
       };
     });
+  };
 }
 
 export default Client;
