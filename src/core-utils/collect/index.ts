@@ -142,9 +142,9 @@ export const tokenize = (
   let errorMessage = '';
   elementList.forEach((currentElement) => {
     if (!currentElement.getInternalState().isValid) {
-      errorMessage += `${currentElement.getElementInput().column}: ${
-        currentElement.errorText
-      } `;
+      errorMessage += `${
+        currentElement.getElementInput().column
+      }: ${currentElement.getErrorText()} `;
     }
   });
   if (errorMessage.length > 0) {

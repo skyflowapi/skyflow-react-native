@@ -7,6 +7,7 @@ import {
   CARD_TYPE_REGEX,
   CARD_NUMBER_MASK,
 } from '../../core/constants';
+import { ElementType } from '../constants';
 
 export const appendZeroToOne = (value) => {
   if (value.length === 1 && Number(value) === 1) {
@@ -105,4 +106,28 @@ export const detectCardType = (cardNumber: string) => {
 
 export const formatCardNumber = (cardNumber, type) => {
   return applyMask(cardNumber, CARD_NUMBER_MASK[type]);
+};
+
+export const getReturnValue = (
+  value: string,
+  doesReturnValue: boolean,
+  elementType: ElementType,
+  cardType?: CardType
+) => {
+  value = value && value.replace(/\s/g, '');
+  if (doesReturnValue) {
+    return value;
+  }
+  if (elementType === ElementType.CARD_NUMBER && !doesReturnValue) {
+    const threshold =
+      cardType !== CardType.DEFAULT && cardType === CardType.AMEX ? 6 : 8;
+    if (value.length > threshold) {
+      return value.replace(
+        new RegExp(`.(?=.{0,${value?.length - threshold - 1}}$)`, 'g'),
+        'X'
+      );
+    }
+    return value;
+  }
+  return '';
 };

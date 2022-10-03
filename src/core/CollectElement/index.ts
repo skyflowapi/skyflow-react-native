@@ -9,12 +9,18 @@ import {
   validateExpiryDate,
   validateExpiryMonth,
   validateExpiryYear,
+  validateLengthMatchRule,
   validatePin,
+  validRegexMatchRule,
 } from '../../core-utils/element-validations';
 import {
   CollectElementInput,
+  CollectElementProps,
   CollectElementState,
   ElementType,
+  Env,
+  IValidationRule,
+  ValidationRuleType,
 } from '../../utils/constants';
 import {
   appendZeroToOne,
@@ -22,8 +28,14 @@ import {
   formatCardNumber,
   formatExpirationDate,
   formatExpirationMonthValue,
+  getReturnValue,
 } from '../../utils/helpers';
-import { CardType } from '../constants';
+import { EnvOptions } from '../../utils/logs-helper';
+import {
+  CardType,
+  DEFAULT_COLLECT_ELEMENT_ERROR_TEXT,
+  DEFAULT_VALIDATION_ERROR_TEXT,
+} from '../constants';
 import SkyflowElement from '../SkyflowElement';
 
 class CollectElement extends SkyflowElement {
@@ -32,10 +44,12 @@ class CollectElement extends SkyflowElement {
   #options: any;
   #elementType: ElementType;
   #label: string;
-  errorText: string;
+  #errorText: string;
   hasError: boolean;
   // only for card number element
   #cardType: CardType | undefined;
+  #validations: IValidationRule[];
+  #customValidErrorText: string | undefined;
 
   constructor(
     elementInput: CollectElementInput,
@@ -50,6 +64,9 @@ class CollectElement extends SkyflowElement {
     }
     if (this.#elementType === ElementType.CARD_NUMBER) {
       this.#cardType = CardType.DEFAULT;
+    }
+    if (elementInput.validations) {
+      this.#validations = elementInput.validations;
     }
     this.#options = options;
     this.#state = {
@@ -79,6 +96,22 @@ class CollectElement extends SkyflowElement {
     return this.#cardType;
   }
 
+  getErrorText() {
+    return this.#errorText;
+  }
+
+  getClientState() {
+    return {
+      ...this.#state,
+      value: getReturnValue(
+        this.#state.value,
+        EnvOptions[Env.PROD]?.doesReturnValue,
+        this.#elementType,
+        this.#cardType
+      ),
+    };
+  }
+
   onChangeElement(value: string) {
     switch (this.#elementType) {
       case ElementType.EXPIRATION_MONTH:
@@ -94,17 +127,22 @@ class CollectElement extends SkyflowElement {
       default:
         this.updateElement(value);
     }
+    if (this.#elementInput.onChange) {
+      this.#elementInput.onChange(this.getClientState());
+    }
   }
   onFocusElement() {
     this.#state = {
       ...this.#state,
       isFocused: true,
     };
-    console.debug('focus', this.#state);
+
+    if (this.#elementInput.onFocus) {
+      this.#elementInput.onFocus(this.getClientState());
+    }
   }
 
   onBlurElement() {
-    console.debug('blur', this.#state);
     if (this.#elementType === ElementType.EXPIRATION_MONTH) {
       this.updateElement(appendZeroToOne(this.#state.value));
     } else {
@@ -114,16 +152,22 @@ class CollectElement extends SkyflowElement {
       ...this.#state,
       isFocused: false,
     };
+
+    if (this.#elementInput.onFocus) {
+      this.#elementInput.onFocus(this.getClientState());
+    }
   }
 
   private updateError(showError: boolean) {
     if (showError) {
-      this.errorText = this.#label
+      this.#errorText = this.#customValidErrorText
+        ? this.#customValidErrorText
+        : this.#label
         ? `Invalid ${this.#elementInput.label}`
-        : `Invalid value`;
+        : DEFAULT_COLLECT_ELEMENT_ERROR_TEXT;
       this.hasError = true;
     } else {
-      this.errorText = '';
+      this.#errorText = '';
       this.hasError = false;
     }
   }
@@ -164,6 +208,9 @@ class CollectElement extends SkyflowElement {
       default:
         validStatus = true;
     }
+
+    validStatus = validStatus && this.validateCustomValidations(value);
+
     this.#state = {
       ...this.#state,
       value: value,
@@ -171,6 +218,35 @@ class CollectElement extends SkyflowElement {
       isValid: validStatus,
     };
     this.updateError(!validStatus);
+  }
+
+  private validateCustomValidations(value: string): boolean {
+    let customValid = true;
+    if (this.#validations && this.#validations.length) {
+      for (let index = 0; index < this.#validations.length; index++) {
+        const validationRule = this.#validations[index];
+        switch (validationRule.type) {
+          case ValidationRuleType.LENGTH_MATCH_RULE:
+            customValid = validateLengthMatchRule(validationRule.params, value);
+            break;
+          case ValidationRuleType.REGEX_MATCH_RULE:
+            customValid = validRegexMatchRule(
+              validationRule.params.regex,
+              value
+            );
+            break;
+          default:
+            this.#customValidErrorText = 'Invalid Validation Rule';
+            break;
+        }
+        if (!customValid) {
+          this.#customValidErrorText =
+            validationRule.params.error || DEFAULT_VALIDATION_ERROR_TEXT;
+          return customValid;
+        }
+      }
+    }
+    return customValid;
   }
 }
 

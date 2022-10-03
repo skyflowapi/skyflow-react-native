@@ -85,3 +85,26 @@ export const validateCardNumberLengthCheck = (
     CARD_TYPE_REGEX[cardType]?.cardLengthRange || DEFAULT_CARD_LENGTH_RANGE;
   return validLengths.includes(cardLength);
 };
+
+export const validateLengthMatchRule = (
+  lengthRuleParams: Record<string, number>,
+  value: string
+): boolean => {
+  let valid = true;
+  if (lengthRuleParams?.min > value.length) {
+    valid = false;
+  }
+  if (lengthRuleParams?.max < value.length) {
+    valid = false;
+  }
+  return valid;
+};
+
+export const validRegexMatchRule = (regexRule, value): boolean => {
+  let valid = true;
+  if (regexRule) {
+    const regex = new RegExp(regexRule);
+    return regex.test(value);
+  }
+  return valid;
+};
