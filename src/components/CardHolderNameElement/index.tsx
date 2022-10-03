@@ -26,7 +26,7 @@ const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, optio
             }}
             onBlur={()=>{
                 element?.onBlurElement();
-                setErrorText(element?.errorText || '');
+                setErrorText(element?.getErrorText() || '');
             }}
         />
         <Text>{errorText}</Text> 

@@ -31,7 +31,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options,.
             }}
             onBlur={()=>{
                 element?.onBlurElement();
-                setErrorText(element?.errorText || '');
+                setErrorText(element?.getErrorText() || '');
                 setElementValue(element.getInternalState().value)
             }}
             keyboardType='numeric'

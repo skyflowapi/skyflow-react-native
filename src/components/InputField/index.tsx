@@ -10,7 +10,7 @@ const InputField: React.FC<CollectElementProps> = ({ container, options,...rest 
         const element:CollectElement = container.create({...rest,type:ElementType.INPUT_FIELD},options);
         setElement(element);
         if(rest.onReady){
-            rest.onReady(element.getInternalState());
+            rest.onReady(element.getClientState());
         }
     }, []);
 
@@ -19,14 +19,14 @@ const InputField: React.FC<CollectElementProps> = ({ container, options,...rest 
         <TextInput
             placeholder={rest.placeholder}
             onChangeText={(text)=>{
-                element?.onChangeElement(text)
+                element?.onChangeElement(text);
             }}
             onFocus={()=>{
                 element?.onFocusElement()
             }}
             onBlur={()=>{
                 element?.onBlurElement();
-                setErrorText(element?.errorText || '');
+                setErrorText(element?.getErrorText() || '');
             }}
         />
         <Text>{errorText}</Text> 

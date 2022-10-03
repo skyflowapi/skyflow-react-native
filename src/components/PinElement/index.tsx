@@ -26,7 +26,7 @@ const PinElement: React.FC<CollectElementProps> = ({ container, options,...rest 
             }}
             onBlur={()=>{
                 element?.onBlurElement();
-                setErrorText(element?.errorText || '');
+                setErrorText(element?.getErrorText() || '');
             }}
             maxLength={12}
             keyboardType='numeric'

@@ -27,7 +27,7 @@ const ExpirationYearElement: React.FC<CollectElementProps> = ({ container, optio
             }}
             onBlur={()=>{
                 element?.onBlurElement();
-                setErrorText(element?.errorText || '');
+                setErrorText(element?.getErrorText() || '');
             }}
             maxLength={options?.format === FOUR_DIGIT_YEAR_FORMAT ? 4 : 2}
             keyboardType='numeric'

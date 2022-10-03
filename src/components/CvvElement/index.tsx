@@ -26,7 +26,7 @@ const CvvElement: React.FC<CollectElementProps> = ({ container, options,...rest 
             }}
             onBlur={()=>{
                 element?.onBlurElement();
-                setErrorText(element?.errorText || '');
+                setErrorText(element?.getErrorText() || '');
             }}
             maxLength={4}
             keyboardType='numeric'

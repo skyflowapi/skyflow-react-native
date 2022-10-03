@@ -29,7 +29,7 @@ const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, opti
             }}
             onBlur={()=>{
                 element?.onBlurElement();
-                setErrorText(element?.errorText || '');
+                setErrorText(element?.getErrorText() || '');
                 setElementValue(element.getInternalState().value)
             }}
             maxLength={2}

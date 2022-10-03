@@ -30,7 +30,7 @@ const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, optio
             }}
             onBlur={()=>{
                 element?.onBlurElement();
-                setErrorText(element?.errorText || '');
+                setErrorText(element?.getErrorText() || '');
                 setElementValue(element.getInternalState().value)
             }}
             maxLength={options.format.length}
