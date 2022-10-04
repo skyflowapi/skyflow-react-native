@@ -56,7 +56,7 @@ class CollectElement extends SkyflowElement {
     options = { required: false }
   ) {
     super();
-    console.log('Element Created', elementInput, 'Options', options);
+    // console.log('Element Created', elementInput, 'Options', options);
     this.#elementInput = elementInput;
     this.#elementType = elementInput.type;
     if (elementInput.label) {
@@ -153,8 +153,8 @@ class CollectElement extends SkyflowElement {
       isFocused: false,
     };
 
-    if (this.#elementInput.onFocus) {
-      this.#elementInput.onFocus(this.getClientState());
+    if (this.#elementInput.onBlur) {
+      this.#elementInput.onBlur(this.getClientState());
     }
   }
 

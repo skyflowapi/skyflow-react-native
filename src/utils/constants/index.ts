@@ -129,7 +129,7 @@ export enum ContentType {
   }
 
   export interface StylesBaseVariant{
-    base: Record<string,any>;
+    base?: Record<string,any>;
   }
 
   export interface StylesFocusVariant{
