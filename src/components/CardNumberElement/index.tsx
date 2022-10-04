@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
-import { CARD_NUMBER_MASK, CARD_TYPE_REGEX, DEFAULT_CARD_INPUT_MAX_LENGTH } from "../../core/constants";
-import { CollectElementProps, DEFAULT_COLLECT_ELEMENT_STYLES, ElementType } from "../../utils/constants";
+import { CARD_NUMBER_MASK, DEFAULT_CARD_INPUT_MAX_LENGTH } from "../../core/constants";
+import { CollectElementProps, ElementType } from "../../utils/constants";
 
 const CardNumberElement: React.FC<CollectElementProps> = ({ container, options,...rest }) => {
     const [element,setElement] = React.useState<CollectElement>(undefined);
@@ -10,7 +10,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options,.
     const [errorText,setErrorText] = React.useState<string>('');
     const [maxLength,setMaxLength] = React.useState<number>(DEFAULT_CARD_INPUT_MAX_LENGTH);
     const [labelStyles,setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
-    const [inputStyles,setInputStyles] = React.useState({base: rest?.inputStyles?.base }|| DEFAULT_COLLECT_ELEMENT_STYLES.base);
+    const [inputStyles,setInputStyles] = React.useState(rest?.inputStyles?.base || {});
 
     useEffect(() => {
         const element:CollectElement = container.create({...rest,type:ElementType.CARD_NUMBER},options);

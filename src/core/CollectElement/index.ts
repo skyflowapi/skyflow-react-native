@@ -226,6 +226,7 @@ class CollectElement extends SkyflowElement {
   }
 
   private updateElement(value: string) {
+    this.#customValidErrorText = '';
     let validStatus = this.#options?.required ? !isEmpty(value) : true;
 
     switch (this.#elementType) {
