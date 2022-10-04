@@ -16,9 +16,9 @@ const RevealElement: React.FC<RevealElementProps> = ({container,label,...rest})=
     },[]);
 
     return <>
-        <Text>{label}</Text>
-        <Text selectable>{value}</Text>
-        <Text>{errorText}</Text>
+        <Text style={rest.labelStyles?.base || {}}>{label}</Text>
+        <Text selectable style={rest?.inputStyles?.base || {}}>{value}</Text>
+        <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
     </>
 
 }

@@ -158,6 +158,59 @@ class CollectElement extends SkyflowElement {
     }
   }
 
+  updateInputStyles() {
+    let inputStyles = {};
+    if (this.#elementInput.inputStyles) {
+      if (this.#elementInput.inputStyles.base) {
+        inputStyles = { ...(this.#elementInput.inputStyles.base || {}) };
+      }
+
+      if (this.#elementInput.inputStyles.focus && this.#state.isFocused) {
+        inputStyles = {
+          ...inputStyles,
+          ...(this.#elementInput.inputStyles.focus || {}),
+        };
+      }
+
+      if (this.#elementInput.inputStyles.empty && this.#state.isEmpty) {
+        inputStyles = {
+          ...inputStyles,
+          ...(this.#elementInput.inputStyles.empty || {}),
+        };
+      } else {
+        if (this.#elementInput.inputStyles.invalid && !this.#state.isValid) {
+          inputStyles = {
+            ...inputStyles,
+            ...(this.#elementInput.inputStyles.invalid || {}),
+          };
+        }
+        if (this.#elementInput.inputStyles.complete && this.#state.isValid) {
+          inputStyles = {
+            ...inputStyles,
+            ...(this.#elementInput.inputStyles.complete || {}),
+          };
+        }
+      }
+    }
+    return inputStyles;
+  }
+
+  updateLabelStyles() {
+    let labelStyles = {};
+    if (this.#label && this.#elementInput.labelStyles) {
+      if (this.#elementInput.labelStyles.base) {
+        labelStyles = { ...(this.#elementInput.labelStyles.base || {}) };
+      }
+      if (this.#elementInput.labelStyles.focus && this.#state.isFocused) {
+        labelStyles = {
+          ...labelStyles,
+          ...(this.#elementInput.labelStyles.focus || {}),
+        };
+      }
+    }
+    return labelStyles;
+  }
+
   private updateError(showError: boolean) {
     if (showError) {
       this.#errorText = this.#customValidErrorText

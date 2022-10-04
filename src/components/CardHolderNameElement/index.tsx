@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
-import { CollectElementProps, ElementType } from "../../utils/constants";
+import { CollectElementProps, DEFAULT_COLLECT_ELEMENT_STYLES, ElementType } from "../../utils/constants";
 
 const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, options,...rest }) => {
     const [element,setElement] = React.useState<CollectElement>();
     const [errorText,setErrorText] = React.useState<string>('');
+    const [labelStyles,setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
+    const [inputStyles,setInputStyles] = React.useState({base: rest?.inputStyles?.base }|| DEFAULT_COLLECT_ELEMENT_STYLES.base);
+
     useEffect(() => {
         const element:CollectElement = container.create({...rest,type:ElementType.CARDHOLDER_NAME},options);
         setElement(element);
@@ -15,7 +18,7 @@ const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, optio
     }, []);
 
     return (<View>
-        <Text>{rest.label}</Text>
+        <Text style={labelStyles}>{rest.label}</Text>
         <TextInput
             placeholder={rest.placeholder}
             onChangeText={(text)=>{
@@ -23,13 +26,18 @@ const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, optio
             }}
             onFocus={()=>{
                 element?.onFocusElement()
+                setLabelStyles(element.updateLabelStyles());
+                setInputStyles(element.updateInputStyles());
             }}
             onBlur={()=>{
                 element?.onBlurElement();
                 setErrorText(element?.getErrorText() || '');
+                setLabelStyles(element.updateLabelStyles());
+                setInputStyles(element.updateInputStyles());
             }}
+            style={inputStyles}
         />
-        <Text>{errorText}</Text> 
+        <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text> 
     </View>);
 }
 

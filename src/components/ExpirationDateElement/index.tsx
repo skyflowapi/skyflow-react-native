@@ -2,12 +2,15 @@ import React, { useEffect } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
 import { DEFAULT_EXPIRATION_DATE_FORMAT } from "../../core/constants";
-import { CollectElementProps, ElementType } from "../../utils/constants";
+import { CollectElementProps, DEFAULT_COLLECT_ELEMENT_STYLES, ElementType } from "../../utils/constants";
 
 const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, options={format:DEFAULT_EXPIRATION_DATE_FORMAT},...rest }) => {
     const [element,setElement] = React.useState<CollectElement>();
     const [elementValue,setElementValue] = React.useState<string>('');
     const [errorText,setErrorText] = React.useState<string>('');
+    const [labelStyles,setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
+    const [inputStyles,setInputStyles] = React.useState({base: rest?.inputStyles?.base }|| DEFAULT_COLLECT_ELEMENT_STYLES.base);
+
     useEffect(() => {
         const element:CollectElement = container.create({...rest,type:ElementType.EXPIRATION_DATE},options);
         setElement(element);
@@ -17,7 +20,7 @@ const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, optio
     }, []);
 
     return (<View>
-        <Text>{rest.label}</Text>
+        <Text style={labelStyles}>{rest.label}</Text>
         <TextInput
             value={elementValue}
             placeholder={rest.placeholder}
@@ -26,17 +29,22 @@ const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, optio
                 setElementValue(element.getInternalState().value)
             }}
             onFocus={()=>{
-                element?.onFocusElement()
+                element?.onFocusElement();
+                setLabelStyles(element.updateLabelStyles());
+                setInputStyles(element.updateInputStyles());
             }}
             onBlur={()=>{
                 element?.onBlurElement();
                 setErrorText(element?.getErrorText() || '');
-                setElementValue(element.getInternalState().value)
+                setElementValue(element.getInternalState().value);
+                setLabelStyles(element.updateLabelStyles());
+                setInputStyles(element.updateInputStyles());
             }}
             maxLength={options.format.length}
             keyboardType='numeric'
+            style={inputStyles}
         />
-        <Text>{errorText}</Text> 
+        <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text> 
     </View>);
 }
 

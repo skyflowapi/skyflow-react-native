@@ -26,7 +26,10 @@ export interface CollectElementInput{
     onReady?:Function;
     onBlur?:Function;
     onFocus?:Function;
-    validations?: IValidationRule[]
+    validations?: IValidationRule[];
+    inputStyles?: CollectInputStylesVariant;
+    labelStyles?: CollectLabelStylesVariant;
+    errorTextStyles?: StylesBaseVariant;
 }
 
 export interface CollectElementProps {
@@ -41,6 +44,9 @@ export interface CollectElementProps {
     onBlur?:Function;
     onFocus?:Function;
     options?:Record<string,any>;
+    inputStyles?: CollectInputStylesVariant;
+    labelStyles?: CollectLabelStylesVariant;
+    errorTextStyles?: StylesBaseVariant;
 }
 
 export enum ElementType{
@@ -86,10 +92,14 @@ export enum ContentType {
     token: string;
   }
 
-  export interface RevealElementProps extends RevealElementInput{
+  export interface RevealElementProps{
+    token: string;
     container: RevealContainer;
     label?: string;
     altText?: string;
+    inputStyles?: StylesBaseVariant;
+    labelStyles?: StylesBaseVariant;
+    errorTextStyles?: StylesBaseVariant;
   }
 
   export enum MessageType{
@@ -117,3 +127,29 @@ export enum ContentType {
     type: ValidationRuleType;
     params: any;
   }
+
+  export interface StylesBaseVariant{
+    base: Record<string,any>;
+  }
+
+  export interface StylesFocusVariant{
+    focus?: Record<string,any>;
+  }
+
+  export interface CollectInputStylesVariant extends StylesBaseVariant, StylesFocusVariant{
+      complete?: Record<string,any>;
+      invalid?: Record<string,any>;
+      empty?: Record<string,any>;
+  }
+
+  export interface CollectLabelStylesVariant extends StylesBaseVariant, StylesFocusVariant{
+
+  }
+
+  export const DEFAULT_COLLECT_ELEMENT_STYLES = {
+    base: {},
+    focus: {},
+    complete: {},
+    invalid: {},
+    empty: {},
+  };
