@@ -1,25 +1,50 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
+import { Env, IConfig, LogLevel, SkyflowProvider, } from 'skyflow-react-native';
+import Skyview from './Skyview';
 
-export default function App() {
+const App = () => {
 
+  const skyflowConfig:IConfig= {
+    getBearerToken: () => {
+      return new Promise((resolve, reject) => {
+        const Http = new XMLHttpRequest();
+    
+        Http.onreadystatechange = () => {
+          if (Http.readyState == 4) {
+            if (Http.status == 200) {
+              const response = JSON.parse(Http.responseText);
+              resolve(response.accessToken);
+            } else {
+              reject("Error occured");
+            }
+          }
+        };
+    
+        Http.onerror = (error) => {
+          reject("Error occured");
+        };
+    
+        const url = "<TOKEN_END_POINT_URL>";
+        Http.open("GET", url);
+        Http.send();
+      })
+    },
+    vaultID: '<VAULT_ID>',
+    vaultURL: '<VAULT_URL>',
+    options: {
+      logLevel: LogLevel.ERROR,
+      env: Env.PROD
+    }
+  }
+
+  
   return (
-    <View style={styles.container}>
-      <Text>Hello World</Text>
-    </View>
+    <SkyflowProvider config={skyflowConfig}>
+      <Skyview />
+    </SkyflowProvider>
+
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
-  },
-});
+export default App;
