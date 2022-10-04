@@ -36,6 +36,7 @@
     "android"
   ],
   "repository": "https://github.com/skyflowapi/skyflow-react-native.git",
+  "homepage": "https://github.com/skyflowapi/skyflow-react-native",
   "author": "Skyflow",
   "license": "MIT",
   "devDependencies": {
