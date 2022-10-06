@@ -5,7 +5,7 @@ Skyflow’s React Native SDK can be used to securely collect, tokenize, and reve
 ---
 ## Table of Contents
 - [**Including Skyflow-React-Native**](#Including-Skyflow-React-Native) 
-- [**Initializing Skyflow-React**](#Initializing-Skyflow-React)
+- [**Initializing Skyflow-React**](#Initializing Skyflow-React-Native)
 - [**Securely collecting data client-side**](#Securely-collecting-data-client-side)
 - [**Securely revealing data client-side**](#Securely-revealing-data-client-side)
 - [**Reporting a Vulnerability**](#Reporting-Vulnerability)
@@ -30,8 +30,8 @@ React Native components are wrapped in skyflow provider which takes in config ob
 import { SkyflowProvider, LogLevel, Env } from 'skyflow-react-native';
 const App = ()=>{
     const config = {
-        vaultID: "string",          //Id of the vault that the client should connect to 
-        vaultURL: "string",         //URL of the vault that the client should connect to
+        vaultID: 'string',          //Id of the vault that the client should connect to 
+        vaultURL: 'string',         //URL of the vault that the client should connect to
         getBearerToken: helperFunc,  //helper function that retrieves a Skyflow bearer token from your backend
         options: {
             logLevel: LogLevel.DEBUG, // optional, if not specified default is ERROR 
@@ -52,8 +52,8 @@ For example, if the response of the consumer tokenAPI is in the below format
 
 ```
 {
-   "accessToken": string,
-   "tokenType": string
+   'accessToken': string,
+   'tokenType': string
 }
 
 ```
@@ -70,17 +70,17 @@ getBearerToken: () => {
                     const response = JSON.parse(Http.responseText);
                     resolve(response.accessToken);
                 } else {
-                    reject("Error occured");
+                    reject('Error occured');
                 }
             }
         };
 
         Http.onerror = (error) => {
-            reject("Error occured");
+            reject('Error occured');
         };
 
-        const url = "https://api.acmecorp.com/skyflowToken";
-        Http.open("GET", url);
+        const url = 'https://api.acmecorp.com/skyflowToken';
+        Http.open('GET', url);
         Http.send();
     })
 
@@ -141,12 +141,12 @@ First create a container for the form elements using the `useCollectContainer` h
 ### Step 2: Create a collect Element
  
 ```jsx
-import { CardNumberElement } from "skyflow-react-native";
+import { CardNumberElement } from 'skyflow-react-native';
 
 <CardNumberElement
-    container="<CONTAINER>"
-    table="<TABLE_NAME>"
-    column="<COLUMN_NAME>"
+    container='<CONTAINER>'
+    table='<TABLE_NAME>'
+    column='<COLUMN_NAME>'
       … props
 />
 ```
@@ -155,11 +155,11 @@ The following `props` can be passed to Skyflow collect Element:
 
 ``` javascript
 {
-    conatiner: "CollectContainer" // required, the collect container
-    table: "string",             //required, the table this data belongs to
-    column: "string",            //required, the column into which this data should be inserted
-    label: "string",             //optional, label for the form element
-    placeholder: "string",       //optional, placeholder for the form element
+    conatiner: 'CollectContainer' // required, the collect container
+    table: 'string',             //required, the table this data belongs to
+    column: 'string',            //required, the column into which this data should be inserted
+    label: 'string',             //optional, label for the form element
+    placeholder: 'string',       //optional, placeholder for the form element
     validations: []              // optional array of validation rules
     onChange: Function;          //optional, function that is passed to trigger the onChange event
     onFocus: Function;           //optional, function that is passed to trigger the onChange event
@@ -181,12 +181,12 @@ All elements can be styled using [StyleSheet](https://reactnative.dev/docs/style
 An example of styling an element :
 
 ```jsx
-import { StyleSheet } from "skyflow-react-native";
+import { StyleSheet } from 'react-native';
 
 
 const elementInputStyles = StyleSheet.create({
   base:{
-      color: "#1d1d1d",
+      color: '#1d1d1d',
   },
   invalid:{
     color:'#f44336'
@@ -195,9 +195,9 @@ const elementInputStyles = StyleSheet.create({
 
 // passing the styles object to element
     <CardNumberElement
-        container="<CONTAINER>"
-        table="<TABLE_NAME>"
-        column="<COLUMN_NAME>"
+        container='<CONTAINER>'
+        table='<TABLE_NAME>'
+        column='<COLUMN_NAME>'
         inputStyles={elementInputStyles}
     />
 ```
@@ -255,7 +255,7 @@ Along with Collect Element we can define other options which takes a object of o
 ```jsx
 const options = {
     required: boolean,  //optional, indicates whether the field is marked as required. Defaults to 'false'
-    format: string, //optional, format for the element (only applicable currently for EXPIRATION_DATE,`EXPIRATION_YEAR`  ElementType)
+    format: string, //optional, format for the element (only applicable currently for EXPIRATION_DATE, EXPIRATION_YEAR ElementType)
 }
 ```
 
@@ -290,9 +290,9 @@ const options = {
     additionalFields: {
         records: [
             {
-                table: "string", //table into which record should be inserted
+                table: 'string', //table into which record should be inserted
                 fields: {
-                    column1: "value", //column names should match vault column names
+                    column1: 'value', //column names should match vault column names
                     //...additional fields here
                 }
             }
@@ -310,26 +310,26 @@ import React from 'react';
 import { CardNumberElement, useCollectContainer } from 'skyflow-react-native';
 import { View,StyleSheet,Button } from 'react-native'; 
 
-function App() {
+const App = ()=> {
 
     const collectContainer = useCollectContainer();
 
-    const handleCollect =()=>{
+    const handleCollect = ()=>{
         collectContainer.collect().then((response:any)=>{
           console.log('Collect Success: ',JSON.stringify(response));
         }).catch((err)=>{
           console.error('Collect Failed: ',JSON.stringify(err));
         });
-      };
+    };
 
     return(
       <View style={viewStyles.box}>
             <CardNumberElement 
             container={collectContainer}
             table='cards'
-            column="card_number"
-            placeholder="XXXX XXXX XXXX XXXX"
-            label="Card Number"   
+            column='card_number'
+            placeholder='XXXX XXXX XXXX XXXX'
+            label='Card Number'   
             inputStyles={elementInputStyles}
             labelStyles={elementLabelStyles}
             errorTextStyles={errorTextStyles}
@@ -338,7 +338,7 @@ function App() {
 
       </View>
       <View style={viewStyles.box}>
-        <Button title="Collect" onPress={handleCollect} />
+        <Button title='Collect' onPress={handleCollect} />
       </View>
     );
 };
@@ -350,7 +350,7 @@ const elementInputStyles = StyleSheet.create({
       borderColor: '#eae8ee',
       paddingVertical: 8,
       paddingHorizontal:6,
-      color: "#1d1d1d",
+      color: '#1d1d1d',
   },
   invalid:{
     color:'#f44336'
@@ -383,11 +383,11 @@ export default App;
 **Sample Response :**
 ```javascript
 {
-    "records": [
+    'records': [
         {
-            "table": "cards",
-            "fields": {
-                "card_number": "f3907186-e7e2-466f-91e5-48e12c2bcbc1",
+            'table': 'cards',
+            'fields': {
+                'card_number': 'f3907186-e7e2-466f-91e5-48e12c2bcbc1',
             }
         }
     ]
@@ -395,17 +395,17 @@ export default App;
 ```
 ## Validations:
 
-Skyflow-React-Native which internally provides two types of validations on Collect Elements
+Skyflow-React-Native SDK which internally provides two types of validations on Collect Elements
 
 ### 1. Default Validations:
-Every Collect Element except of type `InputFieldElement` has a set of default validations listed below:
-- `CARD_NUMBER`: Card number validation with checkSum algorithm(Luhn algorithm).
+Every Collect Element except `InputFieldElement` has a set of default validations listed below:
+- `CardNumberElement`: Card number validation with checkSum algorithm(Luhn algorithm).
 Available card lengths for defined card types are [12, 13, 14, 15, 16, 17, 18, 19]. 
 A valid 16 digit card number will be in the format - `XXXX XXXX XXXX XXXX`
-- `CARD_HOLDER_NAME`: Name should be 2 or more symbols, valid characters should match pattern -  `^([a-zA-Z\\ \\,\\.\\-\\']{2,})$`
-- `CVV`: Card CVV can have 3-4 digits
-- `EXPIRATION_DATE`: Any date starting from current month. By default valid expiration date should be in short year format - `MM/YY`
-- `PIN`: Can have 4-12 digits
+- `CardHolderNameElement`: Name should be 2 or more symbols, valid characters should match pattern -  `^([a-zA-Z\\ \\,\\.\\-\\']{2,})$`
+- `CvvElement`: Card CVV can have 3-4 digits
+- `ExpirationDateElement`: Any date starting from current month. By default valid expiration date should be in short year format - `MM/YY`
+- `PinElement`: Can have 4-12 digits
 
 ### 2. Custom Validations:
 Custom validations can be added to any element which will be checked after the default validations have passed. The following Custom validation rules are currently supported:
@@ -416,7 +416,7 @@ const regexMatchRule = {
     type: ValidationRuleType.REGEX_MATCH_RULE,
     params: {
         regex: RegExp,
-        error: string // optional, default error is "VALIDATION FAILED"
+        error: string // optional, default error is 'VALIDATION FAILED'
     }
 }
 ```
@@ -429,7 +429,7 @@ const lengthMatchRule = {
     params: {
         min: number, // optional
         max: number, // optional 
-        error: string // optional, default error is "VALIDATION FAILED"
+        error: string // optional, default error is 'VALIDATION FAILED'
     }
 }
 ```
@@ -440,14 +440,14 @@ The Sample for using custom validations:
   A simple example that illustrates custom validations.
   Adding REGEX_MATCH_RULE , LENGTH_MATCH_RULE to collect element.
 */
-import { CardNumberElement, ValidationRuleType } from "skyflow-react-native";
+import { CardNumberElement, ValidationRuleType } from 'skyflow-react-native';
 
 // This rule allows 1 or more alphabets
 const alphabetsOnlyRegexRule = {
     type: ValidationRuleType.REGEX_MATCH_RULE,
     params: {
         regex: /^[A-Za-z]+$/,
-        error: "Only alphabets are allowed"
+        error: 'Only alphabets are allowed'
     }
 };
 
@@ -457,16 +457,16 @@ const lengthRule = {
     params: {
         min: 4,
         max: 6,
-        error: "Must be between 4 and 6 alphabets"
+        error: 'Must be between 4 and 6 alphabets'
     }
 };
 
 const form = (props) => {
 
     return <CardNumberElement
-        container="COLLECT CONTAINER"
-        table="<TABLE_NAME>"
-        column="<COLUMN_NAME>"
+        container='COLLECT CONTAINER'
+        table='<TABLE_NAME>'
+        column='<COLUMN_NAME>'
         validations= {[alphabetsOnlyRegexRule, lengthRule]}
              ...props
     />
@@ -540,16 +540,16 @@ function App() {
         <CardNumberElement 
          container={collectContainer}
          table='cards'
-         column="card_number"
-         placeholder="XXXX XXXX XXXX XXXX"
-         label="Card Number"   
+         column='card_number'
+         placeholder='XXXX XXXX XXXX XXXX'
+         label='Card Number'   
          onChange={handleOnChange}
          onFocus={handleOnFocus}
          onBlur={handleOnBlur}
         />
       </View>
       <View style={viewStyles.box}>
-        <Button title="Collect" onPress={handleCollect} />
+        <Button title='Collect' onPress={handleCollect} />
       </View>
     </View>);
 }
@@ -561,11 +561,11 @@ export default App;
 
 ```javascript
 {
-    elementType: "CARD_NUMBER"
+    elementType: 'CARD_NUMBER'
     isEmpty: false
     isFocused: true
     isValid: false
-    value: "411"
+    value: '411'
 }
 
 ```
@@ -573,7 +573,7 @@ export default App;
 
 ```javascript
 {
-    elementType: "CARD_NUMBER"
+    elementType: 'CARD_NUMBER'
     isEmpty: false
     isFocused: true
     isValid: false
@@ -584,7 +584,7 @@ export default App;
 
 ### Using Skyflow Elements to reveal data
 
-Skyflow Elements can be used to securely reveal data in a browser without exposing your front end to the sensitive data. This is great for use cases like card issuance where you may want to reveal the card number to a user without increasing your PCI compliance scope. 
+Skyflow Elements can be used to securely reveal data in application without exposing your front end to the sensitive data. This is great for use cases like card issuance where you may want to reveal the card number to a user without increasing your PCI compliance scope. 
 
 ### Step 1: Create a container
 To start, create a container using the `useRevealContainer()` method of the Skyflow client as shown below.
@@ -596,11 +596,11 @@ To start, create a container using the `useRevealContainer()` method of the Skyf
 ### Step 2: Create a reveal element
 
 ```jsx
-import { RevealElement } from "skyflow-react-native";
+import { RevealElement } from 'skyflow-react-native';
 
 <RevealElement
-    token="<DATA_TOKEN>"
-    container="<CONTAINER>"   
+    token='<DATA_TOKEN>'
+    container='<CONTAINER>'   
       … props
 />
 ```
@@ -608,10 +608,10 @@ The following `props` can be passed to Skyflow reveal element:
 
 ```javascript 
 {
-    container: "RevealContainer" // required, the reveal container
-    token:"string"               // required, the actual data token
-    label: "string",             // optional, label for the form element
-    altText: "string"            // optional, string that is shown before reveal, will show token if altText is not provided
+    container: 'RevealContainer' // required, the reveal container
+    token:'string'               // required, the actual data token
+    label: 'string',             // optional, label for the form element
+    altText: 'string'            // optional, string that is shown before reveal, will show token if altText is not provided
     inputStyles: {},             // optional styles to be applied to the element
     labelStyles: {},             // optional, styles to be applied to the label of the reveal element
     errorTextStyles: {},         // optional styles that will be applied to the errorText of the reveal element
@@ -698,17 +698,17 @@ export default App;
 
 ```javascript
 {
-    "success": [
+    'success': [
         {
-            "token": "b63ec4e0-bbad-4e43-96e6-6bd50f483f75"
+            'token': 'b63ec4e0-bbad-4e43-96e6-6bd50f483f75'
         }
     ],
-        "errors": [
+        'errors': [
             {
-                "token": "89024714-6a26-4256-b9d4-55ad69aa4047",
-                "error": {
-                    "code": 404,
-                    "description": "Tokens not found for 89024714-6a26-4256-b9d4-55ad69aa4047"
+                'token': '89024714-6a26-4256-b9d4-55ad69aa4047',
+                'error': {
+                    'code': 404,
+                    'description': 'Tokens not found for 89024714-6a26-4256-b9d4-55ad69aa4047'
                 }
             }
         ]
