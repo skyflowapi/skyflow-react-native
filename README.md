@@ -4,12 +4,12 @@ Skyflow’s React Native SDK can be used to securely collect, tokenize, and reve
 
 ---
 ## Table of Contents
-- [**Including Skyflow-React-Native**](#Including-Skyflow-React-Native) 
-- [**Initializing Skyflow-React**](#Initializing Skyflow-React-Native)
-- [**Securely collecting data client-side**](#Securely-collecting-data-client-side)
-- [**Securely revealing data client-side**](#Securely-revealing-data-client-side)
-- [**Reporting a Vulnerability**](#Reporting-Vulnerability)
-- [**License**](#License)
+- [**Including Skyflow-React-Native**](#including-skyflow-react-native) 
+- [**Initializing Skyflow-React-Native**](#initializing-skyflow-react-native)
+- [**Securely collecting data client-side**](#securely-collecting-data-client-side)
+- [**Securely revealing data client-side**](#securely-revealing-data-client-side)
+- [**Reporting a Vulnerability**](#reporting-a-vulnerability)
+- [**License**](#license)
 ---
 
 ## Including Skyflow-React-Native
