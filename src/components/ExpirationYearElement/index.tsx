@@ -1,17 +1,22 @@
 import React, { useEffect } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
-import { FOUR_DIGIT_YEAR_FORMAT, TWO_DIGIT_YEAR_FORMAT } from "../../core/constants";
-import { CollectElementProps, ElementType } from "../../utils/constants";
+import { DEFAULT_EXPIRATION_YEAR_FORMAT } from "../../core/constants";
 
-const ExpirationYearElement: React.FC<CollectElementProps> = ({ container, options={format:TWO_DIGIT_YEAR_FORMAT},...rest }) => {
+import { CollectElementOptions, CollectElementProps, ElementType } from "../../utils/constants";
+import { formatCollectElementOptions } from "../../utils/helpers";
+
+const ExpirationYearElement: React.FC<CollectElementProps> = ({ container, options,...rest }) => {
     const [element,setElement] = React.useState<CollectElement>();
     const [errorText,setErrorText] = React.useState<string>('');
     const [labelStyles,setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
     const [inputStyles,setInputStyles] = React.useState(rest?.inputStyles?.base || {});
+    const [maxLength,setMaxLength] = React.useState(DEFAULT_EXPIRATION_YEAR_FORMAT.length);
 
     useEffect(() => {
-        const element:CollectElement = container.create({...rest,type:ElementType.EXPIRATION_YEAR},options);
+        const elementOptions:CollectElementOptions = formatCollectElementOptions(ElementType.EXPIRATION_YEAR,options,container.getContext().logLevel);
+        setMaxLength(elementOptions.format.length);
+        const element:CollectElement = container.create({...rest,type:ElementType.EXPIRATION_YEAR},elementOptions);
         setElement(element);
         if(rest.onReady){
             rest.onReady(element.getInternalState());
@@ -36,7 +41,7 @@ const ExpirationYearElement: React.FC<CollectElementProps> = ({ container, optio
                 setLabelStyles(element.updateLabelStyles());
                 setInputStyles(element.updateInputStyles());
             }}
-            maxLength={options?.format === FOUR_DIGIT_YEAR_FORMAT ? 4 : 2}
+            maxLength={maxLength}
             keyboardType='numeric'
             style={inputStyles}
         />

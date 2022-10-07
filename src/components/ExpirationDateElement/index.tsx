@@ -2,17 +2,21 @@ import React, { useEffect } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
 import { DEFAULT_EXPIRATION_DATE_FORMAT } from "../../core/constants";
-import { CollectElementProps, ElementType } from "../../utils/constants";
+import { CollectElementOptions, CollectElementProps, ElementType } from "../../utils/constants";
+import { formatCollectElementOptions } from "../../utils/helpers";
 
-const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, options={format:DEFAULT_EXPIRATION_DATE_FORMAT},...rest }) => {
+const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, options,...rest }) => {
     const [element,setElement] = React.useState<CollectElement>();
     const [elementValue,setElementValue] = React.useState<string>('');
     const [errorText,setErrorText] = React.useState<string>('');
     const [labelStyles,setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
     const [inputStyles,setInputStyles] = React.useState(rest?.inputStyles?.base || {});
+    const [maxLength,setMaxLength] = React.useState(DEFAULT_EXPIRATION_DATE_FORMAT.length);
 
     useEffect(() => {
-        const element:CollectElement = container.create({...rest,type:ElementType.EXPIRATION_DATE},options);
+        const elementOptions:CollectElementOptions = formatCollectElementOptions(ElementType.EXPIRATION_DATE,options,container.getContext().logLevel);
+        setMaxLength(elementOptions.format.length);
+        const element:CollectElement = container.create({...rest,type:ElementType.EXPIRATION_DATE},elementOptions);
         setElement(element);
         if(rest.onReady){
             rest.onReady(element.getInternalState());
@@ -40,7 +44,7 @@ const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, optio
                 setLabelStyles(element.updateLabelStyles());
                 setInputStyles(element.updateInputStyles());
             }}
-            maxLength={options.format.length}
+            maxLength={maxLength}
             keyboardType='numeric'
             style={inputStyles}
         />

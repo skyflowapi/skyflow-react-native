@@ -2,6 +2,8 @@
 import CollectElement from '../../core/CollectElement';
 import _ from 'lodash';
 import Skyflow from '../../core/Skyflow';
+import SkyflowError from '../../utils/skyflow-error';
+import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
 const set = require('set-value');
 
 export const constructInsertRecordRequest = (
@@ -72,10 +74,50 @@ export const constructInsertRecordResponse = (
   };
 };
 
+const keyify = (obj, prefix = '') =>
+  Object.keys(obj).reduce((res: any, el) => {
+    if (Array.isArray(obj[el])) {
+      return [...res, prefix + el];
+    }
+    if (typeof obj[el] === 'object' && obj[el] !== null) {
+      return [...res, ...keyify(obj[el], `${prefix + el}.`)];
+    }
+    return [...res, prefix + el];
+  }, []);
+
+export const checkDuplicateColumns = (additionalColumns, columns, table) => {
+  const keys = keyify(additionalColumns);
+  keys.forEach((key) => {
+    const value = _.get(columns, key);
+    if (value) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.DUPLICATE_ELEMENT,
+        [`${key}`, `${table}`],
+        true
+      );
+    }
+  });
+};
+
 export const constructElementsInsertReq = (req: any, options: any) => {
   const records: any[] = [];
 
-  const tables = Object.keys(req);
+  let tables = Object.keys(req);
+  const additionalFields = options?.additionalFields;
+  if (additionalFields) {
+    // merge additionalFields in req
+    additionalFields.records.forEach((record) => {
+      if (tables.includes(record.table)) {
+        checkDuplicateColumns(record.fields, req[record.table], record.table);
+        const temp = record.fields;
+        _.merge(temp, req[record.table]);
+        req[record.table] = temp;
+      } else {
+        req[record.table] = record.fields;
+      }
+    });
+  }
+  tables = Object.keys(req);
   tables.forEach((table) => {
     records.push({
       table,
@@ -136,9 +178,6 @@ export const tokenize = (
   options: any
 ) => {
   const elementsData: Record<string, any> = {};
-
-  // TODO: check valid state of elements
-  // TODO: check duplicate elements
   let errorMessage = '';
   elementList.forEach((currentElement) => {
     if (!currentElement.getInternalState().isValid) {
