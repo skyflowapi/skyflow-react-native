@@ -720,4 +720,4 @@ If you discover a potential security issue in this project, please reach out to 
 
 ## License
 
-This project is licensed under the MIT license. See the [LICENSE](https://github.com/skyflowapi/skyflow-react-js/blob/master/LICENSE) file for more info.
+This project is licensed under the MIT license. See the [LICENSE](https://github.com/skyflowapi/skyflow-react-native/blob/main/LICENSE) file for more info.
