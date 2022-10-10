@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 import React, { useEffect } from "react";
 import { Text } from "react-native";
 import RevealSkyflowElement from "../../core/RevealSkyflowElement";

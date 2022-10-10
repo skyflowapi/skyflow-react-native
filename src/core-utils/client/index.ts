@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 import { ContentType } from '../../utils/constants';
 import SkyflowError from '../../utils/skyflow-error';
 

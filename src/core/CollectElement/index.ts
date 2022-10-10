@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { isEmpty } from 'lodash';
@@ -15,6 +18,7 @@ import {
 } from '../../core-utils/element-validations';
 import {
   CollectElementInput,
+  CollectElementOptions,
   CollectElementProps,
   CollectElementState,
   ElementType,
@@ -31,6 +35,8 @@ import {
   getReturnValue,
 } from '../../utils/helpers';
 import { EnvOptions } from '../../utils/logs-helper';
+import SkyflowError from '../../utils/skyflow-error';
+import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
 import {
   CardType,
   DEFAULT_COLLECT_ELEMENT_ERROR_TEXT,
@@ -53,7 +59,7 @@ class CollectElement extends SkyflowElement {
 
   constructor(
     elementInput: CollectElementInput,
-    options = { required: false }
+    options: CollectElementOptions
   ) {
     super();
     // console.log('Element Created', elementInput, 'Options', options);
@@ -209,6 +215,53 @@ class CollectElement extends SkyflowElement {
       }
     }
     return labelStyles;
+  }
+
+  isValidElement(): boolean {
+    if (!Object.prototype.hasOwnProperty.call(this.#elementInput, 'table')) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.MISSING_TABLE_IN_COLLECT,
+        [],
+        true
+      );
+    }
+    if (!this.#elementInput.table) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.EMPTY_TABLE_IN_COLLECT,
+        [],
+        true
+      );
+    }
+    if (!(typeof this.#elementInput.table === 'string')) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.INVALID_TABLE_IN_COLLECT,
+        [],
+        true
+      );
+    }
+    if (!Object.prototype.hasOwnProperty.call(this.#elementInput, 'column')) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.MISSING_COLUMN_IN_COLLECT,
+        [],
+        true
+      );
+    }
+    if (!this.#elementInput.column) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.EMPTY_COLUMN_IN_COLLECT,
+        [],
+        true
+      );
+    }
+    if (!(typeof this.#elementInput.column === 'string')) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.INVALID_COLUMN_IN_COLLECT,
+        [],
+        true
+      );
+    }
+
+    return true;
   }
 
   private updateError(showError: boolean) {

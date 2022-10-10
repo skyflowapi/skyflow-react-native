@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { RevealElementInput } from '../../utils/constants';
 import { REVEAL_ELEMENT_ERROR_TEXT } from '../constants';

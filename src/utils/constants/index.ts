@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 import type CollectContainer from "../../core/CollectContainer";
 import RevealContainer from "../../core/RevealContainer";
 
@@ -90,6 +93,8 @@ export enum ContentType {
 
   export interface RevealElementInput{
     token: string;
+    label?: string;
+    altText?: string;
   }
 
   export interface RevealElementProps{
@@ -153,3 +158,21 @@ export enum ContentType {
     invalid: {},
     empty: {},
   };
+
+  export interface IInsertRecord {
+    table: string;
+    fields: Record<string, any>;
+  }
+  export interface IInsertRecordInput {
+    records: IInsertRecord[];
+  }
+  export interface ICollectOptions {
+    tokens?: boolean;
+    additionalFields?: IInsertRecordInput;
+  }
+
+  export interface CollectElementOptions {
+    format?: string,
+    required?: boolean;
+  }
+

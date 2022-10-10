@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 import { ElementType } from '../../utils/constants';
 
 export const ELEMENTS_CONSTANTS_LIST = {
@@ -6,7 +9,7 @@ export const ELEMENTS_CONSTANTS_LIST = {
   },
 };
 
-export const TWO_DIGIT_YEAR_FORMAT = 'YY';
+export const DEFAULT_EXPIRATION_YEAR_FORMAT = 'YY';
 
 export const FOUR_DIGIT_YEAR_FORMAT = 'YYYY';
 
@@ -106,3 +109,15 @@ export const REVEAL_ELEMENT_ERROR_TEXT = 'Invalid Token';
 export const DEFAULT_COLLECT_ELEMENT_ERROR_TEXT = 'Invalid Value';
 
 export const DEFAULT_VALIDATION_ERROR_TEXT = 'Validation Failed';
+
+export const ALLOWED_EXPIRY_YEAR_FORMATS = [
+  DEFAULT_EXPIRATION_YEAR_FORMAT,
+  FOUR_DIGIT_YEAR_FORMAT,
+];
+
+export const ALLOWED_EXPIRY_DATE_FORMATS = [
+  DEFAULT_EXPIRATION_DATE_FORMAT,
+  'YYYY/MM',
+  'YY/MM',
+  'MM/YYYY',
+];

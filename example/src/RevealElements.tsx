@@ -1,9 +1,13 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
+
 import React from "react";
 import { Button, StyleSheet, View } from "react-native";
-import { RevealElement, useRevealConatiner } from 'skyflow-react-native';
+import { RevealElement, useRevealContainer } from 'skyflow-react-native';
 
 const RevealElements = (props) => {
-    const revealContainer = useRevealConatiner();
+    const revealContainer = useRevealContainer();
   
     const handleReveal = () => {
         revealContainer.reveal().then((response) => {

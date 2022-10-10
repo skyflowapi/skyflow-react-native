@@ -1,13 +1,21 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 import {
   MONTH_FORMAT,
   FOUR_DIGIT_YEAR_FORMAT,
-  TWO_DIGIT_YEAR_FORMAT,
+  DEFAULT_EXPIRATION_YEAR_FORMAT,
   EXPIRATION_DATE_MASK_MAP,
   CardType,
   CARD_TYPE_REGEX,
   CARD_NUMBER_MASK,
+  DEFAULT_EXPIRATION_DATE_FORMAT,
+  ALLOWED_EXPIRY_DATE_FORMATS,
+  ALLOWED_EXPIRY_YEAR_FORMATS,
 } from '../../core/constants';
-import { ElementType } from '../constants';
+import { ElementType, MessageType } from '../constants';
+import logs from '../logs';
+import { printLog, parameterizedString } from '../logs-helper';
 
 export const appendZeroToOne = (value) => {
   if (value.length === 1 && Number(value) === 1) {
@@ -81,7 +89,7 @@ export const formatExpirationDate = (value: string, format: string) => {
     } else {
       formattedValue = value;
     }
-  } else if (format.startsWith(TWO_DIGIT_YEAR_FORMAT)) {
+  } else if (format.startsWith(DEFAULT_EXPIRATION_YEAR_FORMAT)) {
     const lastChar = (value.length > 0 && value.charAt(value.length - 1)) || '';
     if (value.length === 4 && Number(lastChar) >= 2) {
       formattedValue = `${value.substring(0, 3)}0${lastChar}`;
@@ -130,4 +138,91 @@ export const getReturnValue = (
     return value;
   }
   return '';
+};
+
+export const isValidURL = (url: string) => {
+  if (!url || url.substring(0, 5).toLowerCase() !== 'https') {
+    return false;
+  }
+  try {
+    const tempUrl = new URL(url);
+    if (tempUrl) return true;
+  } catch (err) {
+    return false;
+  }
+
+  return true;
+};
+
+export const isValidExpiryDateFormat = (format: string): boolean => {
+  if (format) {
+    return ALLOWED_EXPIRY_DATE_FORMATS.includes(format);
+  }
+  return false;
+};
+
+export const isValidExpiryYearFormat = (format: string): boolean => {
+  if (format) {
+    return ALLOWED_EXPIRY_YEAR_FORMATS.includes(format);
+  }
+  return false;
+};
+
+export const formatCollectElementOptions = (
+  elementType: ElementType,
+  options,
+  logLevel
+) => {
+  let formattedOptions = {
+    required: false,
+    ...options,
+  };
+  if (elementType === ElementType.EXPIRATION_DATE) {
+    let isvalidFormat = false;
+    if (formattedOptions.format) {
+      isvalidFormat = isValidExpiryDateFormat(
+        formattedOptions.format.toUpperCase()
+      );
+      if (!isvalidFormat) {
+        printLog(
+          parameterizedString(
+            logs.warnLogs.INVALID_EXPIRATION_DATE_FORMAT,
+            ALLOWED_EXPIRY_DATE_FORMATS.toString()
+          ),
+          MessageType.WARN,
+          logLevel
+        );
+      }
+    }
+    formattedOptions = {
+      ...formattedOptions,
+      format: isvalidFormat
+        ? formattedOptions.format.toUpperCase()
+        : DEFAULT_EXPIRATION_DATE_FORMAT,
+    };
+  } else if (elementType === ElementType.EXPIRATION_YEAR) {
+    let isvalidFormat = false;
+    if (formattedOptions.format) {
+      isvalidFormat = isValidExpiryYearFormat(
+        formattedOptions.format.toUpperCase()
+      );
+      if (!isvalidFormat) {
+        printLog(
+          parameterizedString(
+            logs.warnLogs.INVALID_EXPIRATION_YEAR_FORMAT,
+            ALLOWED_EXPIRY_YEAR_FORMATS.toString()
+          ),
+          MessageType.WARN,
+          logLevel
+        );
+      }
+    }
+    formattedOptions = {
+      ...formattedOptions,
+      format: isvalidFormat
+        ? formattedOptions.format.toUpperCase()
+        : DEFAULT_EXPIRATION_YEAR_FORMAT,
+    };
+  }
+  return formattedOptions;
 };

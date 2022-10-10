@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 import useSkyflowContext from '../../components/SkyflowProvider/hook';
 import CollectContainer from '../../core/CollectContainer';
 

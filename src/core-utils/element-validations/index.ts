@@ -1,12 +1,22 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   CardType,
   CARD_TYPE_REGEX,
   DEFAULT_CARD_LENGTH_RANGE,
   ELEMENTS_CONSTANTS_LIST,
-  TWO_DIGIT_YEAR_FORMAT,
+  DEFAULT_EXPIRATION_YEAR_FORMAT,
 } from '../../core/constants';
-import { getYearAndMonthBasedOnFormat } from '../../utils/helpers';
+import {
+  IConfig,
+  IInsertRecordInput,
+  RevealElementInput,
+} from '../../utils/constants';
+import { getYearAndMonthBasedOnFormat, isValidURL } from '../../utils/helpers';
+import SkyflowError from '../../utils/skyflow-error';
+import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
 
 export const validatePin = (pinValue: string) => {
   return pinValue.length >= 4 && pinValue.length <= 12;
@@ -35,7 +45,7 @@ export const validateExpiryMonth = (month: string) => {
 export const validateExpiryYear = (year: string, format: string) => {
   if (year.trim().length === 0) return true;
   let expiryYear = Number(year);
-  if (format === TWO_DIGIT_YEAR_FORMAT) {
+  if (format === DEFAULT_EXPIRATION_YEAR_FORMAT) {
     expiryYear = 2000 + Number(year);
   }
   const currentYear = new Date().getFullYear();
@@ -107,4 +117,136 @@ export const validRegexMatchRule = (regexRule, value): boolean => {
     return regex.test(value);
   }
   return valid;
+};
+
+export const validateInitConfig = (initConfig: IConfig) => {
+  if (!Object.prototype.hasOwnProperty.call(initConfig, 'vaultID')) {
+    throw new SkyflowError(SKYFLOW_ERROR_CODE.VAULTID_IS_REQUIRED, [], true);
+  }
+  if (!initConfig.vaultID) {
+    throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_VAULTID_IN_INIT, [], true);
+  }
+  if (!Object.prototype.hasOwnProperty.call(initConfig, 'vaultURL')) {
+    throw new SkyflowError(SKYFLOW_ERROR_CODE.VAULTURL_IS_REQUIRED, [], true);
+  }
+  if (!initConfig.vaultURL) {
+    throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_VAULTURL_IN_INIT, [], true);
+  }
+  if (initConfig.vaultURL && !isValidURL(initConfig.vaultURL)) {
+    throw new SkyflowError(
+      SKYFLOW_ERROR_CODE.INVALID_VAULTURL_IN_INIT,
+      [],
+      true
+    );
+  }
+  if (!Object.prototype.hasOwnProperty.call(initConfig, 'getBearerToken')) {
+    throw new SkyflowError(
+      SKYFLOW_ERROR_CODE.GET_BEARER_TOKEN_IS_REQUIRED,
+      [],
+      true
+    );
+  }
+};
+
+export const validateAdditionalFieldsInCollect = (
+  recordObj: IInsertRecordInput
+) => {
+  if (
+    !(recordObj && Object.prototype.hasOwnProperty.call(recordObj, 'records'))
+  ) {
+    throw new SkyflowError(
+      SKYFLOW_ERROR_CODE.RECORDS_KEY_NOT_FOUND_IN_ADDITIONAL_FIELDS,
+      [],
+      true
+    );
+  }
+  const { records } = recordObj;
+  if (!(records && Array.isArray(records))) {
+    throw new SkyflowError(
+      SKYFLOW_ERROR_CODE.INVALID_RECORDS_IN_ADDITIONAL_FIELDS,
+      [],
+      true
+    );
+  }
+  if (records.length === 0) {
+    throw new SkyflowError(
+      SKYFLOW_ERROR_CODE.EMPTY_RECORDS_IN_ADDITIONAL_FIELDS,
+      [],
+      true
+    );
+  }
+  records.forEach((record: any, index: number) => {
+    if (!(record && Object.prototype.hasOwnProperty.call(record, 'table'))) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.MISSING_TABLE_IN_ADDITIONAL_FIELDS,
+        [`${index}`],
+        true
+      );
+    }
+    if (!record.table) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.EMPTY_TABLE_IN_ADDITIONAL_FIELDS,
+        [`${index}`],
+        true
+      );
+    }
+    if (!(typeof record.table === 'string' || record.table instanceof String)) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.INVALID_TABLE_IN_ADDITIONAL_FIELDS,
+        [`${index}`],
+        true
+      );
+    }
+    if (!Object.prototype.hasOwnProperty.call(record, 'fields')) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.MISSING_FIELDS_IN_ADDITIONAL_FIELDS,
+        [`${index}`],
+        true
+      );
+    }
+    if (!record.fields) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.EMPTY_FIELDS_IN_ADDITIONAL_FIELDS,
+        [`${index}`],
+        true
+      );
+    }
+    if (!(typeof record.fields === 'object' && !Array.isArray(record.fields))) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.INVALID_FIELDS_IN_ADDITIONAL_FIELDS,
+        [`${index}`],
+        true
+      );
+    }
+  });
+};
+
+export const validateRevealElementRecords = (records: RevealElementInput[]) => {
+  if (records.length === 0)
+    throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_RECORDS_REVEAL);
+  records.forEach((record: any) => {
+    if (!(record && Object.prototype.hasOwnProperty.call(record, 'token'))) {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.MISSING_TOKEN_KEY_REVEAL);
+    }
+    if (!record.token) {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_TOKEN_ID_REVEAL);
+    }
+    if (!(typeof record.token === 'string' || record.token instanceof String)) {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_TOKEN_ID_REVEAL);
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(record, 'label') &&
+      typeof record.label !== 'string'
+    ) {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_LABEL_REVEAL);
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(record, 'altText') &&
+      typeof record.altText !== 'string'
+    ) {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_ALT_TEXT_REVEAL);
+    }
+  });
 };

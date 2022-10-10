@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 export { default as SkyflowProvider } from './components/SkyflowProvider';
 export {
   IConfig,
@@ -7,7 +10,7 @@ export {
   ValidationRuleType,
 } from './utils/constants';
 export { default as useCollectContainer } from './hooks/useCollectContainer';
-export { default as useRevealConatiner } from './hooks/useRevealContainer';
+export { default as useRevealContainer } from './hooks/useRevealContainer';
 export { default as InputField } from './components/InputField';
 export { default as PinElement } from './components/PinElement';
 export { default as CardHolderElement } from './components/CardHolderNameElement';
