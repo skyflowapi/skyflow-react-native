@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 export { default as SkyflowProvider } from './components/SkyflowProvider';
 export {
   IConfig,

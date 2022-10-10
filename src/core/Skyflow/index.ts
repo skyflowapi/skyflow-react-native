@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 import Client from '../../core-utils/client';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Env, IConfig, LogLevel, MessageType } from '../../utils/constants';

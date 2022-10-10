@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 import type CollectContainer from "../../core/CollectContainer";
 import RevealContainer from "../../core/RevealContainer";
 

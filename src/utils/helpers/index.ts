@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 import {
   MONTH_FORMAT,
   FOUR_DIGIT_YEAR_FORMAT,

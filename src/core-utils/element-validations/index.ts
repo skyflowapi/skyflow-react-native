@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   CardType,

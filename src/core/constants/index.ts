@@ -1,3 +1,6 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
 import { ElementType } from '../../utils/constants';
 
 export const ELEMENTS_CONSTANTS_LIST = {
