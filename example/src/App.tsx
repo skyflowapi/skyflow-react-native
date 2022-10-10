@@ -1,7 +1,11 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
+
 import * as React from 'react';
 
 import { Env, IConfig, LogLevel, SkyflowProvider, } from 'skyflow-react-native';
-import Skyview from './Skyview';
+import Skyview from './ElementView';
 
 const App = () => {
 

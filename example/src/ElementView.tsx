@@ -1,3 +1,7 @@
+/*
+ Copyright (c) 2022 Skyflow, Inc.
+*/
+
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import CollectElements from "./CollectElements";
