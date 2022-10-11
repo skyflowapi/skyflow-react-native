@@ -3,6 +3,7 @@
 */
 import { ContentType } from '../../utils/constants';
 import SkyflowError from '../../utils/skyflow-error';
+import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
 
 export interface IClientRequest {
   body?: any;
@@ -123,9 +124,7 @@ class Client {
       };
 
       httpRequest.onerror = () => {
-        reject(
-          'A network error occurred. This could be a CORS issue or a dropped internet connection. It is not possible for us to know. Please reach out to skyflow if you see this error'
-        );
+        reject(new SkyflowError(SKYFLOW_ERROR_CODE.NETWORK_ERROR, [], true));
       };
     });
   };

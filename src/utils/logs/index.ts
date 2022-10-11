@@ -3,87 +3,11 @@
 */
 const logs = {
   infoLogs: {
-    INITIALIZE_CLIENT: '%s1 - Initializing skyflow client.',
-    CLIENT_INITIALIZED: '%s1 - Initialized skyflow client successfully.',
-
-    CREATE_COLLECT_CONTAINER: '%s1 - Creating Collect container.',
-    COLLECT_CONTAINER_CREATED: '%s1 - Created Collect container successfully.',
-
-    CREATE_REVEAL_CONTAINER: '%s1 - Creating Reveal container.',
-    REVEAL_CONTAINER_CREATED: '%s1 - Created Reveal container successfully.',
-
-    VALIDATE_RECORDS: '%s1 - Validating insert records.',
-    VALIDATE_DETOKENIZE_INPUT: '%s1 - Validating detokenize input.',
-    VALIDATE_GET_BY_ID_INPUT: '%s1 - Validating getByID input.',
-    VALIDATE_COLLECT_RECORDS: '%s1 - Validating collect element input.',
-    VALIDATE_REVEAL_RECORDS: '%s1 - Validating reveal element input.',
-
-    CREATED_ELEMENT: '%s1 - Created %s2 element.',
-    ELEMENT_MOUNTED: '%s1 - %s2 Element mounted.',
-    ELEMENT_REVEALED: '%s1 - %s2 Element revealed.',
-
     COLLECT_SUBMIT_SUCCESS: '%s1 - Data has been collected successfully.',
     REVEAL_SUBMIT_SUCCESS: '%s1 - Data has been revealed successfully.',
-    INSERT_DATA_SUCCESS: '%s1 - Data has been inserted successfully.',
-    DETOKENIZE_SUCCESS: '%s1 - Data has been revealed successfully.',
-    GET_BY_ID_SUCCESS: '%s1 - Data has been revealed successfully.',
-
-    BEARER_TOKEN_LISTENER: '%s1 - Get bearer token listener added.',
-    CAPTURED_BEARER_TOKEN_EVENT: '%s1 - Captured bearer token event.',
     BEARER_TOKEN_RESOLVED:
       '%s1 - GetBearerToken promise resolved successfully.',
     REUSE_BEARER_TOKEN: '%s1 - Reusing the bearer token.',
-
-    PUREJS_CONTROLLER_INITIALIZED: '%s1 - SkyflowController initialized.',
-    PUREJS_LISTENER_READY: '%s1 - Purejs listener ready.',
-    EMIT_PURE_JS_CONTROLLER: '%s1 - Emitted Skyflow controller event.',
-
-    INSERT_TRIGGERED: '%s1 - Insert method triggered.',
-    DETOKENIZE_TRIGGERED: '%s1 - Detokenize method triggered.',
-    GET_BY_ID_TRIGGERED: '%s1 - Get by ID triggered.',
-    EMIT_PURE_JS_REQUEST: '%s1 - Emitted %s2 request.',
-    CAPTURE_PURE_JS_REQUEST: '%s1 - Captured %s2 event.',
-    LISTEN_PURE_JS_REQUEST: '%s1 - Listening to %s2 event.',
-
-    CAPTURE_PUREJS_FRAME: '%s1 - Captured SkyflowController frame ready event.',
-
-    FETCH_RECORDS_RESOLVED: '%s1 - Detokenize request is resolved.',
-
-    INSERT_RECORDS_RESOLVED: '%s1 - Insert request is resolved.',
-
-    GET_BY_SKYFLOWID_RESOLVED: '%s1 - GetById request is resolved.',
-
-    EMIT_EVENT: '%s1 - %s2 event emitted',
-    CAPTURE_EVENT: '%s1 - Captured event %s2',
-    LISTEN_COLLECT_FRAME_READY: '%s1 - Listening to collect FRAME_READY event',
-    EMIT_COLLECT_ELEMENT_FRAME_READY:
-      '%s1 - Emitting collect element %s2 FRAME_READY event',
-    ENTERED_COLLECT_FRAME_READY_CB:
-      '%s1 - In IFrameForm constructor, Entered FRAME_READY callback',
-    EXECUTE_COLLECT_ELEMENT_FRAME_READY_CB:
-      '%s1 - In IFrameForm, executing collect element, %s2 FRAME_READY callback',
-    CLIENT_METADATA_NOT_SET: '%s1 - Client metadata not set',
-    EXECUTE_COLLECT_ELEMENT_INIT: '%s1 - calling Collect element init',
-    INSIDE__COLLECT_ELEMENT_INIT: '%s1 - Inside Collect element init for %s2',
-    CREATING_COLLECT_ELEMENT_FORM: '%s1 - Start, creating iframe form for %s2',
-    COLLECT_FRAME_READY_CB:
-      '%s1 - In FrameElements, executing collect element FRAME_READY cb for %s2, sending metadata',
-    INSIDE_FRAME_ELEMENTS_CONSTRUCOTR: '%s1 - Inside FrameElements constructor',
-    SETUP_IN_START: '%s1 - Inside FrameElements start(), calling setup',
-    SETUP_IN_CONSTRUCTOR:
-      '%s1 - Inside FrameElements constructor, calling setup',
-    COLLECT_ELEMET_START: '%s1 - %s2, Collect Element start',
-    REVEAL_ELEMENT_START: '%s1 - %s2, Reveal Element start',
-    EMIT_COLLECT_FRAME_CONTROLLER_EVENT:
-      '%s1 - Emit collect FrameController FRAME_READY event',
-    EXECUTE_COLLECT_CONTROLLER_READY_CB:
-      '%s1 - Executing collect FrameController FRAME_READY callback, set client metadata',
-    IFRAMEFORM_CONSTRUCTOR_FRAME_READY_LISTNER:
-      '%s1 - In IFrameForm constructor, Adding listner for FRAME_READY event',
-    IFRAMEFORM_CONSTRUCTOR_TOKENIZATION_LISTNER:
-      '%s1 - In IFrameForm constructor, Adding listner for TOKENIZATION_REQUEST event',
-    CURRENT_ENV: '%s1 - Client Env is %s2',
-    CURRENT_LOG_LEVEL: '%s1 - Client LogLevel is %s2',
   },
   errorLogs: {
     CLIENT_CONNECTION:
@@ -150,38 +74,6 @@ const logs = {
       'Interface: collect container - "fields" key not found in additionalFields records at index %s1',
     INVALID_FIELDS_IN_ADDITIONAL_FIELDS:
       'Interface: collect container - Provide valid fields in additionalFields records at index %s1',
-    RECORDS_KEY_NOT_FOUND_DETOKENIZE:
-      'Interface: client detokenize - records object is required.',
-    EMPTY_RECORDS_DETOKENIZE:
-      'Interface: client detokenize - records array cannot be empty.',
-    INVALID_RECORDS_IN_DETOKENIZE:
-      'Interface: client detokenize - Invalid records. records object should be an array.',
-    MISSING_TOKEN_IN_DETOKENIZE:
-      'Interface: client detokenize -  "token" key is required in records array at index %s1 ',
-    INVALID_TOKEN_IN_DETOKENIZE:
-      'Interface: client detokenize - Invalid token. token of type string is required at index %s1 in records array.',
-    RECORDS_KEY_NOT_FOUND_GETBYID:
-      'Interface: client getById - records object is required.',
-    INVALID_RECORDS_IN_GETBYID:
-      'Interface: client getById - Invalid records. records object should be an array.',
-    EMPTY_RECORDS_GETBYID:
-      'Interface: client getById - records array cannot be empty.',
-    MISSING_IDS_IN_GETBYID:
-      'Interface: client getById - "ids" key is required in records array at index %s1',
-    INVALID_IDS_IN_GETBYID:
-      'Interface: client getById - Invalid ids. ids object should be an array.',
-    EMPTY_IDS_IN_GETBYID:
-      'Interface: client getById - ids array cannot be empty at index %s1',
-    INVALID_SKYFLOWID_TYPE_IN_GETBYID:
-      'Interface: client getById - Invalid skyflowId in ids array at index %s1',
-    MISSING_TABLE_IN_GETBYID:
-      'Interface: client getById - "table" key is required in records array at index %s1',
-    INVALID_TABLE_IN_GETBYID:
-      'Interface: client getById - table of type string is required at index %s1 in records array.',
-    MISSING_REDACTION_IN_GETBYID:
-      'Interface: client getById - "redaction" key is required in records array at index %s1',
-    INVALID_REDACTION_TYPE_IN_GETBYID:
-      'Interface: client getById - Invalid redaction type in records array at index %s1',
     EMPTY_RECORDS_REVEAL:
       'Interface: reveal container - cannot invoke reveal method before creating reveal elements',
     MISSING_TOKEN_KEY_REVEAL:
@@ -196,21 +88,7 @@ const logs = {
       'Interface: collect container - table cannot be empty in additionalFields at index %s1',
     EMPTY_FIELDS_IN_ADDITIONAL_FIELDS:
       'Interface: collect container - fields cannot be empty in additionalFields at index %s1',
-    EMPTY_TOKEN_IN_DETOKENIZE:
-      'Interface: client detokenize - token cannot be empty in records array at index %s1',
-    EMPTY_SKYFLOWID_IN_GETBYID:
-      'Interface: client getById - id cannot be empty in records array at index %s1',
-    EMPTY_TABLE_IN_GETBYID:
-      'Interface: client getById - table cannot be empty in records array at index %s1',
-    EMPTY_REDACTION_TYPE_IN_GETBYID:
-      'Interface: client getById - redaction cannot be empty in records array at index %s1',
     EMPTY_TOKEN_ID_REVEAL: 'Interface: RevealElement - token cannot be empty',
-    FETCH_RECORDS_REJECTED:
-      'Interface: client detokenize - detokenize request is rejected.',
-    INSERT_RECORDS_REJECTED:
-      'Interface: client insert - insert request is rejected.',
-    GET_BY_SKYFLOWID_REJECTED:
-      'Interface: client getById - getById request is rejected.',
     FAILED_REVEAL: 'Interface: reveal conatiner - Failed to reveal data',
     MISSING_TABLE_IN_COLLECT:
       'Interface: collect element - "table" key is required.',
@@ -224,84 +102,24 @@ const logs = {
       'Interface: collect element - column cannot be empty.',
     INVALID_COLUMN_IN_COLLECT:
       'Interface: collect element - Invalid column. column of type string is required',
-    UNIQUE_ELEMENT_NAME: 'The element name has to unique: %s1',
     ELEMENTS_NOT_MOUNTED:
       'Interface: collect container - Elements should be mounted before invoking collect',
     DUPLICATE_ELEMENT:
       'Interface: collect container - Duplicate column %s1 found in %s2.',
     DUPLICATE_ELEMENT_ADDITIONAL_FIELDS:
       'Interface: collect container - Duplicate column %s1 found in %s2 in additional fields',
-    MISSING_ELEMENT_TYPE:
-      'Interface:container element with type {TYPE} - Invalid element type. "type" key is required.',
-    EMPTY_ELEMENT_TYPE:
-      'Interface:container element with type {TYPE} - Invalid element type. type cannot be empty.',
-    INVALID_ELEMENT_TYPE:
-      'Interface:container element with type {TYPE} - invalid element type. type not found',
-    INVALID_ELEMENT_SELECTOR:
-      'Interface: container element with type {TYPE} - Div cannot be found.',
-    CANNOT_CHANGE_ELEMENT: "Element can't be changed.",
-    INVALID_IFRAME: 'Error occured while creating an iframe',
-    INVALID_FIELD: 'Invalid Field.',
-    FRAME_NOT_FOUND: 'Interface: collect element - %s1 frame not found:',
     COMPLETE_AND_VALID_INPUTS:
       'Interface: collect container - Provide complete and valid inputs for %s1',
-    REQUIRED_PARAMS_NOT_PROVIDED:
-      'Interface: collect element - Required params are not provided.',
-    INVALID_EVENT_TYPE:
-      'Interface: collect element - Provide a valid event type.',
-    INVALID_EVENT_LISTENER:
-      'Interface: "on" on CollectElement - Provide valid event listener.',
-    MISSING_HANDLER_IN_EVENT_LISTENER:
-      'Interface: "on" on CollectElement - Second argument is missing. handler cannot be empty.',
-    INVALID_HANDLER_IN_EVENT_LISTENER:
-      'Interface: "on" on CollectElement - Invalid handler. handler should be of type function.',
     UNKNOWN_ERROR: 'Unknown Error.',
     NETWORK_ERROR:
       'A network error occurred. This could be a CORS issue or a dropped internet connection. It is not possible for us to know. Please reach out to skyflow if you see this error',
-    CONNECTION_ERROR: 'Error while initializing the connection.',
     ERROR_OCCURED: 'Error occurred.',
-    INVALID_VALIDATIONS_TYPE:
-      'Interface: collect element - Invalid validations type.',
-    MISSING_VALIDATION_RULE_TYPE:
-      'Interface: collect element - Type is missing in validationRule at index %s1 in validations array',
-    INVALID_VALIDATION_RULE_TYPE:
-      'Interface: collect element - Invalid ValidationRuleType at index %s1 in validations array',
-    MISSING_VALIDATION_RULE_PARAMS:
-      'Interface: collect element - params are missing in validationRule at index %s1 in validations array',
-    INVALID_VALIDATION_RULE_PARAMS:
-      'Interface: collect element - Invalid ValidationRule params at index %s1 in validations array',
-    MISSING_REGEX_IN_REGEX_MATCH_RULE:
-      'Interface: collect element - Missing regex in ValidationRule params at index %s1 in validations array',
-    INVALID_REGEX_IN_REGEX_MATCH_RULE:
-      'Interface: collect element - Invalid regex in ValidationRule params at index %s1 in validations array',
-    MISSING_MIN_AND_MAX_IN_LENGTH_MATCH_RULE:
-      'Interface: collect element - Either min or max is required in ValidationRule params at index %s1 in validations array',
-    MISSING_ELEMENT_IN_ELEMENT_MATCH_RULE:
-      'Interface: collect element - Missing element in ValidationRule params at index %s1 in validations array',
-    INVALID_ELEMENT_IN_ELEMENT_MATCH_RULE:
-      'Interface: collect element - Invalid collect element in ValidationRule params at index %s1 in validations array',
-    ELEMENT_NOT_MOUNTED_IN_ELEMENT_MATCH_RULE:
-      'Interface: collect element - collect element is not mounted in ValidationRule params at index %s1 in validations array',
-    EMPTY_ELEMENT_IN_MOUNT:
-      'Interface: mount element with type %s1 - Mount cannot be empty.',
-    VALIDATION_FAILED: 'Validation failed',
-    REVEAL_ELEMENT_ERROR_STATE:
-      'unable to reveal, since one or more element(s) have setError',
-    INVALID_FILE_TYPE: 'Interface: collect element - Invalid file type',
   },
   warnLogs: {
     INVALID_EXPIRATION_DATE_FORMAT:
       'EXPIRATION_DATE format must be in one of %s1, the format is set to default MM/YY',
     INVALID_EXPIRATION_YEAR_FORMAT:
       'EXPIRATION_YEAR format must be in one of %s1, the format is set to default YY',
-    UNABLE_TO_SET_VALUE_IN_PROD_ENV:
-      '%s1 setValue() cannot invoked while in PROD env. It is Not Recommeded',
-    UNABLE_TO_CLEAR_VALUE_IN_PROD_ENV:
-      '%s1 clearValue() cannot invoked while in PROD env. It is Not Recommeded',
-    COLLECT_ALT_TEXT_DEPERECATED:
-      'altText is DEPERECATED, passing altText will not have any effect',
-    NO_MATCH_FOUND_FOR_FORMAT_REGEX:
-      'No matches found for the given formatRegex %s1',
   },
 };
 
