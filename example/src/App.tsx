@@ -3,6 +3,7 @@
 */
 
 import * as React from 'react';
+import { SafeAreaView } from 'react-native';
 
 import { Env, IConfig, LogLevel, SkyflowProvider, } from 'skyflow-react-native';
 import ElementView from './ElementView';
@@ -43,10 +44,11 @@ const App = () => {
 
 
   return (
-    <SkyflowProvider config={skyflowConfig}>
-      <ElementView />
-    </SkyflowProvider>
-
+    <SafeAreaView style={{flex: 1}}>
+      <SkyflowProvider config={skyflowConfig}>
+        <ElementView />
+      </SkyflowProvider>
+    </SafeAreaView >
   );
 }
 
