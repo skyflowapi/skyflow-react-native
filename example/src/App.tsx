@@ -5,10 +5,9 @@
 import * as React from 'react';
 
 import { Env, IConfig, LogLevel, SkyflowProvider, } from 'skyflow-react-native';
-import Skyview from './ElementView';
+import ElementView from './ElementView';
 
 const App = () => {
-
   const skyflowConfig:IConfig= {
     getBearerToken: () => {
       return new Promise((resolve, reject) => {
@@ -42,10 +41,10 @@ const App = () => {
     }
   }
 
-  
+
   return (
     <SkyflowProvider config={skyflowConfig}>
-      <Skyview />
+      <ElementView />
     </SkyflowProvider>
 
   );

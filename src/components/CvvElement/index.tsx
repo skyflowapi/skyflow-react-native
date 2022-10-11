@@ -6,7 +6,7 @@ import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
 import { CollectElementProps, ElementType } from "../../utils/constants";
 
-const CvvElement: React.FC<CollectElementProps> = ({ container, options,...rest }) => {
+const CvvElement: React.FC<CollectElementProps> = ({ container, options={requried:false},...rest }) => {
     const [element,setElement] = React.useState<CollectElement>();
     const [errorText,setErrorText] = React.useState<string>('');
     const [labelStyles,setLabelStyles] = React.useState(rest?.labelStyles?.base || {});

@@ -6,7 +6,7 @@ import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
 import { CollectElementProps, ElementType } from "../../utils/constants";
 
-const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, options,...rest }) => {
+const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, options={required:false},...rest }) => {
     const [element,setElement] = React.useState<CollectElement>();
     const [errorText,setErrorText] = React.useState<string>('');
     const [labelStyles,setLabelStyles] = React.useState(rest?.labelStyles?.base || {});

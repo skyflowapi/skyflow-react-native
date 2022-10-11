@@ -56,13 +56,16 @@ class CollectElement extends SkyflowElement {
   #cardType: CardType | undefined;
   #validations: IValidationRule[];
   #customValidErrorText: string | undefined;
+  #context: any;
 
   constructor(
     elementInput: CollectElementInput,
-    options: CollectElementOptions
+    options: CollectElementOptions,
+    context?: any
   ) {
     super();
     // console.log('Element Created', elementInput, 'Options', options);
+    this.#context = context;
     this.#elementInput = elementInput;
     this.#elementType = elementInput.type;
     if (elementInput.label) {
@@ -111,7 +114,7 @@ class CollectElement extends SkyflowElement {
       ...this.#state,
       value: getReturnValue(
         this.#state.value,
-        EnvOptions[Env.PROD]?.doesReturnValue,
+        EnvOptions[this.#context.env]?.doesReturnValue,
         this.#elementType,
         this.#cardType
       ),

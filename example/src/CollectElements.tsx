@@ -27,7 +27,7 @@ const CollectElements = (props)=>{
 
 
     const handleCollect =()=>{
-        collectContainer.collect({tokens:true}).then((response:any)=>{
+        collectContainer.collect().then((response:any)=>{
           console.log('Collect Success: ',JSON.stringify(response));
           const fieldsTokenData = response.records[0].fields;
           props.setTokens(fieldsTokenData);

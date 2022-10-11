@@ -7,7 +7,7 @@ import { StyleSheet, View } from "react-native";
 import CollectElements from "./CollectElements";
 import RevealElements from "./RevealElements";
 
-const Skyview = ()=>{
+const ElementView = ()=>{
   const [tokens, setTokens] = React.useState(null);
   const [showReveal,setShowRevealView] = React.useState<boolean>(false);
   
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Skyview;
+export default ElementView;

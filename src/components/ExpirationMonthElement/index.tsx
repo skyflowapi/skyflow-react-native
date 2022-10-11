@@ -6,7 +6,7 @@ import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
 import { CollectElementProps, ElementType } from "../../utils/constants";
 
-const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, options,...rest }) => {
+const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, options={required:false},...rest }) => {
     const [element,setElement] = React.useState<CollectElement>();
     const [elementValue,setElementValue] = React.useState<string>('');
     const [errorText,setErrorText] = React.useState<string>('');

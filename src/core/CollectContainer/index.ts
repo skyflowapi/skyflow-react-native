@@ -24,24 +24,22 @@ import type Skyflow from '../Skyflow';
 
 const CLASS_NAME = 'CollectContainer';
 class CollectContainer extends Container {
-  #containerId: string;
-
   #elementsList: CollectElement[];
 
   #skyflowClient: Skyflow;
 
   constructor(skyflowClient: Skyflow) {
     super();
-    console.log('container created..!');
-    this.#containerId = '1234';
     this.#elementsList = [];
     this.#skyflowClient = skyflowClient;
   }
 
   create(elementInput: CollectElementInput, options?: any) {
-    const element = new CollectElement(elementInput, options);
+    const element = new CollectElement(elementInput, options, {
+      env: this.#skyflowClient.getEnv(),
+      LogLevel: this.#skyflowClient.getLogLevel(),
+    });
     this.#elementsList.push(element);
-    console.log(this.#containerId);
     return element;
   }
 

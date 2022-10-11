@@ -7,7 +7,7 @@ import type CollectElement from "../../core/CollectElement";
 import { CARD_NUMBER_MASK, DEFAULT_CARD_INPUT_MAX_LENGTH } from "../../core/constants";
 import { CollectElementProps, ElementType } from "../../utils/constants";
 
-const CardNumberElement: React.FC<CollectElementProps> = ({ container, options,...rest }) => {
+const CardNumberElement: React.FC<CollectElementProps> = ({ container, options={required:false},...rest }) => {
     const [element,setElement] = React.useState<CollectElement>(undefined);
     const [elementValue,setElementValue] = React.useState<string>('');
     const [errorText,setErrorText] = React.useState<string>('');
