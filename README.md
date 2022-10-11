@@ -48,7 +48,7 @@ const App = ()=>{
 ```
 For the `getBearerToken` parameter, pass a helper function that retrieves a Skyflow bearer token from your backend. This function will be invoked when the SDK needs to insert or retrieve data from the vault. A sample implementation is shown below.
 
-For example, if the response of the consumer tokenAPI is in the below format
+For example, if the response of the your backend bearer tokenAPI is in the below format
 
 ```
 {
@@ -57,7 +57,7 @@ For example, if the response of the consumer tokenAPI is in the below format
 }
 
 ```
-then, your getBearerToken implementation should be as below.
+then, your getBearerToken(helper function) implementation should be as below.
 
 ```jsx
 getBearerToken: () => {
@@ -119,7 +119,7 @@ For `env` parameter, there are two accepted values in `Env`:
 
   In [Event Listeners](#event-listener-on-collect-elements), the actual value of element can only be accessed inside the handler when the `env` is set to `DEV`.
 
-`Note`:
+**Note**:
   - Since `env` is optional, by default the environment will be  `PROD`.
   - Use `env` option with caution, make sure the `env` is set to `PROD` when using `skyflow-react-native` in production. 
 
@@ -155,19 +155,19 @@ The following `props` can be passed to Skyflow Collection Element:
 
 ``` javascript
 {
-    conatiner: 'CollectContainer'  // Required, the collect container
-    table: 'string',               // Required, the table this data belongs to
-    column: 'string',              // Required, the column into which this data should be inserted
-    label: 'string',               // Optional, label for the form element
-    placeholder: 'string',         // Optional, placeholder for the form element
-    validations: []                // Optional array of validation rules
-    onChange: Function;            // Optional, function that is passed to trigger the onChange event
-    onFocus: Function;             // Optional, function that is passed to trigger the onChange event
-    onBlur: Function;              // Optional, function that is passed to trigger the onChange event
-    onReady: Function;             // Optional, function that is passed to trigger the onChange event
-    inputStyles: {}                // Optional, styles object applied to the textinput field 
-    labelStyles: {}                // Optional, styles object applied to label of textinput field
-    errorTextStyle: {}             // Optional, styles object applied to errortext of textinput field
+    conatiner: 'CollectContainer'  // Required, the collect container.
+    table: 'string',               // Required, the table this data belongs to.
+    column: 'string',              // Required, the column into which this data should be inserted.
+    label: 'string',               // Optional, label for the form element.
+    placeholder: 'string',         // Optional, placeholder for the form element.
+    validations: []                // Optional array of validation rules.
+    onChange: Function;            // Optional, function that is passed to trigger the onChange event.
+    onFocus: Function;             // Optional, function that is passed to trigger the onChange event.
+    onBlur: Function;              // Optional, function that is passed to trigger the onChange event.
+    onReady: Function;             // Optional, function that is passed to trigger the onChange event.
+    inputStyles: {}                // Optional, styles object applied to the textinput field.
+    labelStyles: {}                // Optional, styles object applied to label of textinput field.
+    errorTextStyle: {}             // Optional, styles object applied to errortext of textinput field.
 }
 ```
 
@@ -279,7 +279,7 @@ The values that are accepted for `EXPIRATION_YEAR` are
 
 ### Step 3: Collect data from Elements
 
-When the form is ready to be submitted, call the `collect(options?)` method on the container object. The `options` parameter takes an object of optional parameters as shown below: 
+To submit a form, call the collect(options?) method on the container object. The `options` parameter takes an object of optional parameters as shown below: 
 
 - `tokens`: indicates whether tokens for the collected data should be returned or not. Defaults to 'true'.
 - `additionalFields`: Non-PCI elements data to be inserted into the vault which should be in the `records` object format.
@@ -290,13 +290,13 @@ const options = {
     additionalFields: {
         records: [
             {
-                table: 'string',       // Table into which record should be inserted
+                table: 'string',       // Table into which record should be inserted.
                 fields: {
-                    column1: 'value',  // Column names should match vault column names
-                    // ...additional fields here
+                    column1: 'value',  // Column names should match vault column names.
+                    // ...additional fields here.
                 }
             }
-            // ...additional records here
+            // ...additional records here.
         ]
     } // Optional
 }
@@ -406,7 +406,7 @@ Every Collect Element except `InputFieldElement` has a set of default validation
 - `PinElement`: Can have 4-12 digits.
 
 ### 2. Custom Validations:
-Custom validations can be added to any element which will be checked after the default validations have passed. The following custom validation rules are currently supported:
+Custom validations can be added to any element and are checked after the default validations have passed. The following custom validation rules are currently supported:
 - `REGEX_MATCH_RULE`: You can use this rule to specify any regular expression to be matched with the input field value.
 
 ```jsx
@@ -473,7 +473,7 @@ const form = (props) => (
 ```
 ## Event Listener on Collect Elements
 
-Event listeners can be triggered by passing the handler methods as props to the Element components.
+Event listeners are triggered by passing the handler methods as props to the Element components.
 
 
 There are four events which SDK supports:
@@ -501,8 +501,8 @@ state : {
 }
 ```
 
-**Note:**
-The values of Skyflow Elements will be returned in elementstate object only when env is DEV, otherwise it is an empty string.
+**Note**:
+Skyflow Elements only return `value` in the `state` object when `env` is `DEV`. When `env` isn't `DEV`, `value` is empty string.
 
 ### Example Usage of Event Listener on Collect Elements
 ```jsx
@@ -590,7 +590,7 @@ export default App;
 
 ### Using Skyflow Elements to reveal data
 
-Skyflow Elements can be used to securely reveal data in an application without exposing your frontend to the sensitive data. This is great for use cases like card issuance where you may want to reveal the card number to a user without increasing your PCI compliance scope. 
+Skyflow Elements can securely reveal data in an application without exposing your frontend to sensitive data. This is useful for cases like card issuance, where you may want to reveal the card number to a user without increasing your PCI compliance scope.
 
 ### Step 1: Create a container
 To start, create a container using the `useRevealContainer()` method of the Skyflow client as shown below.
@@ -614,19 +614,18 @@ The following `props` can be passed to a Skyflow reveal element:
 
 ```javascript 
 {
-    container: 'RevealContainer' // Required, the reveal container
-    token:'string'               // Required, the actual data token
-    label: 'string',             // Optional, label for the form element
-    altText: 'string'            // Optional, string that is shown before reveal, will show token if altText is not provided
-    inputStyles: {},             // Optional styles to be applied to the element
-    labelStyles: {},             // Optional, styles to be applied to the label of the reveal element
-    errorTextStyles: {},         // Optional styles that will be applied to the errorText of the reveal element
+    container: 'RevealContainer' // Required, the reveal container.
+    token:'string'               // Required, the actual data token.
+    label: 'string',             // Optional, label for the form element.
+    altText: 'string'            // Optional, string that is shown before reveal, will show token if altText is not provided.
+    inputStyles: {},             // Optional styles to be applied to the element.
+    labelStyles: {},             // Optional, styles to be applied to the label of the reveal element.
+    errorTextStyles: {},         // Optional styles that will be applied to the errorText of the reveal element.
 }   
 ```
-`Note`: 
+**Note**: 
 
-- The `inputStyles`, `labelStyles` and `errorTextStyles` parameters accepts a styles object as described in the [previous section](#step-2-create-a-collect-element) for collecting data but only a single variant is available i.e. base.
-
+- The `inputStyles`, `labelStyles` and `errorTextStyles` parameters accepts a style object of `base` variant.
 ### End to end example using reveal element
 
 ```jsx
