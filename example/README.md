@@ -13,7 +13,7 @@ This example application is a small React Native application that consists of tw
 - If you want to run this example application on `ios`
     - IOS Simulator ( comes along with Xcode ).
     
-- Installation steps for the above depending on your OS can be found in [React Native Setup Guide](https://reactnative.dev/docs/environment-setup#development-os)
+- Installation steps for the above depending on your OS can be found in [React Native Setup Guide](https://reactnative.dev/docs/environment-setup#development-os).
 
 
 ## Installing dependencies
@@ -34,13 +34,17 @@ npm install
 ## Configuring application
 This example application collects four fields of data and reveals those fields data tokens, to collect and reveal the data you need a vault and a token endpoint URL which provides a Skyflow bearer token generated from the service account of the same vault.     
 
-### Creating The Vault
-1. In a browser, navigate to Skyflow Studio and log in.
+### Creating the vault
+1. In a browser, navigate to Skyflow studio and log in.
 2. Create a vault by clicking **Create Vault** > **Upload Vault Schema**.
 3. Choose provided [VaultSchema.json](schema/vaultSchema.json).
 3. Once the vault is created, click the gear icon and select **Edit Vault** Details.
-4. copy created `Vault URL` and `Vault ID` values, and replace the values of `<VAULT_URL>` and `<VAULT_ID>` in the [App.tsx](src/App.tsx) file.
-5. replace `<TOKEN_END_POINT_URL>` with your token endpoint URL.
+4. Copy `Vault URL` and `Vault ID` values, and replace them with `<VAULT_URL>` and `<VAULT_ID>` in the [App.tsx](src/App.tsx) file.
+
+### Implement Skyflow auth token endpoint
+1. On your backend, implement an API endpoint that provides a Skyflow bearer token to authenticate the requests made from SDK.
+2. [Implementation of bearer token generation](https://github.com/skyflowapi/skyflow-node#service-account-token-generation) with `skyflow-node` SDK.         
+3. Now replace `<YOUR_AUTH_BEARER_TOKEN_API_URL>` with your implemented token API URL in [App.tsx](src/App.tsx) file.
 
 
 ## Running the application
