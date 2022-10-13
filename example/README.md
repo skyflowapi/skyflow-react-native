@@ -43,7 +43,7 @@ This example application collects four fields of data and reveals those fields d
 
 ### Implement Skyflow auth token endpoint
 1. On your backend, implement an API endpoint that provides a Skyflow bearer token to authenticate the requests made from SDK.
-2. [Implementation of bearer token generation](https://github.com/skyflowapi/skyflow-node#service-account-token-generation) with `skyflow-node` SDK.         
+2. Implementation of bearer token generation can be done using any of Skyflow server-side SDKs, [here is the implementation](https://github.com/skyflowapi/skyflow-node#service-account-token-generation) using `skyflow-node` SDK.         
 3. Now replace `<YOUR_AUTH_BEARER_TOKEN_API_URL>` with your implemented token API URL in [App.tsx](src/App.tsx) file.
 
 
