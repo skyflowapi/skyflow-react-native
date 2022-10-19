@@ -29,7 +29,7 @@ const App = () => {
           reject("Error occured");
         };
     
-        const url = "<TOKEN_END_POINT_URL>";
+        const url = "<YOUR_AUTH_BEARER_TOKEN_API_URL>";
         Http.open("GET", url);
         Http.send();
       })
