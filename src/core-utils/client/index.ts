@@ -2,6 +2,7 @@
  Copyright (c) 2022 Skyflow, Inc.
 */
 import { ContentType } from '../../utils/constants';
+import logs from '../../utils/logs';
 import SkyflowError from '../../utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
 
@@ -27,7 +28,7 @@ class Client {
     return new Promise((resolve, reject) => {
       const httpRequest = new XMLHttpRequest();
       if (!httpRequest) {
-        reject('connection error');
+        reject(new SkyflowError(SKYFLOW_ERROR_CODE.CONNECTION_ERROR, [], true));
         return;
       }
 
@@ -108,8 +109,8 @@ class Client {
                 {
                   code: httpRequest.status,
                   description: requestId
-                    ? `Error Occured - requestId: ${requestId}`
-                    : 'Error Occured',
+                    ? `${logs.errorLogs.ERROR_OCCURED} - requestId: ${requestId}`
+                    : logs.errorLogs.ERROR_OCCURED,
                 },
                 [],
                 true

@@ -13,7 +13,6 @@ import {
   LogLevel,
   MessageType,
 } from '../../utils/constants';
-import { formatCollectElementOptions } from '../../utils/helpers';
 import logs from '../../utils/logs';
 import { parameterizedString, printLog } from '../../utils/logs-helper';
 import SkyflowError from '../../utils/skyflow-error';
@@ -32,6 +31,11 @@ class CollectContainer extends Container {
     super();
     this.#elementsList = [];
     this.#skyflowClient = skyflowClient;
+    printLog(
+      parameterizedString(logs.infoLogs.COLLECT_CONTAINER_CREATED, CLASS_NAME),
+      MessageType.LOG,
+      this.#skyflowClient.getLogLevel()
+    );
   }
 
   create(elementInput: CollectElementInput, options?: any) {
@@ -44,6 +48,11 @@ class CollectContainer extends Container {
   }
 
   collect(options: ICollectOptions = { tokens: true }) {
+    printLog(
+      logs.infoLogs.COLLECT_METHOD_INVOKED,
+      MessageType.LOG,
+      this.#skyflowClient.getLogLevel()
+    );
     return new Promise((rootResolve, rootReject) => {
       try {
         validateInitConfig(this.#skyflowClient.getSkyflowConfig());

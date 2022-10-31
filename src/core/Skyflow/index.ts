@@ -27,6 +27,24 @@ class Skyflow {
       ...config,
       options,
     };
+    printLog(
+      parameterizedString(
+        logs.infoLogs.CURRENT_ENV,
+        CLASS_NAME,
+        this.#config.options.env
+      ),
+      MessageType.LOG,
+      this.#config.options.logLevel
+    );
+    printLog(
+      parameterizedString(
+        logs.infoLogs.CURRENT_LOG_LEVEL,
+        CLASS_NAME,
+        this.#config.options.logLevel
+      ),
+      MessageType.LOG,
+      this.#config.options.logLevel
+    );
   }
 
   getAccessToken() {

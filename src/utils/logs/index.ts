@@ -8,6 +8,12 @@ const logs = {
     BEARER_TOKEN_RESOLVED:
       '%s1 - GetBearerToken promise resolved successfully.',
     REUSE_BEARER_TOKEN: '%s1 - Reusing the bearer token.',
+    COLLECT_CONTAINER_CREATED: '%s1 - Created Collect container successfully.',
+    CREATED_ELEMENT: '%s1 - Created %s2 element.',
+    COLLECT_METHOD_INVOKED: 'Invoked collect method.',
+    REVEAL_METHOD_INVOKED: 'Invoked reveal method.',
+    CURRENT_ENV: '%s1 - Client Env is %s2',
+    CURRENT_LOG_LEVEL: '%s1 - Client LogLevel is %s2',
   },
   errorLogs: {
     CLIENT_CONNECTION:
@@ -114,6 +120,7 @@ const logs = {
     NETWORK_ERROR:
       'A network error occurred. This could be a CORS issue or a dropped internet connection. It is not possible for us to know. Please reach out to skyflow if you see this error',
     ERROR_OCCURED: 'Error occurred.',
+    CONNECTION_ERROR: 'Error while initializing the connection.',
   },
   warnLogs: {
     INVALID_EXPIRATION_DATE_FORMAT:
