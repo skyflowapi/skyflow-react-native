@@ -177,6 +177,7 @@ const SKYFLOW_ERROR_CODE = {
     description: logs.errorLogs.COMPLETE_AND_VALID_INPUTS,
   },
   NETWORK_ERROR: { code: 500, description: logs.errorLogs.NETWORK_ERROR },
+  CONNECTION_ERROR: { code: 400, description: logs.errorLogs.CONNECTION_ERROR },
 };
 
 export default SKYFLOW_ERROR_CODE;

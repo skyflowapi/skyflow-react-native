@@ -190,10 +190,13 @@ export const tokenize = (
     }
   });
   if (errorMessage.length > 0) {
-    return Promise.reject({
-      code: 400,
-      description: `Interface: collect container - Provide complete and valid inputs for ${errorMessage}`,
-    });
+    return Promise.reject(
+      new SkyflowError(
+        SKYFLOW_ERROR_CODE.COMPLETE_AND_VALID_INPUTS,
+        [errorMessage],
+        true
+      )
+    );
   }
 
   elementList.forEach((currentElement: CollectElement) => {
