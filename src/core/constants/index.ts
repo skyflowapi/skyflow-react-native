@@ -5,7 +5,13 @@ import { ElementType } from '../../utils/constants';
 
 export const ELEMENTS_CONSTANTS_LIST = {
   [ElementType.CARDHOLDER_NAME]: {
-    regex: /^([a-zA-Z\\ \\,\\.\\-\\']{2,})$/,
+    regex: /^$|^([a-zA-Z\\ \\,\\.\\-\\']{2,})$/,
+  },
+  [ElementType.CVV]: {
+    regex: /^$|^[0-9]{3,4}$/,
+  },
+  [ElementType.PIN]: {
+    regex: /^$|^[0-9]{4,12}$/,
   },
 };
 

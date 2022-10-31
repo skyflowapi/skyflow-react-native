@@ -121,6 +121,12 @@ const logs = {
       'A network error occurred. This could be a CORS issue or a dropped internet connection. It is not possible for us to know. Please reach out to skyflow if you see this error',
     ERROR_OCCURED: 'Error occurred.',
     CONNECTION_ERROR: 'Error while initializing the connection.',
+    EMPTY_COLLECT_ELEMENTS:
+      'Interface: collect container - cannot invoke collect method before creating collects elements',
+    SKYFLOW_INTIALIZING_MISSING:
+      'Interface: SkyflowProvider - SkyflowProvider config is missing. ',
+    CONTAINER_OBJECT_IS_REQUIRED:
+      'Interface: %s1 Element - cannot create %s1 element without container object, create a container using %s2 hook.',
   },
   warnLogs: {
     INVALID_EXPIRATION_DATE_FORMAT:

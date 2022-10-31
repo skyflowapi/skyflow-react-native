@@ -180,6 +180,10 @@ describe('test Collect Element class', () => {
       context
     );
     expect(collectElement.isValidElement()).toBe(true);
+    collectElement.onChangeElement('');
+    expect(collectElement.getInternalState().isValid).toBe(true);
+    collectElement.onChangeElement('122');
+    expect(collectElement.getInternalState().isValid).toBe(false);
     collectElement.onChangeElement('1321');
     expect(collectElement.getInternalState().value).toBe('1321');
     const currentElementState = {
