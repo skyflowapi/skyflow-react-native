@@ -19,18 +19,15 @@ import SkyflowError from '../../utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
 
 export const validatePin = (pinValue: string) => {
-  return pinValue.length >= 4 && pinValue.length <= 12;
+  return new RegExp(ELEMENTS_CONSTANTS_LIST.PIN.regex).test(pinValue);
 };
 
 export const validateCvv = (cvvValue: string) => {
-  return cvvValue.length >= 4 && cvvValue.length <= 12;
+  return new RegExp(ELEMENTS_CONSTANTS_LIST.CVV.regex).test(cvvValue);
 };
 
 export const validateCardHolderName = (name: string) => {
-  return (
-    name.length >= 2 &&
-    new RegExp(ELEMENTS_CONSTANTS_LIST.CARDHOLDER_NAME.regex).test(name)
-  );
+  return new RegExp(ELEMENTS_CONSTANTS_LIST.CARDHOLDER_NAME.regex).test(name);
 };
 
 export const validateExpiryMonth = (month: string) => {
@@ -120,6 +117,13 @@ export const validRegexMatchRule = (regexRule, value): boolean => {
 };
 
 export const validateInitConfig = (initConfig: IConfig) => {
+  if (!initConfig) {
+    throw new SkyflowError(
+      SKYFLOW_ERROR_CODE.SKYFLOW_INTIALIZING_MISSING,
+      [],
+      true
+    );
+  }
   if (!Object.prototype.hasOwnProperty.call(initConfig, 'vaultID')) {
     throw new SkyflowError(SKYFLOW_ERROR_CODE.VAULTID_IS_REQUIRED, [], true);
   }

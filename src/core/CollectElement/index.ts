@@ -77,6 +77,9 @@ class CollectElement extends SkyflowElement {
     if (elementInput.label) {
       this.#label = elementInput.label;
     }
+    this.#errorText = this.#label
+      ? `Invalid ${this.#elementInput.label}`
+      : DEFAULT_COLLECT_ELEMENT_ERROR_TEXT;
     if (this.#elementType === ElementType.CARD_NUMBER) {
       this.#cardType = CardType.DEFAULT;
     }

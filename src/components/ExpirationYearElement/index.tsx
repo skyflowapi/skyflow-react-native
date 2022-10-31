@@ -8,21 +8,27 @@ import { DEFAULT_EXPIRATION_YEAR_FORMAT } from "../../core/constants";
 
 import { CollectElementOptions, CollectElementProps, ElementType } from "../../utils/constants";
 import { formatCollectElementOptions } from "../../utils/helpers";
+import SkyflowError from "../../utils/skyflow-error";
+import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
-const ExpirationYearElement: React.FC<CollectElementProps> = ({ container, options,...rest }) => {
-    const [element,setElement] = React.useState<CollectElement>();
-    const [errorText,setErrorText] = React.useState<string>('');
-    const [labelStyles,setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
-    const [inputStyles,setInputStyles] = React.useState(rest?.inputStyles?.base || {});
-    const [maxLength,setMaxLength] = React.useState(DEFAULT_EXPIRATION_YEAR_FORMAT.length);
+const ExpirationYearElement: React.FC<CollectElementProps> = ({ container, options, ...rest }) => {
+    const [element, setElement] = React.useState<CollectElement>();
+    const [errorText, setErrorText] = React.useState<string>('');
+    const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
+    const [inputStyles, setInputStyles] = React.useState(rest?.inputStyles?.base || {});
+    const [maxLength, setMaxLength] = React.useState(DEFAULT_EXPIRATION_YEAR_FORMAT.length);
 
     useEffect(() => {
-        const elementOptions:CollectElementOptions = formatCollectElementOptions(ElementType.EXPIRATION_YEAR,options,container.getContext().logLevel);
-        setMaxLength(elementOptions.format.length);
-        const element:CollectElement = container.create({...rest,type:ElementType.EXPIRATION_YEAR},elementOptions);
-        setElement(element);
-        if(rest.onReady){
-            rest.onReady(element.getInternalState());
+        if (container) {
+            const elementOptions: CollectElementOptions = formatCollectElementOptions(ElementType.EXPIRATION_YEAR, options, container.getContext().logLevel);
+            setMaxLength(elementOptions.format.length);
+            const element: CollectElement = container.create({ ...rest, type: ElementType.EXPIRATION_YEAR }, elementOptions);
+            setElement(element);
+            if (rest.onReady) {
+                rest.onReady(element.getClientState());
+            }
+        } else {
+            throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.EXPIRATION_YEAR, 'useCollectContainer()'], true)
         }
     }, []);
 
@@ -30,15 +36,15 @@ const ExpirationYearElement: React.FC<CollectElementProps> = ({ container, optio
         <Text style={labelStyles}>{rest.label}</Text>
         <TextInput
             placeholder={rest.placeholder}
-            onChangeText={(text)=>{
+            onChangeText={(text) => {
                 element?.onChangeElement(text);
             }}
-            onFocus={()=>{
+            onFocus={() => {
                 element?.onFocusElement();
                 setLabelStyles(element.updateLabelStyles());
                 setInputStyles(element.updateInputStyles());
             }}
-            onBlur={()=>{
+            onBlur={() => {
                 element?.onBlurElement();
                 setErrorText(element?.getErrorText() || '');
                 setLabelStyles(element.updateLabelStyles());
@@ -48,7 +54,7 @@ const ExpirationYearElement: React.FC<CollectElementProps> = ({ container, optio
             keyboardType='numeric'
             style={inputStyles}
         />
-        <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text> 
+        <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
     </View>);
 }
 

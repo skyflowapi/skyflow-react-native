@@ -208,8 +208,12 @@ export const tokenize = (
       set(elementsData[table], column, currentElement.getInternalState().value);
     }
   });
-
-  const constructedRecords = constructElementsInsertReq(elementsData, options);
+  let constructedRecords;
+  try {
+    constructedRecords = constructElementsInsertReq(elementsData, options);
+  } catch (error) {
+    return Promise.reject(error);
+  }
 
   return insertRequest(skyflowClient, constructedRecords, options);
 };

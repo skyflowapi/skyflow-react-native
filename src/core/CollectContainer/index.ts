@@ -9,6 +9,7 @@ import {
 } from '../../core-utils/element-validations';
 import {
   CollectElementInput,
+  Env,
   ICollectOptions,
   LogLevel,
   MessageType,
@@ -34,15 +35,16 @@ class CollectContainer extends Container {
     printLog(
       parameterizedString(logs.infoLogs.COLLECT_CONTAINER_CREATED, CLASS_NAME),
       MessageType.LOG,
-      this.#skyflowClient.getLogLevel()
+      this.getContext().logLevel
     );
   }
 
   create(elementInput: CollectElementInput, options?: any) {
-    const element = new CollectElement(elementInput, options, {
-      env: this.#skyflowClient.getEnv(),
-      LogLevel: this.#skyflowClient.getLogLevel(),
-    });
+    const element = new CollectElement(
+      elementInput,
+      options,
+      this.getContext()
+    );
     this.#elementsList.push(element);
     return element;
   }
@@ -55,7 +57,14 @@ class CollectContainer extends Container {
     );
     return new Promise((rootResolve, rootReject) => {
       try {
-        validateInitConfig(this.#skyflowClient.getSkyflowConfig());
+        if (this.#elementsList.length === 0) {
+          throw new SkyflowError(
+            SKYFLOW_ERROR_CODE.EMPTY_COLLECT_ELEMENTS,
+            [],
+            true
+          );
+        }
+        validateInitConfig(this.#skyflowClient?.getSkyflowConfig());
         this.#elementsList.forEach((element) => {
           element.isValidElement();
         });
@@ -80,7 +89,7 @@ class CollectContainer extends Container {
                 CLASS_NAME
               ),
               MessageType.LOG,
-              this.#skyflowClient.getLogLevel()
+              this.getContext().logLevel
             );
             rootResolve(response);
           })
@@ -88,7 +97,7 @@ class CollectContainer extends Container {
             printLog(
               `${JSON.stringify(err)}`,
               MessageType.ERROR,
-              this.#skyflowClient.getLogLevel()
+              this.getContext().logLevel
             );
             rootReject(err);
           });
@@ -96,7 +105,7 @@ class CollectContainer extends Container {
         printLog(
           `${err.message}`,
           MessageType.ERROR,
-          this.#skyflowClient.getLogLevel()
+          this.getContext().logLevel
         );
         rootReject(err);
       }
@@ -105,8 +114,8 @@ class CollectContainer extends Container {
 
   getContext() {
     return {
-      env: this.#skyflowClient.getEnv(),
-      logLevel: this.#skyflowClient.getLogLevel(),
+      env: this.#skyflowClient?.getEnv() || Env.PROD,
+      logLevel: this.#skyflowClient?.getLogLevel() || LogLevel.ERROR,
     };
   }
 }
