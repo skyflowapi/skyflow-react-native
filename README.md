@@ -160,7 +160,7 @@ The following `props` can be passed to Skyflow Collection Element:
     column: 'string',              // Required, the column into which this data should be inserted.
     label: 'string',               // Optional, label for the form element.
     placeholder: 'string',         // Optional, placeholder for the form element.
-    validations: []                // Optional array of validation rules.
+    validations: []                // Optional, array of validation rules.
     onChange: Function;            // Optional, function that is passed to trigger the onChange event.
     onFocus: Function;             // Optional, function that is passed to trigger the onChange event.
     onBlur: Function;              // Optional, function that is passed to trigger the onChange event.
@@ -437,7 +437,7 @@ The Sample for using custom validations:
   A simple example that illustrates custom validations.
   Adding REGEX_MATCH_RULE , LENGTH_MATCH_RULE to collect element.
 */
-import { CardNumberElement, ValidationRuleType } from 'skyflow-react-native';
+import { InputFieldElement, ValidationRuleType } from 'skyflow-react-native';
 
 // This rule allows one or more alphabets.
 const alphabetsOnlyRegexRule = {
@@ -460,7 +460,7 @@ const lengthRule = {
 
 const form = (props) => (
     return (
-        <CardNumberElement
+        <InputFieldElement
             container='COLLECT CONTAINER'
             table='<TABLE_NAME>'
             column='<COLUMN_NAME>'
@@ -492,7 +492,7 @@ The handler ```function(state) => void```   is a callback function you provide, 
 
 ```javascript
 state : {
-  elementType: Skyflow.ElementType
+  elementType: ElementType
   isEmpty: boolean 
   isFocused: boolean
   isValid: boolean
@@ -617,9 +617,9 @@ The following `props` can be passed to a Skyflow reveal element:
     token:'string'               // Required, the actual data token.
     label: 'string',             // Optional, label for the form element.
     altText: 'string'            // Optional, string that is shown before reveal, will show token if altText is not provided.
-    inputStyles: {},             // Optional styles to be applied to the element.
+    inputStyles: {},             // Optional, styles to be applied to the element.
     labelStyles: {},             // Optional, styles to be applied to the label of the reveal element.
-    errorTextStyles: {},         // Optional styles that will be applied to the errorText of the reveal element.
+    errorTextStyles: {},         // Optional, styles that will be applied to the errorText of the reveal element.
 }   
 ```
 **Note**: 
