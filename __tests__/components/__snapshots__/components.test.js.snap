@@ -1,0 +1,201 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test Collect And Reveal Elements Components test CardHolderNameElement component 1`] = `
+<View>
+  <Text
+    style={Object {}}
+  >
+    CardHolderName
+  </Text>
+  <TextInput
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="CardHolder Name"
+    style={Object {}}
+  />
+  <Text
+    style={Object {}}
+  />
+</View>
+`;
+
+exports[`test Collect And Reveal Elements Components test CardNumberElement component 1`] = `
+<View>
+  <Text
+    style={Object {}}
+  >
+    CardNumber
+  </Text>
+  <TextInput
+    keyboardType="numeric"
+    maxLength={23}
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="card number"
+    style={Object {}}
+    value=""
+  />
+  <Text
+    style={Object {}}
+  />
+</View>
+`;
+
+exports[`test Collect And Reveal Elements Components test CvvElement component 1`] = `
+<View>
+  <Text
+    style={Object {}}
+  >
+    Cvv
+  </Text>
+  <TextInput
+    keyboardType="numeric"
+    maxLength={4}
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="cvv"
+    style={Object {}}
+  />
+  <Text
+    style={Object {}}
+  />
+</View>
+`;
+
+exports[`test Collect And Reveal Elements Components test ExpirationDateElement component 1`] = `
+<View>
+  <Text
+    style={Object {}}
+  >
+    Expiration Date
+  </Text>
+  <TextInput
+    keyboardType="numeric"
+    maxLength={5}
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="expiration date"
+    style={Object {}}
+    value=""
+  />
+  <Text
+    style={Object {}}
+  />
+</View>
+`;
+
+exports[`test Collect And Reveal Elements Components test ExpirationMonthElement component 1`] = `
+<View>
+  <Text
+    style={Object {}}
+  >
+    Expiration Month
+  </Text>
+  <TextInput
+    keyboardType="numeric"
+    maxLength={2}
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="expiration month"
+    style={Object {}}
+    value=""
+  />
+  <Text
+    style={Object {}}
+  />
+</View>
+`;
+
+exports[`test Collect And Reveal Elements Components test ExpirationYearElement component 1`] = `
+<View>
+  <Text
+    style={Object {}}
+  >
+    Expiration Year
+  </Text>
+  <TextInput
+    keyboardType="numeric"
+    maxLength={2}
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="expiration year"
+    style={Object {}}
+  />
+  <Text
+    style={Object {}}
+  />
+</View>
+`;
+
+exports[`test Collect And Reveal Elements Components test InputFieldElement component 1`] = `
+<View>
+  <Text
+    style={Object {}}
+  >
+    First Name
+  </Text>
+  <TextInput
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="first name"
+    style={Object {}}
+  />
+  <Text
+    style={Object {}}
+  />
+</View>
+`;
+
+exports[`test Collect And Reveal Elements Components test PinElement component 1`] = `
+<View>
+  <Text
+    style={Object {}}
+  >
+    Pin
+  </Text>
+  <TextInput
+    keyboardType="numeric"
+    maxLength={12}
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="pin"
+    style={Object {}}
+  />
+  <Text
+    style={Object {}}
+  />
+</View>
+`;
+
+exports[`test Collect And Reveal Elements Components test RevealElement component 1`] = `
+Array [
+  <Text
+    style={Object {}}
+  >
+    Card Number
+  </Text>,
+  <Text
+    selectable={true}
+    style={Object {}}
+  >
+    XXXX XXXX XXXX XXXX
+  </Text>,
+  <Text
+    style={Object {}}
+  />,
+]
+`;
+
+exports[`test Collect And Reveal Elements Components test skyflow provider 1`] = `
+<Text>
+  Provider Childern
+</Text>
+`;

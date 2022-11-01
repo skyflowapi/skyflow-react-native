@@ -177,6 +177,19 @@ const SKYFLOW_ERROR_CODE = {
     description: logs.errorLogs.COMPLETE_AND_VALID_INPUTS,
   },
   NETWORK_ERROR: { code: 500, description: logs.errorLogs.NETWORK_ERROR },
+  CONNECTION_ERROR: { code: 400, description: logs.errorLogs.CONNECTION_ERROR },
+  EMPTY_COLLECT_ELEMENTS: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_COLLECT_ELEMENTS,
+  },
+  SKYFLOW_INTIALIZING_MISSING: {
+    code: 400,
+    description: logs.errorLogs.SKYFLOW_INTIALIZING_MISSING,
+  },
+  CONTAINER_OBJECT_IS_REQUIRED: {
+    code: 400,
+    description: logs.errorLogs.CONTAINER_OBJECT_IS_REQUIRED,
+  },
 };
 
 export default SKYFLOW_ERROR_CODE;

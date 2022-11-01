@@ -4,39 +4,34 @@
 import React, { useEffect } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
-import { CARD_NUMBER_MASK, DEFAULT_CARD_INPUT_MAX_LENGTH } from "../../core/constants";
 import { CollectElementProps, ElementType } from "../../utils/constants";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
-const CardNumberElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
-    const [element, setElement] = React.useState<CollectElement>(undefined);
-    const [elementValue, setElementValue] = React.useState<string>('');
+const InputFieldElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
+    const [element, setElement] = React.useState<CollectElement>();
     const [errorText, setErrorText] = React.useState<string>('');
-    const [maxLength, setMaxLength] = React.useState<number>(DEFAULT_CARD_INPUT_MAX_LENGTH);
     const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
     const [inputStyles, setInputStyles] = React.useState(rest?.inputStyles?.base || {});
 
     useEffect(() => {
         if (container) {
-            const element: CollectElement = container.create({ ...rest, type: ElementType.CARD_NUMBER }, options);
+            const element: CollectElement = container.create({ ...rest, type: ElementType.INPUT_FIELD }, options);
             setElement(element);
             if (rest.onReady) {
                 rest.onReady(element.getClientState());
             }
         } else {
-            throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.CARD_NUMBER, 'useCollectContainer()'], true)
+            throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.INPUT_FIELD, 'useCollectContainer()'], true)
         }
     }, []);
+
     return (<View>
         <Text style={labelStyles}>{rest.label}</Text>
         <TextInput
-            value={elementValue}
             placeholder={rest.placeholder}
             onChangeText={(text) => {
-                element?.onChangeElement(text)
-                setElementValue(element.getInternalState().value)
-                setMaxLength(CARD_NUMBER_MASK[element.getCardType()].length || DEFAULT_CARD_INPUT_MAX_LENGTH);
+                element?.onChangeElement(text);
             }}
             onFocus={() => {
                 element?.onFocusElement();
@@ -46,16 +41,13 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options =
             onBlur={() => {
                 element?.onBlurElement();
                 setErrorText(element?.getErrorText() || '');
-                setElementValue(element.getInternalState().value);
                 setLabelStyles(element.updateLabelStyles());
                 setInputStyles(element.updateInputStyles());
             }}
-            keyboardType='numeric'
-            maxLength={maxLength}
             style={inputStyles}
         />
         <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
     </View>);
 }
 
-export default CardNumberElement;
+export default InputFieldElement;

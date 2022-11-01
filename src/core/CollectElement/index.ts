@@ -24,6 +24,7 @@ import {
   ElementType,
   Env,
   IValidationRule,
+  MessageType,
   ValidationRuleType,
 } from '../../utils/constants';
 import {
@@ -34,7 +35,12 @@ import {
   formatExpirationMonthValue,
   getReturnValue,
 } from '../../utils/helpers';
-import { EnvOptions } from '../../utils/logs-helper';
+import logs from '../../utils/logs';
+import {
+  EnvOptions,
+  parameterizedString,
+  printLog,
+} from '../../utils/logs-helper';
 import SkyflowError from '../../utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
 import {
@@ -44,6 +50,7 @@ import {
 } from '../constants';
 import SkyflowElement from '../SkyflowElement';
 
+const CLASS_NAME = 'CollectElement';
 class CollectElement extends SkyflowElement {
   #state: CollectElementState;
   #elementInput: CollectElementInput;
@@ -64,13 +71,15 @@ class CollectElement extends SkyflowElement {
     context?: any
   ) {
     super();
-    // console.log('Element Created', elementInput, 'Options', options);
     this.#context = context;
     this.#elementInput = elementInput;
     this.#elementType = elementInput.type;
     if (elementInput.label) {
       this.#label = elementInput.label;
     }
+    this.#errorText = this.#label
+      ? `Invalid ${this.#elementInput.label}`
+      : DEFAULT_COLLECT_ELEMENT_ERROR_TEXT;
     if (this.#elementType === ElementType.CARD_NUMBER) {
       this.#cardType = CardType.DEFAULT;
     }
@@ -85,6 +94,15 @@ class CollectElement extends SkyflowElement {
       value: '',
       isValid: !options.required,
     };
+    printLog(
+      parameterizedString(
+        logs.infoLogs.CREATED_ELEMENT,
+        CLASS_NAME,
+        this.#elementType
+      ),
+      MessageType.LOG,
+      this.#context.logLevel
+    );
   }
 
   updateValue(value: string) {

@@ -5,19 +5,25 @@ import React, { useEffect } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
 import { CollectElementProps, ElementType } from "../../utils/constants";
+import SkyflowError from "../../utils/skyflow-error";
+import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
-const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, options={required:false},...rest }) => {
-    const [element,setElement] = React.useState<CollectElement>();
-    const [elementValue,setElementValue] = React.useState<string>('');
-    const [errorText,setErrorText] = React.useState<string>('');
-    const [labelStyles,setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
-    const [inputStyles,setInputStyles] = React.useState(rest?.inputStyles?.base || {});
+const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
+    const [element, setElement] = React.useState<CollectElement>();
+    const [elementValue, setElementValue] = React.useState<string>('');
+    const [errorText, setErrorText] = React.useState<string>('');
+    const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
+    const [inputStyles, setInputStyles] = React.useState(rest?.inputStyles?.base || {});
 
     useEffect(() => {
-        const element:CollectElement = container.create({...rest,type:ElementType.EXPIRATION_MONTH},options);
-        setElement(element);
-        if(rest.onReady){
-            rest.onReady(element.getInternalState());
+        if (container) {
+            const element: CollectElement = container.create({ ...rest, type: ElementType.EXPIRATION_MONTH }, options);
+            setElement(element);
+            if (rest.onReady) {
+                rest.onReady(element.getClientState());
+            }
+        } else {
+            throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.EXPIRATION_MONTH, 'useCollectContainer()'], true)
         }
     }, []);
 
@@ -26,16 +32,16 @@ const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, opti
         <TextInput
             value={elementValue}
             placeholder={rest.placeholder}
-            onChangeText={(text)=>{
+            onChangeText={(text) => {
                 element?.onChangeElement(text);
                 setElementValue(element.getInternalState().value)
             }}
-            onFocus={()=>{
+            onFocus={() => {
                 element?.onFocusElement()
                 setLabelStyles(element.updateLabelStyles());
                 setInputStyles(element.updateInputStyles());
             }}
-            onBlur={()=>{
+            onBlur={() => {
                 element?.onBlurElement();
                 setErrorText(element?.getErrorText() || '');
                 setElementValue(element.getInternalState().value);
@@ -46,7 +52,7 @@ const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, opti
             keyboardType='numeric'
             style={inputStyles}
         />
-        <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text> 
+        <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
     </View>);
 }
 

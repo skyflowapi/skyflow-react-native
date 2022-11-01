@@ -47,6 +47,11 @@ class RevealContainer extends Container {
   }
 
   reveal() {
+    printLog(
+      logs.infoLogs.REVEAL_METHOD_INVOKED,
+      MessageType.LOG,
+      this.#skyflowClient.getLogLevel()
+    );
     return new Promise((rootResolve, rootReject) => {
       try {
         validateInitConfig(this.#skyflowClient.getSkyflowConfig());
