@@ -2,7 +2,7 @@
     Copyright (c) 2022 Skyflow, Inc.
 */
 import React from 'react';
-import InputField from '../../src/components/InputField';
+import InputFieldElement from '../../src/components/InputFieldElement';
 import PinElement from '../../src/components/PinElement';
 import CvvElement from '../../src/components/CvvElement';
 import CardHolderNameElement from '../../src/components/CardHolderNameElement';
@@ -18,6 +18,9 @@ import Skyflow from '../../src/core/Skyflow';
 import { CardType } from '../../src/core/constants';
 import SkyflowProvider from '../../src/components/SkyflowProvider';
 import { Text } from 'react-native';
+import SkyflowError from '../../src/utils/skyflow-error';
+import SKYFLOW_ERROR_CODE from '../../src/utils/skyflow-error-code';
+import { ElementType } from '../../src/utils/constants';
 
 const testSkyflowClient = new Skyflow({
   vaultID: '1234',
@@ -34,7 +37,7 @@ const changeTrigger = jest.fn();
 const foucsTrigger = jest.fn();
 const blurTrigger = jest.fn();
 
-describe('test InputField Component', () => {
+describe('test Collect And Reveal Elements Components', () => {
   let collectContainer;
   beforeEach(() => {
     jest.clearAllMocks();
@@ -53,9 +56,9 @@ describe('test InputField Component', () => {
     }));
   });
 
-  it('test InputField component', () => {
+  it('test InputFieldElement component', () => {
     const inputElement = render(
-      <InputField
+      <InputFieldElement
         table={'table1'}
         column={'string'}
         container={collectContainer}
@@ -81,7 +84,7 @@ describe('test InputField Component', () => {
     expect(blurTrigger).toBeCalled();
     // render without any listeners
     render(
-      <InputField
+      <InputFieldElement
         table={'table1'}
         column={'string'}
         container={collectContainer}
@@ -90,6 +93,24 @@ describe('test InputField Component', () => {
       />
     );
     expect(onReadyMock).toBeCalledTimes(1);
+    try {
+      render(
+        <InputFieldElement
+          table={'table1'}
+          column={'string'}
+          label={'First Name'}
+          placeholder={'first name'}
+        />
+      );
+    } catch (err) {
+      expect(err).toEqual(
+        new SkyflowError(
+          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+          [ElementType.INPUT_FIELD, 'useCollectContainer()'],
+          true
+        )
+      );
+    }
   });
 
   it('test PinElement component', () => {
@@ -129,6 +150,24 @@ describe('test InputField Component', () => {
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
+    try {
+      render(
+        <PinElement
+          table={'table1'}
+          column={'string'}
+          label={'Pin'}
+          placeholder={'pin'}
+        />
+      );
+    } catch (err) {
+      expect(err).toEqual(
+        new SkyflowError(
+          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+          [ElementType.PIN, 'useCollectContainer()'],
+          true
+        )
+      );
+    }
   });
 
   it('test CvvElement component', () => {
@@ -168,6 +207,24 @@ describe('test InputField Component', () => {
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
+    try {
+      render(
+        <CvvElement
+          table={'table1'}
+          column={'string'}
+          label={'Cvv'}
+          placeholder={'cvv'}
+        />
+      );
+    } catch (err) {
+      expect(err).toEqual(
+        new SkyflowError(
+          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+          [ElementType.CVV, 'useCollectContainer()'],
+          true
+        )
+      );
+    }
   });
 
   it('test CardHolderNameElement component', () => {
@@ -207,6 +264,24 @@ describe('test InputField Component', () => {
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
+    try {
+      render(
+        <CardHolderNameElement
+          table={'table1'}
+          column={'string'}
+          label={'CardHolderName'}
+          placeholder={'CardHolder Name'}
+        />
+      );
+    } catch (err) {
+      expect(err).toEqual(
+        new SkyflowError(
+          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+          [ElementType.CARDHOLDER_NAME, 'useCollectContainer()'],
+          true
+        )
+      );
+    }
   });
 
   it('test CardNumberElement component', () => {
@@ -252,6 +327,25 @@ describe('test InputField Component', () => {
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
+
+    try {
+      render(
+        <CardNumberElement
+          table={'table1'}
+          column={'string'}
+          label={'CardNumber'}
+          placeholder={'card number'}
+        />
+      );
+    } catch (err) {
+      expect(err).toEqual(
+        new SkyflowError(
+          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+          [ElementType.CARD_NUMBER, 'useCollectContainer()'],
+          true
+        )
+      );
+    }
   });
 
   it('test ExpirationDateElement component', () => {
@@ -292,6 +386,25 @@ describe('test InputField Component', () => {
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
+
+    try {
+      render(
+        <ExpirationDateElement
+          table={'table1'}
+          column={'string'}
+          label={'Expiration Date'}
+          placeholder={'expiration date'}
+        />
+      );
+    } catch (err) {
+      expect(err).toEqual(
+        new SkyflowError(
+          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+          [ElementType.EXPIRATION_DATE, 'useCollectContainer()'],
+          true
+        )
+      );
+    }
   });
 
   it('test ExpirationMonthElement component', () => {
@@ -327,11 +440,29 @@ describe('test InputField Component', () => {
         table={'table1'}
         column={'string'}
         container={collectContainer}
-        label={'Expiration Date'}
-        placeholder={'expiration date'}
+        label={'Expiration Month'}
+        placeholder={'expiration month'}
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
+    try {
+      render(
+        <ExpirationMonthElement
+          table={'table1'}
+          column={'string'}
+          label={'Expiration Month'}
+          placeholder={'expiration month'}
+        />
+      );
+    } catch (err) {
+      expect(err).toEqual(
+        new SkyflowError(
+          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+          [ElementType.EXPIRATION_MONTH, 'useCollectContainer()'],
+          true
+        )
+      );
+    }
   });
 
   it('test ExpirationYearElement component', () => {
@@ -367,11 +498,29 @@ describe('test InputField Component', () => {
         table={'table1'}
         column={'string'}
         container={collectContainer}
-        label={'Expiration Date'}
-        placeholder={'expiration date'}
+        label={'Expiration Year'}
+        placeholder={'expiration year'}
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
+    try {
+      render(
+        <ExpirationYearElement
+          table={'table1'}
+          column={'string'}
+          label={'Expiration Year'}
+          placeholder={'expiration year'}
+        />
+      );
+    } catch (err) {
+      expect(err).toEqual(
+        new SkyflowError(
+          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+          [ElementType.EXPIRATION_YEAR, 'useCollectContainer()'],
+          true
+        )
+      );
+    }
   });
 
   it('test RevealElement component', () => {
@@ -401,6 +550,17 @@ describe('test InputField Component', () => {
         label={'Card Number'}
       />
     );
+    try {
+      render(<RevealElement token={'test_token'} label={'Card Number'} />);
+    } catch (err) {
+      expect(err).toEqual(
+        new SkyflowError(
+          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+          ['Reveal', 'useRevealContainer()'],
+          true
+        )
+      );
+    }
   });
 
   it('test skyflow provider', () => {

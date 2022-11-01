@@ -8,6 +8,7 @@ import { CardType } from '../../src/core/constants';
 import Skyflow from '../../src/core/Skyflow';
 import { ElementType, Env, LogLevel } from '../../src/utils/constants';
 import SKYFLOW_ERROR_CODE from '../../src/utils/skyflow-error-code';
+import SkyflowError from '../../src/utils/skyflow-error';
 
 const testSkyflowClient = new Skyflow({
   vaultID: '1234',
@@ -128,7 +129,13 @@ describe('test CollectConatiner Class', () => {
       })
       .catch((err) => {
         try {
-          expect(err).toEqual(SKYFLOW_ERROR_CODE.INVALID_TOKENS_IN_COLLECT);
+          expect(err).toEqual(
+            new SkyflowError(
+              SKYFLOW_ERROR_CODE.INVALID_TOKENS_IN_COLLECT,
+              [],
+              true
+            )
+          );
           done();
         } catch (error) {
           done(error);

@@ -49,6 +49,9 @@ describe('test Collect Element class', () => {
     cardNumberElement.onChangeElement('411111111');
     expect(cardNumberElement.getCardType()).toBe(CardType.VISA);
     expect(cardNumberElement.getInternalState().value).toBe('4111 1111 1');
+    expect(cardNumberElement.getErrorText()).toBe(
+      `Invalid ${elementInput.label}`
+    );
     expect(onChangeMock).toBeCalledWith({
       elementType: ElementType.CARD_NUMBER,
       isFocused: false,
@@ -81,7 +84,9 @@ describe('test Collect Element class', () => {
       value: '',
       isValid: false,
     });
-    expect(collectElement.getErrorText()).toBe(undefined); // TODO
+    expect(collectElement.getErrorText()).toBe(
+      DEFAULT_COLLECT_ELEMENT_ERROR_TEXT
+    );
     // valid value
     collectElement.onChangeElement('5');
     expect(collectElement.getInternalState()).toEqual({
@@ -372,7 +377,9 @@ describe('test Collect Element class', () => {
       context
     );
     expect(collectElement.getInternalState().isValid).toBe(true);
-    expect(collectElement.getErrorText()).toBe(undefined);
+    expect(collectElement.getErrorText()).toBe(
+      DEFAULT_COLLECT_ELEMENT_ERROR_TEXT
+    );
     collectElement.onChangeElement('1');
     expect(collectElement.getInternalState().isValid).toBe(false);
     expect(collectElement.getErrorText()).toBe(validationErrorText);
@@ -398,7 +405,9 @@ describe('test Collect Element class', () => {
       context
     );
     expect(collectElement.getInternalState().isValid).toBe(true);
-    expect(collectElement.getErrorText()).toBe(undefined);
+    expect(collectElement.getErrorText()).toBe(
+      DEFAULT_COLLECT_ELEMENT_ERROR_TEXT
+    );
     collectElement.onChangeElement('1234');
     expect(collectElement.getInternalState().isValid).toBe(false);
     expect(collectElement.getErrorText()).toBe(DEFAULT_VALIDATION_ERROR_TEXT);
