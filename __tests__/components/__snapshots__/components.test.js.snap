@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test InputField Component test CardHolderNameElement component 1`] = `
+exports[`test Collect And Reveal Elements Components test CardHolderNameElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -20,7 +20,7 @@ exports[`test InputField Component test CardHolderNameElement component 1`] = `
 </View>
 `;
 
-exports[`test InputField Component test CardNumberElement component 1`] = `
+exports[`test Collect And Reveal Elements Components test CardNumberElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -43,7 +43,7 @@ exports[`test InputField Component test CardNumberElement component 1`] = `
 </View>
 `;
 
-exports[`test InputField Component test CvvElement component 1`] = `
+exports[`test Collect And Reveal Elements Components test CvvElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -65,7 +65,7 @@ exports[`test InputField Component test CvvElement component 1`] = `
 </View>
 `;
 
-exports[`test InputField Component test ExpirationDateElement component 1`] = `
+exports[`test Collect And Reveal Elements Components test ExpirationDateElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -88,7 +88,7 @@ exports[`test InputField Component test ExpirationDateElement component 1`] = `
 </View>
 `;
 
-exports[`test InputField Component test ExpirationMonthElement component 1`] = `
+exports[`test Collect And Reveal Elements Components test ExpirationMonthElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -111,7 +111,7 @@ exports[`test InputField Component test ExpirationMonthElement component 1`] = `
 </View>
 `;
 
-exports[`test InputField Component test ExpirationYearElement component 1`] = `
+exports[`test Collect And Reveal Elements Components test ExpirationYearElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -133,7 +133,7 @@ exports[`test InputField Component test ExpirationYearElement component 1`] = `
 </View>
 `;
 
-exports[`test InputField Component test InputField component 1`] = `
+exports[`test Collect And Reveal Elements Components test InputFieldElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -153,7 +153,7 @@ exports[`test InputField Component test InputField component 1`] = `
 </View>
 `;
 
-exports[`test InputField Component test PinElement component 1`] = `
+exports[`test Collect And Reveal Elements Components test PinElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -175,7 +175,7 @@ exports[`test InputField Component test PinElement component 1`] = `
 </View>
 `;
 
-exports[`test InputField Component test RevealElement component 1`] = `
+exports[`test Collect And Reveal Elements Components test RevealElement component 1`] = `
 Array [
   <Text
     style={Object {}}
@@ -194,7 +194,7 @@ Array [
 ]
 `;
 
-exports[`test InputField Component test skyflow provider 1`] = `
+exports[`test Collect And Reveal Elements Components test skyflow provider 1`] = `
 <Text>
   Provider Childern
 </Text>

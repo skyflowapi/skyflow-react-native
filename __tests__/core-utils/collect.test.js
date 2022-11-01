@@ -9,6 +9,7 @@ import * as ClientModule from '../../src/core-utils/client';
 import logs from '../../src/utils/logs';
 import SkyflowError from '../../src/utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../src/utils/skyflow-error-code';
+import { DEFAULT_COLLECT_ELEMENT_ERROR_TEXT } from '../../src/core/constants';
 
 describe('test collect utils class', () => {
   it('test tokenize with tokens true', (done) => {
@@ -216,15 +217,17 @@ describe('test collect utils class', () => {
     });
     tokenizeResponse
       .then((res) => {
-        console.log(res);
         done(res);
       })
       .catch((err) => {
         try {
-          expect(err).toEqual({
-            code: 400,
-            description: `Interface: collect container - Provide complete and valid inputs for string: undefined `,
-          });
+          expect(err).toEqual(
+            new SkyflowError(
+              SKYFLOW_ERROR_CODE.COMPLETE_AND_VALID_INPUTS,
+              [`string: ${DEFAULT_COLLECT_ELEMENT_ERROR_TEXT} `],
+              true
+            )
+          );
           done();
         } catch (error) {
           done(error);
