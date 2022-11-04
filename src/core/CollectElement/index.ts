@@ -46,6 +46,7 @@ import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
 import {
   CardType,
   DEFAULT_COLLECT_ELEMENT_ERROR_TEXT,
+  DEFAULT_COLLECT_ELEMENT_REQUIRED_TEXT,
   DEFAULT_VALIDATION_ERROR_TEXT,
 } from '../constants';
 import SkyflowElement from '../SkyflowElement';
@@ -64,6 +65,9 @@ class CollectElement extends SkyflowElement {
   #validations: IValidationRule[];
   #customValidErrorText: string | undefined;
   #context: any;
+  #setErrorText: any;
+  #setLabelStyles: any;
+  #setInputStyles: any;
 
   constructor(
     elementInput: CollectElementInput,
@@ -105,6 +109,14 @@ class CollectElement extends SkyflowElement {
     );
   }
 
+  setMethods(setErrorText, stylesSetters?: any) {
+    this.#setErrorText = setErrorText;
+    if (stylesSetters) {
+      this.#setInputStyles = stylesSetters.setInputStyles;
+      this.#setLabelStyles = stylesSetters.setLabelStyles;
+    }
+  }
+
   updateValue(value: string) {
     this.#state = {
       ...this.#state,
@@ -139,6 +151,18 @@ class CollectElement extends SkyflowElement {
     };
   }
 
+  triggerValidations() {
+    this.updateElement(this.#state.value);
+    this.#setErrorText(this.#errorText);
+    if (this.#setInputStyles) {
+      this.#setInputStyles(this.updateInputStyles());
+    }
+
+    if (this.#setLabelStyles) {
+      this.#setLabelStyles(this.updateLabelStyles());
+    }
+  }
+
   onChangeElement(value: string) {
     switch (this.#elementType) {
       case ElementType.EXPIRATION_MONTH:
@@ -163,7 +187,7 @@ class CollectElement extends SkyflowElement {
       ...this.#state,
       isFocused: true,
     };
-
+    this.#setErrorText('');
     if (this.#elementInput.onFocus) {
       this.#elementInput.onFocus(this.getClientState());
     }
@@ -199,13 +223,19 @@ class CollectElement extends SkyflowElement {
         };
       }
 
-      if (this.#elementInput.inputStyles.empty && this.#state.isEmpty) {
-        inputStyles = {
-          ...inputStyles,
-          ...(this.#elementInput.inputStyles.empty || {}),
-        };
+      if (this.#state.isEmpty && this.#state.isValid) {
+        if (this.#elementInput.inputStyles.empty) {
+          inputStyles = {
+            ...inputStyles,
+            ...(this.#elementInput.inputStyles.empty || {}),
+          };
+        }
       } else {
-        if (this.#elementInput.inputStyles.invalid && !this.#state.isValid) {
+        if (
+          this.#elementInput.inputStyles.invalid &&
+          !this.#state.isValid &&
+          !this.#state.isFocused
+        ) {
           inputStyles = {
             ...inputStyles,
             ...(this.#elementInput.inputStyles.invalid || {}),
@@ -290,7 +320,11 @@ class CollectElement extends SkyflowElement {
       this.#errorText = this.#customValidErrorText
         ? this.#customValidErrorText
         : this.#label
-        ? `Invalid ${this.#elementInput.label}`
+        ? this.#state.isEmpty
+          ? `${this.#elementInput.label} is required`
+          : `Invalid ${this.#elementInput.label}`
+        : this.#state.isEmpty
+        ? DEFAULT_COLLECT_ELEMENT_REQUIRED_TEXT
         : DEFAULT_COLLECT_ELEMENT_ERROR_TEXT;
       this.hasError = true;
     } else {
