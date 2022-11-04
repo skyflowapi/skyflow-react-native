@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
 import { DEFAULT_EXPIRATION_DATE_FORMAT } from "../../core/constants";
-import { CollectElementOptions, CollectElementProps, ElementType } from "../../utils/constants";
+import { CollectElementOptions, CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE } from "../../utils/constants";
 import { formatCollectElementOptions } from "../../utils/helpers";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
@@ -23,6 +23,7 @@ const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, optio
             const elementOptions: CollectElementOptions = formatCollectElementOptions(ElementType.EXPIRATION_DATE, options, container.getContext().logLevel);
             setMaxLength(elementOptions.format.length);
             const element: CollectElement = container.create({ ...rest, type: ElementType.EXPIRATION_DATE }, elementOptions);
+            element.setMethods(setErrorText, { setInputStyles: setInputStyles, setLabelStyles: setLabelStyles });
             setElement(element);
             if (rest.onReady) {
                 rest.onReady(element.getClientState());
@@ -33,7 +34,14 @@ const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, optio
     }, []);
 
     return (<View>
-        <Text style={labelStyles}>{rest.label}</Text>
+       {
+            rest.label && ( <Text style={labelStyles}>
+                {rest.label}
+                <Text style={{ ...REQUIRED_MARK_DEFAULT_STYLE, ...rest?.labelStyles?.requiredAsterick } }>
+                    {options.required ? ELEMENT_REQUIRED_ASTERISK : ''}
+                </Text>
+            </Text>)
+        }
         <TextInput
             value={elementValue}
             placeholder={rest.placeholder}
