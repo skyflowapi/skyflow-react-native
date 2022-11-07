@@ -12,7 +12,9 @@ import {
   formatRecordsForIframe,
 } from '../../core-utils/reveal';
 import {
+  Env,
   IRevealRecord,
+  LogLevel,
   MessageType,
   RevealElementInput,
 } from '../../utils/constants';
@@ -50,7 +52,7 @@ class RevealContainer extends Container {
     printLog(
       logs.infoLogs.REVEAL_METHOD_INVOKED,
       MessageType.LOG,
-      this.#skyflowClient.getLogLevel()
+      this.getContext().logLevel
     );
     return new Promise((rootResolve, rootReject) => {
       try {
@@ -66,7 +68,7 @@ class RevealContainer extends Container {
                 CLASS_NAME
               ),
               MessageType.LOG,
-              this.#skyflowClient.getLogLevel()
+              this.getContext().logLevel
             );
             rootResolve(formatRecordsForClient(resolvedResult));
           },
@@ -76,7 +78,7 @@ class RevealContainer extends Container {
             printLog(
               logs.errorLogs.FAILED_REVEAL,
               MessageType.ERROR,
-              this.#skyflowClient.getLogLevel()
+              this.getContext().logLevel
             );
             rootReject(formatRecordsForClient(rejectedResult));
           }
@@ -85,6 +87,13 @@ class RevealContainer extends Container {
         rootReject(err);
       }
     });
+  }
+
+  getContext() {
+    return {
+      env: this.#skyflowClient?.getEnv() || Env.PROD,
+      logLevel: this.#skyflowClient?.getLogLevel() || LogLevel.ERROR,
+    };
   }
 
   private setRevealValuesInElements(revealedResult) {

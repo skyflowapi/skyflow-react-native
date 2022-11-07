@@ -4,7 +4,7 @@
 import React, { useEffect } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
-import { CollectElementProps, ElementType } from "../../utils/constants";
+import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE } from "../../utils/constants";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
@@ -18,6 +18,7 @@ const PinElement: React.FC<CollectElementProps> = ({ container, options = { requ
         if (container) {
             const element: CollectElement = container.create({ ...rest, type: ElementType.PIN }, options);
             setElement(element);
+            element.setMethods(setErrorText, { setInputStyles: setInputStyles, setLabelStyles: setLabelStyles });
             if (rest.onReady) {
                 rest.onReady(element.getInternalState());
             }
@@ -27,7 +28,14 @@ const PinElement: React.FC<CollectElementProps> = ({ container, options = { requ
     }, []);
 
     return (<View>
-        <Text style={labelStyles}>{rest.label}</Text>
+       {
+            rest.label && ( <Text style={labelStyles}>
+                {rest.label}
+                <Text style={{ ...REQUIRED_MARK_DEFAULT_STYLE, ...rest?.labelStyles?.requiredAsterick } }>
+                    {options.required ? ELEMENT_REQUIRED_ASTERISK : ''}
+                </Text>
+            </Text>)
+        }
         <TextInput
             placeholder={rest.placeholder}
             onChangeText={(text) => {

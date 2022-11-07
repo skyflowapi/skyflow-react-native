@@ -66,7 +66,7 @@ class Client {
         const headerMap: Record<string, string> = {};
         headersList.forEach((line) => {
           const parts = line.split(': ');
-          const header = parts.shift() || '';
+          const header = parts.shift()?.toLowerCase() || '';
           const value = parts.join(': ');
           headerMap[header] = value;
         });
