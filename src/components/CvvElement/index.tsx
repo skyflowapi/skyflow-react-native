@@ -17,8 +17,8 @@ const CvvElement: React.FC<CollectElementProps> = ({ container, options = { requ
     useEffect(() => {
         if (container) {
             const element: CollectElement = container.create({ ...rest, type: ElementType.CVV }, options);
+            setElement(element);
             element.setMethods(setErrorText, { setInputStyles: setInputStyles, setLabelStyles: setLabelStyles });
-            element.setMethods(setErrorText);
             if (rest.onReady) {
                 rest.onReady(element.getClientState());
             }

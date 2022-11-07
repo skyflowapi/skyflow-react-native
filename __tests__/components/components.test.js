@@ -53,6 +53,7 @@ describe('test Collect And Reveal Elements Components', () => {
       getErrorText: () => '',
       getInternalState: () => ({}),
       getCardType: () => CardType.VISA,
+      setMethods: jest.fn(),
     }));
   });
 
@@ -69,6 +70,9 @@ describe('test Collect And Reveal Elements Components', () => {
         label={'First Name'}
         placeholder={'first name'}
         validations={[]}
+        options={{
+          required: true,
+        }}
       />
     );
     expect(inputElement).toMatchSnapshot();
@@ -90,6 +94,9 @@ describe('test Collect And Reveal Elements Components', () => {
         container={collectContainer}
         label={'First Name'}
         placeholder={'first name'}
+        options={{
+          required: false,
+        }}
       />
     );
     expect(onReadyMock).toBeCalledTimes(1);
@@ -98,7 +105,6 @@ describe('test Collect And Reveal Elements Components', () => {
         <InputFieldElement
           table={'table1'}
           column={'string'}
-          label={'First Name'}
           placeholder={'first name'}
         />
       );
@@ -126,6 +132,9 @@ describe('test Collect And Reveal Elements Components', () => {
         label={'Pin'}
         placeholder={'pin'}
         validations={[]}
+        options={{
+          required: true,
+        }}
       />
     );
     expect(pinElement).toMatchSnapshot();
@@ -147,17 +156,15 @@ describe('test Collect And Reveal Elements Components', () => {
         container={collectContainer}
         label={'Pin'}
         placeholder={'pin'}
+        options={{
+          required: false,
+        }}
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
     try {
       render(
-        <PinElement
-          table={'table1'}
-          column={'string'}
-          label={'Pin'}
-          placeholder={'pin'}
-        />
+        <PinElement table={'table1'} column={'string'} placeholder={'pin'} />
       );
     } catch (err) {
       expect(err).toEqual(
@@ -183,6 +190,9 @@ describe('test Collect And Reveal Elements Components', () => {
         label={'Cvv'}
         placeholder={'cvv'}
         validations={[]}
+        options={{
+          required: true,
+        }}
       />
     );
     expect(cvvElement).toMatchSnapshot();
@@ -204,17 +214,15 @@ describe('test Collect And Reveal Elements Components', () => {
         container={collectContainer}
         label={'Cvv'}
         placeholder={'cvv'}
+        options={{
+          required: false,
+        }}
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
     try {
       render(
-        <CvvElement
-          table={'table1'}
-          column={'string'}
-          label={'Cvv'}
-          placeholder={'cvv'}
-        />
+        <CvvElement table={'table1'} column={'string'} placeholder={'cvv'} />
       );
     } catch (err) {
       expect(err).toEqual(
@@ -240,6 +248,9 @@ describe('test Collect And Reveal Elements Components', () => {
         label={'CardHolderName'}
         placeholder={'CardHolder Name'}
         validations={[]}
+        options={{
+          required: true,
+        }}
       />
     );
     expect(cardHolderElement).toMatchSnapshot();
@@ -258,9 +269,12 @@ describe('test Collect And Reveal Elements Components', () => {
       <CardHolderNameElement
         table={'table1'}
         column={'string'}
+        label={'CardHolder Name'}
         container={collectContainer}
-        label={'CardHolderName'}
         placeholder={'CardHolder Name'}
+        options={{
+          required: false,
+        }}
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
@@ -269,7 +283,6 @@ describe('test Collect And Reveal Elements Components', () => {
         <CardHolderNameElement
           table={'table1'}
           column={'string'}
-          label={'CardHolderName'}
           placeholder={'CardHolder Name'}
         />
       );
@@ -297,6 +310,9 @@ describe('test Collect And Reveal Elements Components', () => {
         label={'CardNumber'}
         placeholder={'card number'}
         validations={[]}
+        options={{
+          required: true,
+        }}
       />
     );
     expect(cardNumberElement).toMatchSnapshot();
@@ -315,6 +331,7 @@ describe('test Collect And Reveal Elements Components', () => {
     jest.spyOn(collectContainerTest, 'create').mockImplementation(() => ({
       getInternalState: () => ({}),
       getCardType: () => null,
+      setMethods: jest.fn(),
     }));
     // render without any listeners
     render(
@@ -322,8 +339,11 @@ describe('test Collect And Reveal Elements Components', () => {
         table={'table1'}
         column={'string'}
         container={collectContainerTest}
-        label={'CardNumber'}
+        label={'Card Number'}
         placeholder={'card number'}
+        options={{
+          required: false,
+        }}
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
@@ -333,7 +353,6 @@ describe('test Collect And Reveal Elements Components', () => {
         <CardNumberElement
           table={'table1'}
           column={'string'}
-          label={'CardNumber'}
           placeholder={'card number'}
         />
       );
@@ -361,6 +380,9 @@ describe('test Collect And Reveal Elements Components', () => {
         label={'Expiration Date'}
         placeholder={'expiration date'}
         validations={[]}
+        options={{
+          required: true,
+        }}
       />
     );
     expect(expirationDateElement).toMatchSnapshot();
@@ -383,6 +405,9 @@ describe('test Collect And Reveal Elements Components', () => {
         container={collectContainer}
         label={'Expiration Date'}
         placeholder={'expiration date'}
+        options={{
+          required: false,
+        }}
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
@@ -392,7 +417,6 @@ describe('test Collect And Reveal Elements Components', () => {
         <ExpirationDateElement
           table={'table1'}
           column={'string'}
-          label={'Expiration Date'}
           placeholder={'expiration date'}
         />
       );
@@ -420,6 +444,9 @@ describe('test Collect And Reveal Elements Components', () => {
         label={'Expiration Month'}
         placeholder={'expiration month'}
         validations={[]}
+        options={{
+          required: true,
+        }}
       />
     );
     expect(expirationMonthElement).toMatchSnapshot();
@@ -442,6 +469,9 @@ describe('test Collect And Reveal Elements Components', () => {
         container={collectContainer}
         label={'Expiration Month'}
         placeholder={'expiration month'}
+        options={{
+          required: false,
+        }}
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
@@ -450,7 +480,6 @@ describe('test Collect And Reveal Elements Components', () => {
         <ExpirationMonthElement
           table={'table1'}
           column={'string'}
-          label={'Expiration Month'}
           placeholder={'expiration month'}
         />
       );
@@ -478,6 +507,9 @@ describe('test Collect And Reveal Elements Components', () => {
         label={'Expiration Year'}
         placeholder={'expiration year'}
         validations={[]}
+        options={{
+          required: true,
+        }}
       />
     );
     expect(expirationYearElement).toMatchSnapshot();
@@ -500,6 +532,9 @@ describe('test Collect And Reveal Elements Components', () => {
         container={collectContainer}
         label={'Expiration Year'}
         placeholder={'expiration year'}
+        options={{
+          required: false,
+        }}
       />
     );
     expect(onReadyMock).toHaveBeenCalledTimes(1);
@@ -508,7 +543,6 @@ describe('test Collect And Reveal Elements Components', () => {
         <ExpirationYearElement
           table={'table1'}
           column={'string'}
-          label={'Expiration Year'}
           placeholder={'expiration year'}
         />
       );
