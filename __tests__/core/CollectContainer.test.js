@@ -59,6 +59,10 @@ describe('test CollectConatiner Class', () => {
       { table: 'table1', column: 'string1', type: ElementType.CARD_NUMBER },
       { required: true }
     );
+    collectElement.setMethods(jest.fn, {
+      setInputStyles: jest.fn(),
+      setLabelStyles: jest.fn(),
+    });
     collectContainer
       .collect()
       .then((res) => {
@@ -83,6 +87,10 @@ describe('test CollectConatiner Class', () => {
       { table: 'table1', column: 'string1', type: ElementType.CARD_NUMBER },
       { required: false }
     );
+    collectElement.setMethods(jest.fn, {
+      setInputStyles: jest.fn(),
+      setLabelStyles: jest.fn(),
+    });
     collectContainer
       .collect()
       .then((res) => {
@@ -103,6 +111,10 @@ describe('test CollectConatiner Class', () => {
       { table: 'table1', column: 'string1', type: ElementType.CARD_NUMBER },
       { required: false }
     );
+    collectElement.setMethods(jest.fn, {
+      setInputStyles: jest.fn(),
+      setLabelStyles: jest.fn(),
+    });
     collectContainer
       .collect({
         additionalFields: {
@@ -122,6 +134,10 @@ describe('test CollectConatiner Class', () => {
       { table: 'table1', column: 'string1', type: ElementType.CARD_NUMBER },
       { required: false }
     );
+    collectElement.setMethods(jest.fn, {
+      setInputStyles: jest.fn(),
+      setLabelStyles: jest.fn(),
+    });
     collectContainer
       .collect({ tokens: 'not_token_type' })
       .then((res) => {

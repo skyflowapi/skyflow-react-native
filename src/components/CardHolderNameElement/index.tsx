@@ -4,7 +4,7 @@
 import React, { useEffect } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
-import { CollectElementProps, ElementType } from "../../utils/constants";
+import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE } from "../../utils/constants";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
@@ -18,6 +18,7 @@ const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, optio
         if (container) {
             const element: CollectElement = container.create({ ...rest, type: ElementType.CARDHOLDER_NAME }, options);
             setElement(element);
+            element.setMethods(setErrorText, { setInputStyles: setInputStyles, setLabelStyles: setLabelStyles });
             if (rest.onReady) {
                 rest.onReady(element.getClientState());
             }
@@ -27,7 +28,14 @@ const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, optio
     }, []);
 
     return (<View>
-        <Text style={labelStyles}>{rest.label}</Text>
+        {
+            rest.label && ( <Text style={labelStyles}>
+                {rest.label}
+                <Text style={{ ...REQUIRED_MARK_DEFAULT_STYLE, ...rest?.labelStyles?.requiredAsterisk } }>
+                    {options.required ? ELEMENT_REQUIRED_ASTERISK : ''}
+                </Text>
+            </Text>)
+        }
         <TextInput
             placeholder={rest.placeholder}
             onChangeText={(text) => {

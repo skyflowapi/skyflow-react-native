@@ -77,6 +77,10 @@ describe('test Collect Element class', () => {
       { required: true },
       context
     );
+    collectElement.setMethods(jest.fn, {
+      setInputStyles: jest.fn(),
+      setLabelStyles: jest.fn(),
+    });
     expect(collectElement.getInternalState()).toEqual({
       elementType: ElementType.EXPIRATION_MONTH,
       isFocused: false,
@@ -283,6 +287,10 @@ describe('test Collect Element class', () => {
       {},
       context
     );
+    collectElement.setMethods(jest.fn, {
+      setInputStyles: jest.fn(),
+      setLabelStyles: jest.fn(),
+    });
     expect(collectElement.updateInputStyles()).toEqual({
       ...baseStyles,
       ...emptyStyles,
@@ -344,6 +352,10 @@ describe('test Collect Element class', () => {
       {},
       context
     );
+    collectElement.setMethods(jest.fn, {
+      setInputStyles: jest.fn(),
+      setLabelStyles: jest.fn(),
+    });
     expect(collectElement.updateLabelStyles()).toEqual(baseStyles);
 
     collectElement.onChangeElement('test');

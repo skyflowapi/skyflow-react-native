@@ -53,7 +53,7 @@ class CollectContainer extends Container {
     printLog(
       logs.infoLogs.COLLECT_METHOD_INVOKED,
       MessageType.LOG,
-      this.#skyflowClient.getLogLevel()
+      this.getContext().logLevel
     );
     return new Promise((rootResolve, rootReject) => {
       try {
@@ -66,6 +66,7 @@ class CollectContainer extends Container {
         }
         validateInitConfig(this.#skyflowClient?.getSkyflowConfig());
         this.#elementsList.forEach((element) => {
+          element.triggerValidations();
           element.isValidElement();
         });
         if (options?.additionalFields) {

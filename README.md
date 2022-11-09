@@ -13,7 +13,8 @@ Skyflow’s React Native SDK can be used to securely collect, tokenize, and reve
 ---
 
 ## Including Skyflow React Native
-
+### Requirements
+- The minimum supported version of React Native is v0.65.3. If you use an older version, upgrade React Native to use this library
 
 ## Installation
 
@@ -203,13 +204,14 @@ const elementInputStyles = StyleSheet.create({
 ```
 
 The `inputStyles` field accepts a style object which consists of CSS properties that should be applied to the form element in the following states:
-- `base`: all other variants inherit from these styles.
+- `base`: applied by default, all below variants inherit from these styles.
 - `complete`: applied when the element has valid input.
 - `empty`: applied when the element has no input.
 - `focus`: applied when the element has focus.
 - `invalid`: applied when the element has invalid input.
 
-The states that are available for `labelStyles` are `base` and `focus`.
+The states that are available for `labelStyles` are `base`, `focus` and `requiredAsterisk`.
+- `requiredAsterisk`: styles applied for the Asterisk symbol in the label. 
 
 An example of a labelStyles object:
 
@@ -221,6 +223,9 @@ const elementLabelStyles = StyleSheet.create({
     focus: {
         fontWeight: 'bold'
     },
+    requiredAsterisk: {
+        color: 'red'
+    }
 });
 ```
 
@@ -250,7 +255,7 @@ The following collection elements are supported in the React Native SDK:
 The InputFieldElement type is a custom UI element without any built-in validations. See the section on [validations](#validations) for more information.
   
 
-Along with the collect element you can define other options that take an object of optional parameters as described below:
+Along with the collect element props you can define other options that take an object of optional parameters as described below:
 
 ```jsx
 const options = {
@@ -333,6 +338,9 @@ const App = () => {
                     inputStyles={elementInputStyles}
                     labelStyles={elementLabelStyles}
                     errorTextStyles={errorTextStyles}
+                    options={{
+                        required: true
+                    }}
                 />
 
             </View>

@@ -127,3 +127,5 @@ export const ALLOWED_EXPIRY_DATE_FORMATS = [
   'YY/MM',
   'MM/YYYY',
 ];
+
+export const DEFAULT_COLLECT_ELEMENT_REQUIRED_TEXT = 'Field is required';

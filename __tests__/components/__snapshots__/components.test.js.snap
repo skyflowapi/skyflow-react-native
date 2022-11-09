@@ -6,6 +6,15 @@ exports[`test Collect And Reveal Elements Components test CardHolderNameElement 
     style={Object {}}
   >
     CardHolderName
+    <Text
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+       *
+    </Text>
   </Text>
   <TextInput
     onBlur={[Function]}
@@ -26,6 +35,15 @@ exports[`test Collect And Reveal Elements Components test CardNumberElement comp
     style={Object {}}
   >
     CardNumber
+    <Text
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+       *
+    </Text>
   </Text>
   <TextInput
     keyboardType="numeric"
@@ -49,6 +67,15 @@ exports[`test Collect And Reveal Elements Components test CvvElement component 1
     style={Object {}}
   >
     Cvv
+    <Text
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+       *
+    </Text>
   </Text>
   <TextInput
     keyboardType="numeric"
@@ -71,6 +98,15 @@ exports[`test Collect And Reveal Elements Components test ExpirationDateElement 
     style={Object {}}
   >
     Expiration Date
+    <Text
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+       *
+    </Text>
   </Text>
   <TextInput
     keyboardType="numeric"
@@ -94,6 +130,15 @@ exports[`test Collect And Reveal Elements Components test ExpirationMonthElement
     style={Object {}}
   >
     Expiration Month
+    <Text
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+       *
+    </Text>
   </Text>
   <TextInput
     keyboardType="numeric"
@@ -117,6 +162,15 @@ exports[`test Collect And Reveal Elements Components test ExpirationYearElement 
     style={Object {}}
   >
     Expiration Year
+    <Text
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+       *
+    </Text>
   </Text>
   <TextInput
     keyboardType="numeric"
@@ -139,6 +193,15 @@ exports[`test Collect And Reveal Elements Components test InputFieldElement comp
     style={Object {}}
   >
     First Name
+    <Text
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+       *
+    </Text>
   </Text>
   <TextInput
     onBlur={[Function]}
@@ -159,6 +222,15 @@ exports[`test Collect And Reveal Elements Components test PinElement component 1
     style={Object {}}
   >
     Pin
+    <Text
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+       *
+    </Text>
   </Text>
   <TextInput
     keyboardType="numeric"
