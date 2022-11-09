@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [1.1.0] - 2022-11-09
 ### Added
 - Added Asterisk symbol for label of required collect element. 
-- `requiredAsterisk` variant to collect element labelStyles.
+- `requiredAsterisk` custom styles to collect element labelStyles.
 ### Changed
 - OnFoucs of invalid collect element, removed errorText. 
 ## [1.0.1] - 2022-11-01
