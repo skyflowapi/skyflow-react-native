@@ -151,7 +151,7 @@ export interface CollectInputStylesVariant
 export interface CollectLabelStylesVariant
   extends StylesBaseVariant,
     StylesFocusVariant {
-  requiredAsterick?: Record<string, any>;
+    requiredAsterisk?: Record<string, any>;
 }
 
 export const DEFAULT_COLLECT_ELEMENT_STYLES = {
