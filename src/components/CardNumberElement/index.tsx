@@ -16,7 +16,6 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options =
     const [maxLength, setMaxLength] = React.useState<number>(DEFAULT_CARD_INPUT_MAX_LENGTH);
     const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
     const [inputStyles, setInputStyles] = React.useState(rest?.inputStyles?.base || {});
-    const [requiredStyles, setRequiredStyles] = React.useState(rest?.labelStyles?.requiredAsterick || {});
 
     useEffect(() => {
         if (container) {
@@ -34,7 +33,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options =
         {
             rest.label && ( <Text style={labelStyles}>
                 {rest.label}
-                <Text style={{ ...REQUIRED_MARK_DEFAULT_STYLE, ...rest?.labelStyles?.requiredAsterick } }>
+                <Text style={{ ...REQUIRED_MARK_DEFAULT_STYLE, ...rest?.labelStyles?.requiredAsterisk } }>
                     {options.required ? ELEMENT_REQUIRED_ASTERISK : ''}
                 </Text>
             </Text>)

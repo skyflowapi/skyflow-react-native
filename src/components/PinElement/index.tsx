@@ -31,7 +31,7 @@ const PinElement: React.FC<CollectElementProps> = ({ container, options = { requ
        {
             rest.label && ( <Text style={labelStyles}>
                 {rest.label}
-                <Text style={{ ...REQUIRED_MARK_DEFAULT_STYLE, ...rest?.labelStyles?.requiredAsterick } }>
+                <Text style={{ ...REQUIRED_MARK_DEFAULT_STYLE, ...rest?.labelStyles?.requiredAsterisk } }>
                     {options.required ? ELEMENT_REQUIRED_ASTERISK : ''}
                 </Text>
             </Text>)
