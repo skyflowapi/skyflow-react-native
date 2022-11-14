@@ -6,6 +6,7 @@ import { tokenize } from '../../core-utils/collect';
 import {
   validateAdditionalFieldsInCollect,
   validateInitConfig,
+  validateUpsertOptions,
 } from '../../core-utils/element-validations';
 import {
   CollectElementInput,
@@ -78,6 +79,9 @@ class CollectContainer extends Container {
             [],
             true
           );
+        }
+        if (options?.upsert) {
+          validateUpsertOptions(options.upsert);
         }
         tokenize(this.#skyflowClient, this.#elementsList, {
           ...options,
