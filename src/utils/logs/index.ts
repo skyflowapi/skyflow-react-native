@@ -127,6 +127,20 @@ const logs = {
       'Interface: SkyflowProvider - SkyflowProvider config is missing. ',
     CONTAINER_OBJECT_IS_REQUIRED:
       'Interface: %s1 Element - cannot create %s1 element without container object, create a container using %s2 hook.',
+    INVALID_UPSERT_OPTION_TYPE:
+      'Interface: collect container - Invalid upsert option, should be an array',
+    EMPTY_UPSERT_OPTIONS_ARRAY:
+      'Interface: collect container - upsert option cannot be an empty array, atleast one object of table and column is required.',
+    INVALID_UPSERT_OPTION_OBJECT_TYPE:
+      'Interface: collect container - Invalid upsert object at index %s1, an object of table and column is required.',
+    MISSING_TABLE_IN_UPSERT_OPTION:
+      'Interface: collect container - "table" key is required in upsert options object at index %s1',
+    MISSING_COLUMN_IN_UPSERT_OPTION:
+      'Interface: collect container - "column" key is required in upsert option at index %s1',
+    INVALID_TABLE_IN_UPSERT_OPTION:
+      'Interface: collect container - Invalid table in upsert object at index %s1, table of type non empty string is required',
+    INVALID_COLUMN_IN_UPSERT_OPTION:
+      'Interface: collect container - Invalid table upsert object at index %s1, column of type non empty string is required',
   },
   warnLogs: {
     INVALID_EXPIRATION_DATE_FORMAT:
