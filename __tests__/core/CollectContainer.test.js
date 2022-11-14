@@ -158,4 +158,29 @@ describe('test CollectConatiner Class', () => {
         }
       });
   });
+  it('test collect method with valid elements and valid upsert options', (done) => {
+    const collectSuccessValue = {
+      records: [{ table: 'cards', fields: { cardNumber: 'card_token' } }],
+    };
+    tokenize.mockResolvedValue(collectSuccessValue);
+    const collectElement = collectContainer.create(
+      { table: 'table1', column: 'string1', type: ElementType.CARD_NUMBER },
+      { required: false }
+    );
+    collectElement.setMethods(jest.fn, {
+      setInputStyles: jest.fn(),
+      setLabelStyles: jest.fn(),
+    });
+    collectContainer
+      .collect({
+        upsert: [{ table: 'table1', column: 'string1' }],
+      })
+      .then((res) => {
+        expect(res).toBe(collectSuccessValue);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 });
