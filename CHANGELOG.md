@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2022-11-15
+### Added
+-   `upsert` support while collecting data through skyflow elements.
 ## [1.1.0] - 2022-11-09
 ### Added
 - Added Asterisk symbol for label of required collect element. 

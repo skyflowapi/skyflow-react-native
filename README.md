@@ -14,7 +14,7 @@ Skyflow’s React Native SDK can be used to securely collect, tokenize, and reve
 
 ## Including Skyflow React Native
 ### Requirements
-- The minimum supported version of React Native is v0.65.3. If you use an older version, upgrade React Native to use this library
+- The minimum supported version of React Native is v0.65.3. If you use an older version, upgrade React Native to use this library.
 
 ## Installation
 
@@ -288,6 +288,7 @@ To submit a form, call the collect(options?) method on the container object. The
 
 - `tokens`: indicates whether tokens for the collected data should be returned or not. Defaults to 'true'.
 - `additionalFields`: Non-PCI elements data to be inserted into the vault which should be in the `records` object format.
+- `upsert`: To support upsert operations while collecting the data from skyflow elements, pass the table and column that have been marked as unique in the table.
 
 ```javascript
 const options = {
@@ -303,7 +304,13 @@ const options = {
             }
             // ...additional records here.
         ]
-    } // Optional
+    }, // Optional
+    upsert: [   // Optional, upsert operations support in the vault.
+        {
+            table: 'string',    // Table name.
+            column: 'string',   // Unique column in the table.
+        }
+    ],
 }
 
 container.collect(options)
@@ -395,6 +402,118 @@ export default App;
             'table': 'cards',
             'fields': {
                 'card_number': 'f3907186-e7e2-466f-91e5-48e12c2bcbc1',
+            }
+        }
+    ]
+}
+```
+### End to end example of `upsert` support with Skyflow Elements
+
+```jsx
+import React from 'react';
+import { CardNumberElement, InputFieldElement, useCollectContainer } from 'skyflow-react-native';
+import { View, StyleSheet, Button } from 'react-native';
+
+const App = () => {
+    const collectContainer = useCollectContainer();
+
+    
+    const handleCollect = () => {
+        collectContainer
+            .collect({
+                tokens: true,
+                upsert: [
+                    {
+                        table: 'cards',
+                        column: 'card_number',
+                    },
+                ],
+            })
+            .then((response: any) => {
+                console.log('Collect Success: ', JSON.stringify(response));
+            })
+            .catch((err) => {
+                console.error('Collect Failed: ', JSON.stringify(err));
+            });
+    };
+
+    return (
+        <>
+            <View style={viewStyles.box}> 
+                <CardNumberElement
+                    container={collectContainer}
+                    table='cards'
+                    column='card_number'
+                    placeholder='XXXX XXXX XXXX XXXX'
+                    label='Card Number'
+                    inputStyles={elementInputStyles}
+                    labelStyles={elementLabelStyles}
+                    errorTextStyles={errorTextStyles}
+                />
+            </View>
+            <View style={viewStyles.box}>
+                <InputFieldElement
+                    container={collectContainer}
+                    table='cards'
+                    column='first_name'
+                    label='First Name'
+                    inputStyles={elementInputStyles}
+                    labelStyles={elementLabelStyles}
+                    errorTextStyles={errorTextStyles}
+                />
+            </View>
+            <View style={viewStyles.box}>
+                <Button title='Collect' onPress={handleCollect} />
+            </View>
+        </>
+
+    );
+};
+
+const elementInputStyles = StyleSheet.create({
+    base: {
+        borderWidth: 2,
+        borderRadius: 4,
+        borderColor: '#eae8ee',
+        paddingVertical: 8,
+        paddingHorizontal: 6,
+        color: '#1d1d1d',
+    },
+    invalid: {
+        color: '#f44336'
+    },
+});
+
+const elementLabelStyles = StyleSheet.create({
+    focus: {
+        fontWeight: 'bold'
+    },
+});
+
+const errorTextStyles = StyleSheet.create({
+    base: {
+        color: '#f44336'
+    }
+});
+
+const viewStyles = StyleSheet.create({
+    box: {
+        marginVertical: 5
+    }
+});
+
+
+export default App;
+```
+**Sample response :**
+```javascript
+ {
+    'records': [
+        {
+            'table': 'cards',
+            'fields': {
+                'card_number': 'f3907186-e7e2-466f-91e5-48e12c2bcbc1',
+                'first_name':  '89024714-6a26-4256-b9d4-55ad69aa4047'
             }
         }
     ]

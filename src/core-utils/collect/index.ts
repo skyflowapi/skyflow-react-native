@@ -9,6 +9,16 @@ import SkyflowError from '../../utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
 const set = require('set-value');
 
+const getUpsertColumn = (tableName: string, options: Record<string, any>) => {
+  let uniqueColumn = '';
+  options?.upsert?.forEach((upsertOptions) => {
+    if (tableName === upsertOptions.table) {
+      uniqueColumn = upsertOptions.column;
+    }
+  });
+  return uniqueColumn;
+};
+
 export const constructInsertRecordRequest = (
   records: any,
   options: Record<string, any> = { tokens: true }
@@ -16,11 +26,13 @@ export const constructInsertRecordRequest = (
   const requestBody: any = [];
   if (options?.tokens || options === null) {
     records.records.forEach((record: any, index: any) => {
+      const upsertColumn = getUpsertColumn(record.table, options);
       requestBody.push({
         method: 'POST',
         quorum: true,
         tableName: record.table,
         fields: record.fields,
+        ...(options?.upsert ? { upsert: upsertColumn } : {}),
       });
       requestBody.push({
         method: 'GET',
@@ -31,11 +43,13 @@ export const constructInsertRecordRequest = (
     });
   } else {
     records.records.forEach((record: any) => {
+      const upsertColumn = getUpsertColumn(record.table, options);
       requestBody.push({
         method: 'POST',
         quorum: true,
         tableName: record.table,
         fields: record.fields,
+        ...(options?.upsert ? { upsert: upsertColumn } : {}),
       });
     });
   }

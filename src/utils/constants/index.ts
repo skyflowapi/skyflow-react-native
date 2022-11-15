@@ -151,7 +151,7 @@ export interface CollectInputStylesVariant
 export interface CollectLabelStylesVariant
   extends StylesBaseVariant,
     StylesFocusVariant {
-    requiredAsterisk?: Record<string, any>;
+  requiredAsterisk?: Record<string, any>;
 }
 
 export const DEFAULT_COLLECT_ELEMENT_STYLES = {
@@ -169,9 +169,16 @@ export interface IInsertRecord {
 export interface IInsertRecordInput {
   records: IInsertRecord[];
 }
+
+export interface IUpsertInput {
+  table: string;
+  column: string;
+}
+
 export interface ICollectOptions {
   tokens?: boolean;
   additionalFields?: IInsertRecordInput;
+  upsert?: IUpsertInput[];
 }
 
 export interface CollectElementOptions {
@@ -180,7 +187,7 @@ export interface CollectElementOptions {
 }
 
 export const REQUIRED_MARK_DEFAULT_STYLE = {
-  color:'red',
-}
+  color: 'red',
+};
 
-export const ELEMENT_REQUIRED_ASTERISK = ' *'
+export const ELEMENT_REQUIRED_ASTERISK = ' *';

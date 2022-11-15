@@ -308,4 +308,59 @@ describe('test collect utils class', () => {
         }
       });
   });
+
+  it('test tokenize with upsert option', (done) => {
+    const successResponse = {
+      responses: [
+        { records: [{ skyflow_id: 'test_skyflow_id' }] },
+        { fields: { string: 'test_token' } },
+      ],
+    };
+
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.resolve(successResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid_token');
+
+    const collectElement = new CollectElement(
+      { table: 'table1', column: 'string', type: ElementType.INPUT_FIELD },
+      {},
+      { env: Env.PROD, logLevel: LogLevel.ERROR }
+    );
+
+    const collectElement2 = new CollectElement(
+      { table: 'table1', column: 'int32', type: ElementType.INPUT_FIELD },
+      {},
+      { env: Env.PROD, logLevel: LogLevel.ERROR }
+    );
+    collectElement.onChangeElement('1232');
+    collectElement2.onChangeElement('test');
+
+    const tokenizeResponse = tokenize(
+      testSkyflowClient,
+      [collectElement, collectElement2],
+      {
+        tokens: true,
+        upsert: [{ table: 'table1', column: 'string' }],
+      }
+    );
+    tokenizeResponse
+      .then((response) => {
+        expect(response.records[0].table).toBe('table1');
+        expect(response.records[0].fields.string).toBe('test_token');
+        expect(response.records[0].fields.skyflow_id).toBe('test_skyflow_id');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 });
