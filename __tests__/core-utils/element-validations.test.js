@@ -5,6 +5,7 @@ import {
   validateInitConfig,
   validateCardNumberLengthCheck,
   validateUpsertOptions,
+  validatePin,
 } from '../../src/core-utils/element-validations';
 import SKYFLOW_ERROR_CODE from '../../src/utils/skyflow-error-code';
 import { parameterizedString } from '../../src/utils/logs-helper';
@@ -168,5 +169,16 @@ describe('test validateUpsertOptions', () => {
         )
       );
     }
+  });
+});
+
+describe('test validatePin function', () => {
+  it('should return true for value length within range', () => {
+    expect(validatePin('1234')).toBe(true);
+    expect(validatePin('123456789')).toBe(true);
+  });
+  it('should return true for value length outof range', () => {
+    expect(validatePin('12')).toBe(false);
+    expect(validatePin('12345678901234677')).toBe(false);
   });
 });
