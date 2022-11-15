@@ -304,13 +304,13 @@ const options = {
             }
             // ...additional records here.
         ]
-    } // Optional
+    }, // Optional
     upsert: [   // Optional, upsert operations support in the vault.
         {
-            table: "string",    // Table name.
-            column: "string",   // Unique column in the table.
+            table: 'string',    // Table name.
+            column: 'string',   // Unique column in the table.
         }
-    ]
+    ],
 }
 
 container.collect(options)
@@ -411,7 +411,7 @@ export default App;
 
 ```jsx
 import React from 'react';
-import { CardNumberElement, useCollectContainer } from 'skyflow-react-native';
+import { CardNumberElement, InputFieldElement, useCollectContainer } from 'skyflow-react-native';
 import { View, StyleSheet, Button } from 'react-native';
 
 const App = () => {
@@ -424,16 +424,16 @@ const App = () => {
                 tokens: true,
                 upsert: [
                     {
-                        table: "cards",
-                        column: "card_number",
+                        table: 'cards',
+                        column: 'card_number',
                     },
                 ],
             })
             .then((response: any) => {
-                console.log("Collect Success: ", JSON.stringify(response));
+                console.log('Collect Success: ', JSON.stringify(response));
             })
             .catch((err) => {
-                console.error("Collect Failed: ", JSON.stringify(err));
+                console.error('Collect Failed: ', JSON.stringify(err));
             });
     };
 
@@ -513,6 +513,7 @@ export default App;
             'table': 'cards',
             'fields': {
                 'card_number': 'f3907186-e7e2-466f-91e5-48e12c2bcbc1',
+                'first_name':  '89024714-6a26-4256-b9d4-55ad69aa4047'
             }
         }
     ]
