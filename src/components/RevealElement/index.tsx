@@ -9,7 +9,8 @@ import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
 
-const RevealElement: React.FC<RevealElementProps> = ({ container, label, ...rest }) => {
+const RevealElement: React.FC<RevealElementProps> = (props) => {
+    const { container, label, ...rest } = props;
     const [element, setElement] = React.useState<RevealSkyflowElement>(undefined);
     const [errorText, setErrorText] = React.useState<string>('');
     const [value, setValue] = React.useState(rest?.altText || rest.token);
@@ -23,7 +24,7 @@ const RevealElement: React.FC<RevealElementProps> = ({ container, label, ...rest
             throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, ['Reveal', 'useRevealContainer()'], true)
         }
 
-    }, []);
+    }, [props]);
 
     return <>
         <Text style={rest.labelStyles?.base || {}}>{label}</Text>

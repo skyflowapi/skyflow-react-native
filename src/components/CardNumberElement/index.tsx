@@ -9,7 +9,8 @@ import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_M
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
-const CardNumberElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
+const CardNumberElement: React.FC<CollectElementProps> = (props) => {
+    const { container, options = { required: false }, ...rest } = props
     const [element, setElement] = React.useState<CollectElement>(undefined);
     const [elementValue, setElementValue] = React.useState<string>('');
     const [errorText, setErrorText] = React.useState<string>('');
@@ -28,7 +29,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options =
         } else {
             throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.CARD_NUMBER, 'useCollectContainer()'], true)
         }
-    }, []);
+    }, [props]);
     return (<View>
         {
             rest.label && ( <Text style={labelStyles}>
