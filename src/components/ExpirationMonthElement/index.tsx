@@ -8,7 +8,8 @@ import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_M
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
-const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
+const ExpirationMonthElement: React.FC<CollectElementProps> = (props) => {
+    const { container, options = { required: false }, ...rest } = props
     const [element, setElement] = React.useState<CollectElement>();
     const [elementValue, setElementValue] = React.useState<string>('');
     const [errorText, setErrorText] = React.useState<string>('');
@@ -26,7 +27,7 @@ const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, opti
         } else {
             throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.EXPIRATION_MONTH, 'useCollectContainer()'], true)
         }
-    }, []);
+    }, [props]);
 
     return (<View>
        {
