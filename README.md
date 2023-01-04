@@ -52,8 +52,8 @@ For example, if the response of the your backend bearer tokenAPI is in the below
 
 ```
 {
-  'accessToken': string,
-  'tokenType': string
+  "accessToken": string,
+  "tokenType": string
 }
 
 ```
@@ -70,13 +70,13 @@ const getBearerToken = () => {
           const response = JSON.parse(Http.responseText);
           resolve(response.accessToken);
         } else {
-          reject('Error occured');
+          reject('Error occurred');
         }
       }
     };
 
     Http.onerror = error => {
-      reject('Error occured');
+      reject('Error occurred');
     };
 
     const url = 'https://api.acmecorp.com/skyflowToken';
@@ -190,7 +190,7 @@ const elementInputStyles = StyleSheet.create({
   },
 });
 
-// passing the styles object to element
+// "Passing the styles object to element
 <CardNumberElement
   container='<CONTAINER>'
   table='<TABLE_NAME>'
@@ -288,7 +288,7 @@ To submit a form, call the collect(options?) method on the container object. The
 
 - `tokens`: indicates whether tokens for the collected data should be returned or not. Defaults to 'true'.
 - `additionalFields`: Non-PCI elements data to be inserted into the vault which should be in the `records` object format.
-- `upsert`: To support upsert operations while collecting the data from skyflow elements, pass the table and column that have been marked as unique in the table.
+- `upsert`: To support upsert operations while collecting the data from Skyflow elements, pass the table and column that have been marked as unique in the table.
 
 ```javascript
 const options = {
@@ -396,11 +396,11 @@ export default App;
 **Sample response :**
 ```javascript
 {
-  'records': [
+  "records": [
     {
-      'table': 'cards',
-      'fields': {
-        'card_number': 'f3907186-e7e2-466f-91e5-48e12c2bcbc1',
+      "table": "cards",
+      "fields": {
+        "card_number": "f3907186-e7e2-466f-91e5-48e12c2bcbc1",
       },
     },
   ],
@@ -832,17 +832,17 @@ export default App;
 
 ```javascript
 {
-  'success': [
+  "success": [
     {
-      'token': 'b63ec4e0-bbad-4e43-96e6-6bd50f483f75'
+      "token": "b63ec4e0-bbad-4e43-96e6-6bd50f483f75"
     }
   ],
-  'errors': [
+  "errors": [
     {
-      'token': '89024714-6a26-4256-b9d4-55ad69aa4047',
-      'error': {
-        'code': 404,
-        'description': 'Tokens not found for 89024714-6a26-4256-b9d4-55ad69aa4047'
+      "token": "89024714-6a26-4256-b9d4-55ad69aa4047",
+      "error": {
+        "code": 404,
+        "description": "Tokens not found for 89024714-6a26-4256-b9d4-55ad69aa4047"
       }
     }
   ]
