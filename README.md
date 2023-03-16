@@ -626,12 +626,12 @@ state : {
 ```
 
 **Note**:
-Skyflow Elements only return `value` in the `state` object when `env` is `DEV`. When `env` isn't `DEV`, `value` is empty string.
+values of SkyflowElements will be returned in element state object only when `env` is  `DEV`,  else it is empty string i.e, '', but in case of CARD_NUMBER type element when the `env` is `PROD` for all the card types except AMEX, it will return first eight digits, for AMEX it will return first six digits and rest all digits in masked format.
 
 ### Example Usage of Event Listener on Collect Elements
 ```jsx
 import React from 'react';
-import {CardNumberElement, useCollectContainer} from 'skyflow-react-native';
+import {CardNumberElement, CardHolderNameElement, useCollectContainer} from 'skyflow-react-native';
 import {View, Button, StyleSheet} from 'react-native';
 
 const App = () => {
@@ -675,6 +675,18 @@ const App = () => {
         />
       </View>
       <View style={viewStyles.box}>
+        <CardHolderNameElement
+          container={collectContainer}
+          table='cards'
+          column='cardholder_name'
+          placeholder='john'
+          label='Name on Card'
+          onChange={handleOnChange}
+          onFocus={handleOnFocus}
+          onBlur={handleOnBlur}
+        />
+      </View>
+      <View style={viewStyles.box}>
         <Button title='Collect' onPress={handleCollect} />
       </View>
     </View>
@@ -693,24 +705,38 @@ export default App;
 
 ```javascript
 {
-  elementType: 'CARD_NUMBER'
-  isEmpty: false
-  isFocused: true
-  isValid: false
-  value: '411'
-}
+  elementType: 'CARDHOLDER_NAME',
+  isEmpty: false,
+  isFocused: true,
+  isValid: true,
+  value: 'John',
+};
+{
+  elementType: 'CARD_NUMBER',
+  isEmpty: false,
+  isFocused: true,
+  isValid: true,
+  value: '4111111111111111',
+};
 
 ```
 ### Sample Element state object when `env` is `PROD`
 
 ```javascript
 {
-  elementType: 'CARD_NUMBER'
-  isEmpty: false
-  isFocused: true
-  isValid: false
-  value: ''
-}
+  elementType: 'CARDHOLDER_NAME',
+  isEmpty: false,
+  isFocused: true,
+  isValid: true,
+  value: '',
+};
+{
+  elementType: 'CARD_NUMBER',
+  isEmpty: false,
+  isFocused: true,
+  isValid: true,
+  value: '41111111XXXXXXXX',
+};
 ```
 ## Securely revealing data client-side
 
