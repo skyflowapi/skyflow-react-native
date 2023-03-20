@@ -8,7 +8,8 @@ import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_M
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
-const InputFieldElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
+const InputFieldElement: React.FC<CollectElementProps> = (props) => {
+    const { container, options = { required: false }, ...rest } = props
     const [element, setElement] = React.useState<CollectElement>();
     const [errorText, setErrorText] = React.useState<string>('');
     const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
@@ -25,7 +26,7 @@ const InputFieldElement: React.FC<CollectElementProps> = ({ container, options =
         } else {
             throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.INPUT_FIELD, 'useCollectContainer()'], true)
         }
-    }, []);
+    }, [props]);
 
     return (<View>
        {

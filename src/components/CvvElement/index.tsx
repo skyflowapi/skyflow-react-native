@@ -8,7 +8,8 @@ import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_M
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
-const CvvElement: React.FC<CollectElementProps> = ({ container, options = { requried: false }, ...rest }) => {
+const CvvElement: React.FC<CollectElementProps> = (props) => {
+    const { container, options = { required: false }, ...rest } = props
     const [element, setElement] = React.useState<CollectElement>();
     const [errorText, setErrorText] = React.useState<string>('');
     const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
@@ -25,7 +26,7 @@ const CvvElement: React.FC<CollectElementProps> = ({ container, options = { requ
         } else {
             throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.CVV, 'useCollectContainer()'], true)
         }
-    }, []);
+    }, [props]);
 
     return (<View>
         {

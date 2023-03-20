@@ -10,7 +10,9 @@ import { formatCollectElementOptions } from "../../utils/helpers";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
-const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, options, ...rest }) => {
+const ExpirationDateElement: React.FC<CollectElementProps> = (props) => {
+    const { container, options, ...rest } = props
+
     const [element, setElement] = React.useState<CollectElement>();
     const [elementValue, setElementValue] = React.useState<string>('');
     const [errorText, setErrorText] = React.useState<string>('');
@@ -31,7 +33,7 @@ const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, optio
         } else {
             throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.EXPIRATION_DATE, 'useCollectContainer()'], true)
         }
-    }, []);
+    }, [props]);
 
     return (<View>
        {
