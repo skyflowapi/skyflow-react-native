@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] - 2023-03-20
+### Fixed
+-   Removed grace period logic for bearer token generation.
+## [1.2.1] - 2023-03-02
+### Fixed
+- fix grace period logic of cached bearer token.
 ## [1.2.0] - 2022-11-15
 ### Added
 -   `upsert` support while collecting data through skyflow elements.
