@@ -141,6 +141,10 @@ const logs = {
       'Interface: collect container - Invalid table in upsert object at index %s1, table of type non empty string is required',
     INVALID_COLUMN_IN_UPSERT_OPTION:
       'Interface: collect container - Invalid column in upsert object at index %s1, column of type non empty string is required',
+    INVALID_REDACTION_VALUE:
+      'Interface: reveal container - Invalid redaction value, redaction must be from RedactionType enum.',
+    INVALID_REDACTION_TYPE:
+      'Interface: reveal container - Invalid redaction type, redaction must be one of RedactionType enum value.',
   },
   warnLogs: {
     INVALID_EXPIRATION_DATE_FORMAT:

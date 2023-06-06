@@ -8,6 +8,7 @@ export {
   Env,
   LogLevel,
   ValidationRuleType,
+  RedactionType,
 } from './utils/constants';
 export { default as useCollectContainer } from './hooks/useCollectContainer';
 export { default as useRevealContainer } from './hooks/useRevealContainer';

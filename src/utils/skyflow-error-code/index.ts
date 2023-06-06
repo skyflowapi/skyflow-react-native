@@ -218,6 +218,14 @@ const SKYFLOW_ERROR_CODE = {
     code: 400,
     description: logs.errorLogs.INVALID_COLUMN_IN_UPSERT_OPTION,
   },
+  INVALID_REDACTION_VALUE: {
+    code: 400,
+    description: logs.errorLogs.INVALID_REDACTION_VALUE,
+  },
+  INVALID_REDACTION_TYPE: {
+    code: 400,
+    description: logs.errorLogs.INVALID_REDACTION_TYPE,
+  },
 };
 
 export default SKYFLOW_ERROR_CODE;

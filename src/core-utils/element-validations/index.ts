@@ -12,6 +12,7 @@ import {
 import {
   IConfig,
   IInsertRecordInput,
+  RedactionType,
   RevealElementInput,
 } from '../../utils/constants';
 import { getYearAndMonthBasedOnFormat, isValidURL } from '../../utils/helpers';
@@ -251,6 +252,19 @@ export const validateRevealElementRecords = (records: RevealElementInput[]) => {
       typeof record.altText !== 'string'
     ) {
       throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_ALT_TEXT_REVEAL);
+    }
+
+    if (Object.prototype.hasOwnProperty.call(record, 'redaction')) {
+      if (record.redaction && typeof record.redaction !== 'string') {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_REDACTION_VALUE);
+      }
+      if (
+        !Object.values(RedactionType).includes(
+          record.redaction as RedactionType
+        )
+      ) {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_REDACTION_TYPE);
+      }
     }
   });
 };

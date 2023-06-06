@@ -42,7 +42,10 @@ class RevealContainer extends Container {
 
   create(revealInput: RevealElementInput) {
     this.#revealRecords.push(revealInput);
-    this.#tokensList.push({ token: revealInput.token });
+    this.#tokensList.push({
+      token: revealInput.token,
+      redaction: revealInput?.redaction,
+    });
     const element = new RevealSkyflowElement(revealInput);
     this.#elementList.push(element);
     return element;
