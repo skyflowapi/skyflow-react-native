@@ -6,9 +6,11 @@ import {
   validateCardNumberLengthCheck,
   validateUpsertOptions,
   validatePin,
+  validateRevealElementRecords,
 } from '../../src/core-utils/element-validations';
 import SKYFLOW_ERROR_CODE from '../../src/utils/skyflow-error-code';
 import { parameterizedString } from '../../src/utils/logs-helper';
+import { RedactionType } from '../../src/utils/constants';
 
 describe('test validateInitConfig function', () => {
   it('should throw skyflow error for missing vaultID', () => {
@@ -180,5 +182,57 @@ describe('test validatePin function', () => {
   it('should return true for value length outof range', () => {
     expect(validatePin('12')).toBe(false);
     expect(validatePin('12345678901234677')).toBe(false);
+  });
+});
+
+describe('test validateRevealElementRecords', () => {
+  it('should throw error when invalid redaction type is passed', (done) => {
+    try {
+      validateRevealElementRecords([
+        {
+          token: '1234',
+          redaction: 'INVALID',
+        },
+      ]);
+      done('should throw error');
+    } catch (err) {
+      expect(err?.errors[0]?.description).toBe(
+        SKYFLOW_ERROR_CODE.INVALID_REDACTION_TYPE.description
+      );
+      done();
+    }
+  });
+
+  it('should throw error when invalid redaction value type is passed', (done) => {
+    try {
+      validateRevealElementRecords([
+        {
+          token: '1234',
+          redaction: 1234,
+        },
+      ]);
+      done('should throw error');
+    } catch (err) {
+      expect(err?.errors[0]?.description).toBe(
+        SKYFLOW_ERROR_CODE.INVALID_REDACTION_VALUE.description
+      );
+      done();
+    }
+  });
+  it('should throw error when invalid redaction value type enum is passed', (done) => {
+    try {
+      validateRevealElementRecords([
+        {
+          token: '1234',
+          redaction: RedactionType,
+        },
+      ]);
+      done('should throw error');
+    } catch (err) {
+      expect(err?.errors[0]?.description).toBe(
+        SKYFLOW_ERROR_CODE.INVALID_REDACTION_VALUE.description
+      );
+      done();
+    }
   });
 });
