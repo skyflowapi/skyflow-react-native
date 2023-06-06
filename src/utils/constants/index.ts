@@ -95,6 +95,7 @@ export interface RevealElementInput {
   token: string;
   label?: string;
   altText?: string;
+  redaction?: RedactionType
 }
 
 export interface RevealElementProps {
@@ -105,6 +106,7 @@ export interface RevealElementProps {
   inputStyles?: StylesBaseVariant;
   labelStyles?: StylesBaseVariant;
   errorTextStyles?: StylesBaseVariant;
+  redaction?: RedactionType
 }
 
 export enum MessageType {
@@ -115,6 +117,7 @@ export enum MessageType {
 
 export interface IRevealRecord {
   token: string;
+  redaction?: RedactionType
 }
 
 export interface IRevealResponseType {
@@ -191,3 +194,10 @@ export const REQUIRED_MARK_DEFAULT_STYLE = {
 };
 
 export const ELEMENT_REQUIRED_ASTERISK = ' *';
+
+export enum RedactionType {
+  DEFAULT = 'DEFAULT',
+  PLAIN_TEXT = 'PLAIN_TEXT',
+  MASKED = 'MASKED',
+  REDACTED = 'REDACTED',
+}

@@ -8,6 +8,7 @@ import {
   type IRevealResponseType,
   LogLevel,
   MessageType,
+  RedactionType,
 } from '../../utils/constants';
 import { printLog } from '../../utils/logs-helper';
 import SkyflowError from '../../utils/skyflow-error';
@@ -44,7 +45,7 @@ const formatForPureJsFailure = (cause, tokenId: string) => ({
 
 const getTokenRecordsFromVault = (
   skyflowClient: Skyflow,
-  token: string,
+  tokenRecord: IRevealRecord,
   authToken: string
 ): Promise<any> => {
   const vaultEndPointurl: string = `${skyflowClient.getVaultURL()}/v1/vaults/${skyflowClient.getVaultID()}/detokenize`;
@@ -58,7 +59,8 @@ const getTokenRecordsFromVault = (
     body: {
       detokenizationParameters: [
         {
-          token,
+          token: tokenRecord.token,
+          redaction: tokenRecord?.redaction || RedactionType.PLAIN_TEXT,
         },
       ],
     },
@@ -79,7 +81,7 @@ export const fetchRecordsByTokenId = (
               const apiResponse: any = [];
               getTokenRecordsFromVault(
                 skyflowClient,
-                tokenRecord.token,
+                tokenRecord,
                 authToken as string
               )
                 .then(
