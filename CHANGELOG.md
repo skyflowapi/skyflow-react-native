@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2023-06-07
+### Added
+-   `redaction` prop in reveal element component.
 ## [1.2.2] - 2023-03-20
 ### Fixed
 -   Removed grace period logic for bearer token generation.

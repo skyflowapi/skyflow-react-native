@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {Button, StyleSheet, View} from 'react-native';
-import {RevealElement, useRevealContainer} from 'skyflow-react-native';
+import {RedactionType, RevealElement, useRevealContainer} from 'skyflow-react-native';
 
 const RevealElements = props => {
   const revealContainer = useRevealContainer();
@@ -30,6 +30,7 @@ const RevealElements = props => {
         inputStyles={revealInputStyles}
         labelStyles={revealLabelStyles}
         errorTextStyles={revealerrorTextStyles}
+        redaction={RedactionType.REDACTED}
       />
       <RevealElement
         token={props.tokens.expiration_date}
@@ -39,6 +40,7 @@ const RevealElements = props => {
         inputStyles={revealInputStyles}
         labelStyles={revealLabelStyles}
         errorTextStyles={revealerrorTextStyles}
+        redaction={RedactionType.PLAIN_TEXT}
       />
       <RevealElement
         token={props.tokens.cardholder_name}
@@ -48,6 +50,7 @@ const RevealElements = props => {
         inputStyles={revealInputStyles}
         labelStyles={revealLabelStyles}
         errorTextStyles={revealerrorTextStyles}
+        redaction={RedactionType.DEFAULT}
       />
       <RevealElement
         token={props.tokens.ssn}
