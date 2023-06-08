@@ -773,16 +773,25 @@ The following `props` can be passed to a Skyflow reveal element:
   inputStyles: {},             // Optional, styles to be applied to the element.
   labelStyles: {},             // Optional, styles to be applied to the label of the reveal element.
   errorTextStyles: {},         // Optional, styles that will be applied to the errorText of the reveal element.
+  redaction: RedactionType,    // Optional, redaction type to be applied to retrieved data, ex: RedactionType.PLAIN_TEXT
 }   
 ```
-**Note**: 
+`RedactionType` accepts four values:
 
+- PLAIN_TEXT
+- MASKED
+- REDACTED
+- DEFAULT
+
+
+**Note**: 
+- `redaction` defaults to RedactionType.PLAIN_TEXT
 - The `inputStyles`, `labelStyles` and `errorTextStyles` parameters accepts a style object of `base` variant.
 ### End to end example using reveal element
 
 ```jsx
 import React from 'react';
-import {RevealElement, useRevealContainer} from 'skyflow-react-native';
+import {RevealElement, useRevealContainer, RedactionType} from 'skyflow-react-native';
 import {View, Button, StyleSheet} from 'react-native';
 
 const App = () => {
@@ -809,6 +818,7 @@ const App = () => {
         inputStyles={revealInputStyles}
         labelStyles={revealLabelStyles}
         errorTextStyles={revealerrorTextStyles}
+        redaction={RedactionType.PLAIN_TEXT}
       />
       <RevealElement
         token={'89024714-6a26-4256-b9d4-55ad69aa4047'}
