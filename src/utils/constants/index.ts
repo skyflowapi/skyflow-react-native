@@ -4,10 +4,17 @@
 import type CollectContainer from '../../core/CollectContainer';
 import RevealContainer from '../../core/RevealContainer';
 
+/**
+ *  sample documentation for IConfig interface
+ */
 export interface IConfig {
+  /** sample documentation*/
   vaultID: string;
+  /** sample documentation*/
   vaultURL: string;
+  /** sample documentation*/
   getBearerToken: () => Promise<string>;
+  /** sample documentation*/
   options?: Record<string, any>;
 }
 
@@ -36,22 +43,39 @@ export interface CollectElementInput {
 }
 
 export interface CollectElementProps {
+   /** sample documentation*/
   table: string;
+   /** sample documentation*/
   column: string;
+   /** sample documentation*/
   container: CollectContainer;
+   /** sample documentation*/
   label?: string;
+   /** sample documentation*/
   placeholder?: string;
+   /** sample documentation*/
   validations?: IValidationRule[];
+   /** sample documentation*/
   onChange?: Function;
+   /** sample documentation*/
   onReady?: Function;
+   /** sample documentation*/
   onBlur?: Function;
+   /** sample documentation*/
   onFocus?: Function;
+   /** sample documentation*/
   options?: Record<string, any>;
+   /** sample documentation*/
   inputStyles?: CollectInputStylesVariant;
+   /** sample documentation*/
   labelStyles?: CollectLabelStylesVariant;
+   /** sample documentation*/
   errorTextStyles?: StylesBaseVariant;
 }
 
+/**
+ *  sample documentation for ElementType enum
+ */
 export enum ElementType {
   CVV = 'CVV',
   EXPIRATION_DATE = 'EXPIRATION_DATE',
@@ -79,6 +103,9 @@ export enum ContentType {
   FORMDATA = 'multipart/form-data',
 }
 
+/**
+ *  sample documentation for LogLevel enum
+ */
 export enum LogLevel {
   WARN = 'WARN',
   INFO = 'INFO',
@@ -86,6 +113,9 @@ export enum LogLevel {
   ERROR = 'ERROR',
 }
 
+/**
+ *  sample documentation for Env enum
+ */
 export enum Env {
   DEV = 'DEV',
   PROD = 'PROD',
@@ -99,13 +129,21 @@ export interface RevealElementInput {
 }
 
 export interface RevealElementProps {
+   /** sample documentation*/
   token: string;
+   /** sample documentation*/
   container: RevealContainer;
+   /** sample documentation*/
   label?: string;
+   /** sample documentation*/
   altText?: string;
+   /** sample documentation*/
   inputStyles?: StylesBaseVariant;
+   /** sample documentation*/
   labelStyles?: StylesBaseVariant;
+   /** sample documentation*/
   errorTextStyles?: StylesBaseVariant;
+   /** sample documentation*/
   redaction?: RedactionType
 }
 
@@ -125,6 +163,9 @@ export interface IRevealResponseType {
   errors?: Record<string, any>[];
 }
 
+/**
+ *  sample documentation for ValidationRuleType enum
+ */
 export enum ValidationRuleType {
   REGEX_MATCH_RULE = 'REGEX_MATCH_RULE',
   LENGTH_MATCH_RULE = 'LENGTH_MATCH_RULE',
@@ -195,6 +236,9 @@ export const REQUIRED_MARK_DEFAULT_STYLE = {
 
 export const ELEMENT_REQUIRED_ASTERISK = ' *';
 
+/**
+ *  sample documentation for RedactionType enum
+ */
 export enum RedactionType {
   DEFAULT = 'DEFAULT',
   PLAIN_TEXT = 'PLAIN_TEXT',

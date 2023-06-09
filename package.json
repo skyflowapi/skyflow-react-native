@@ -29,7 +29,8 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "bootstrap": "yarn example && yarn && yarn example pods",
-    "build": "bob build"
+    "build": "bob build",
+    "docs-gen": "node scripts/doc-gen/components-json-gen.js && node scripts/doc-gen/markdown-gen.js"
   },
   "keywords": [
     "react-native",
@@ -132,6 +133,7 @@
   "dependencies": {
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
+    "react-docgen-typescript": "^2.2.2",
     "set-value": "^4.1.0",
     "uuid": "^9.0.0"
   }

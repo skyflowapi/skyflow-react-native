@@ -9,6 +9,9 @@ import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_M
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
+/**
+ *  sample documentation for CardNumberElement
+ */
 const CardNumberElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>(undefined);
     const [elementValue, setElementValue] = React.useState<string>('');
