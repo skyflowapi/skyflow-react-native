@@ -33,6 +33,7 @@ export interface CollectElementInput {
   inputStyles?: CollectInputStylesVariant;
   labelStyles?: CollectLabelStylesVariant;
   errorTextStyles?: StylesBaseVariant;
+  containerType?:string;
 }
 
 export interface CollectElementProps {
@@ -50,6 +51,7 @@ export interface CollectElementProps {
   inputStyles?: CollectInputStylesVariant;
   labelStyles?: CollectLabelStylesVariant;
   errorTextStyles?: StylesBaseVariant;
+  containerMethods?: Record<any,any>;
 }
 
 export enum ElementType {
@@ -200,4 +202,10 @@ export enum RedactionType {
   PLAIN_TEXT = 'PLAIN_TEXT',
   MASKED = 'MASKED',
   REDACTED = 'REDACTED',
+}
+
+export enum ContainerType {
+  COLLECT = 'COLLECT',
+  REVEAL = 'REVEAL',
+  COMPOSABLE = 'COMPOSABLE',
 }

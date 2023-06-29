@@ -8,6 +8,7 @@ import {
   DEFAULT_VALIDATION_ERROR_TEXT,
 } from '../../src/core/constants';
 import {
+  ContainerType,
   ElementType,
   Env,
   LogLevel,
@@ -38,6 +39,7 @@ describe('test Collect Element class', () => {
       type: ElementType.CARD_NUMBER,
       label: 'Card Number',
       onChange: onChangeMock,
+      containerType: ContainerType.COLLECT,
     };
     const cardNumberElement = new CollectElement(
       elementInput,
@@ -73,6 +75,7 @@ describe('test Collect Element class', () => {
         onChange: onChangeMock,
         onBlur: onBlurMock,
         onFocus: onFocusMock,
+        containerType: ContainerType.COLLECT,
       },
       { required: true },
       context
@@ -149,6 +152,7 @@ describe('test Collect Element class', () => {
         label: 'Expiration Date',
         type: ElementType.EXPIRATION_DATE,
         onChange: onChangeMock,
+        containerType: ContainerType.COLLECT,
       },
       {
         format: 'YYYY/MM',
@@ -184,6 +188,7 @@ describe('test Collect Element class', () => {
         type: ElementType.PIN,
         onChange: onChangeMock,
         onBlur: onBlurMock,
+        containerType: ContainerType.COLLECT,
       },
       {},
       context
@@ -257,6 +262,7 @@ describe('test Collect Element class', () => {
     collectElement = new CollectElement(
       {
         type: ElementType.CVV,
+        containerType: ContainerType.COLLECT,
       },
       {},
       context
@@ -276,6 +282,7 @@ describe('test Collect Element class', () => {
     collectElement = new CollectElement(
       {
         type: ElementType.CVV,
+        containerType: ContainerType.COLLECT,
         inputStyles: {
           base: baseStyles,
           focus: focusStyles,
@@ -327,6 +334,7 @@ describe('test Collect Element class', () => {
     collectElement = new CollectElement(
       {
         type: ElementType.CARDHOLDER_NAME,
+        containerType: ContainerType.COLLECT,
       },
       {},
       context
@@ -337,6 +345,7 @@ describe('test Collect Element class', () => {
       {
         type: ElementType.CARDHOLDER_NAME,
         labelStyles: { base: baseStyles },
+        containerType: ContainerType.COLLECT,
       },
       {},
       context
@@ -348,6 +357,7 @@ describe('test Collect Element class', () => {
         type: ElementType.CARDHOLDER_NAME,
         labelStyles: { base: baseStyles, focus: focusStyles },
         label: 'CardHolder Name',
+        containerType: ContainerType.COLLECT,
       },
       {},
       context
@@ -374,6 +384,7 @@ describe('test Collect Element class', () => {
     collectElement = new CollectElement(
       {
         type: ElementType.INPUT_FIELD,
+        containerType: ContainerType.COLLECT,
         validations: [
           {
             type: ValidationRuleType.LENGTH_MATCH_RULE,
@@ -404,6 +415,7 @@ describe('test Collect Element class', () => {
     collectElement = new CollectElement(
       {
         type: ElementType.INPUT_FIELD,
+        containerType: ContainerType.COLLECT,
         validations: [
           {
             type: ValidationRuleType.REGEX_MATCH_RULE,
@@ -427,6 +439,7 @@ describe('test Collect Element class', () => {
     collectElement = new CollectElement(
       {
         type: ElementType.INPUT_FIELD,
+        containerType: ContainerType.COLLECT,
         validations: [
           {
             type: undefined,
@@ -445,6 +458,7 @@ describe('test Collect Element class', () => {
     collectElement = new CollectElement(
       {
         type: ElementType.EXPIRATION_YEAR,
+        containerType: ContainerType.COLLECT,
       },
       {
         required: true,
@@ -463,6 +477,7 @@ describe('test Collect Element class', () => {
     collectElement = new CollectElement(
       {
         type: ElementType.EXPIRATION_YEAR,
+        containerType: ContainerType.COLLECT,
       },
       {
         required: true,

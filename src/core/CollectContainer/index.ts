@@ -10,6 +10,7 @@ import {
 } from '../../core-utils/element-validations';
 import {
   CollectElementInput,
+  ContainerType,
   Env,
   ICollectOptions,
   LogLevel,
@@ -25,6 +26,8 @@ import type Skyflow from '../Skyflow';
 
 const CLASS_NAME = 'CollectContainer';
 class CollectContainer extends Container {
+  type: string = ContainerType.COLLECT;
+
   #elementsList: CollectElement[];
 
   #skyflowClient: Skyflow;

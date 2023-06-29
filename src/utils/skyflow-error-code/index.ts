@@ -226,6 +226,34 @@ const SKYFLOW_ERROR_CODE = {
     code: 400,
     description: logs.errorLogs.INVALID_REDACTION_TYPE,
   },
+  MISSING_COMPOSABLE_LAYOUT_KEY: {
+    code: 400,
+    description: logs.errorLogs.MISSING_COMPOSABLE_LAYOUT_KEY,
+  },
+  EMPTY_COMPOSABLE_LAYOUT_ARRAY: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_COMPOSABLE_LAYOUT_ARRAY,
+  },
+  INVALID_COMPOSABLE_LAYOUT_TYPE: {
+    code: 400,
+    description: logs.errorLogs.INVALID_COMPOSABLE_LAYOUT_TYPE,
+  },
+  NEGATIVE_VALUES_COMPOSABLE_LAYOUT: {
+    code: 400,
+    description: logs.errorLogs.NEGATIVE_VALUES_COMPOSABLE_LAYOUT,
+  },
+  MISMATCH_ELEMENT_COUNT_LAYOUT_SUM: {
+    code: 400,
+    description: logs.errorLogs.MISMATCH_ELEMENT_COUNT_LAYOUT_SUM,
+  },
+  MISSING_COMPOSABLE_CONTAINER_OPTIONS: {
+    code: 400,
+    description: logs.errorLogs.MISSING_COMPOSABLE_CONTAINER_OPTIONS,
+  },
+  INVALID_COMPOSABLE_CONTAINER_OPTIONS: {
+    code: 400,
+    description: logs.errorLogs.INVALID_COMPOSABLE_CONTAINER_OPTIONS,
+  },
 };
 
 export default SKYFLOW_ERROR_CODE;

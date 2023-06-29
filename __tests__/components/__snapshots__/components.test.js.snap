@@ -22,6 +22,7 @@ exports[`test Collect And Reveal Elements Components test CardHolderNameElement 
     onFocus={[Function]}
     placeholder="CardHolder Name"
     style={Object {}}
+    value=""
   />
   <Text
     style={Object {}}
@@ -85,6 +86,7 @@ exports[`test Collect And Reveal Elements Components test CvvElement component 1
     onFocus={[Function]}
     placeholder="cvv"
     style={Object {}}
+    value=""
   />
   <Text
     style={Object {}}
@@ -180,6 +182,7 @@ exports[`test Collect And Reveal Elements Components test ExpirationYearElement 
     onFocus={[Function]}
     placeholder="expiration year"
     style={Object {}}
+    value=""
   />
   <Text
     style={Object {}}
@@ -209,6 +212,7 @@ exports[`test Collect And Reveal Elements Components test InputFieldElement comp
     onFocus={[Function]}
     placeholder="first name"
     style={Object {}}
+    value=""
   />
   <Text
     style={Object {}}
@@ -240,6 +244,7 @@ exports[`test Collect And Reveal Elements Components test PinElement component 1
     onFocus={[Function]}
     placeholder="pin"
     style={Object {}}
+    value=""
   />
   <Text
     style={Object {}}
