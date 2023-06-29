@@ -21,6 +21,7 @@ import {
   CollectElementOptions,
   CollectElementProps,
   CollectElementState,
+  ContainerType,
   ElementType,
   Env,
   IValidationRule,
@@ -47,6 +48,7 @@ import {
   CardType,
   DEFAULT_COLLECT_ELEMENT_ERROR_TEXT,
   DEFAULT_COLLECT_ELEMENT_REQUIRED_TEXT,
+  DEFAULT_ERROR_TEXT_ELEMENT_TYPES,
   DEFAULT_VALIDATION_ERROR_TEXT,
 } from '../constants';
 import SkyflowElement from '../SkyflowElement';
@@ -68,6 +70,7 @@ class CollectElement extends SkyflowElement {
   #setErrorText: any;
   #setLabelStyles: any;
   #setInputStyles: any;
+  #containerType: any;
 
   constructor(
     elementInput: CollectElementInput,
@@ -76,6 +79,7 @@ class CollectElement extends SkyflowElement {
   ) {
     super();
     this.#context = context;
+    this.#containerType = elementInput?.containerType;
     this.#elementInput = elementInput;
     this.#elementType = elementInput.type;
     if (elementInput.label) {
@@ -187,7 +191,9 @@ class CollectElement extends SkyflowElement {
       ...this.#state,
       isFocused: true,
     };
-    this.#setErrorText('');
+
+    if (this.#containerType === ContainerType.COLLECT) this.#setErrorText('');
+
     if (this.#elementInput.onFocus) {
       this.#elementInput.onFocus(this.getClientState());
     }
@@ -325,7 +331,9 @@ class CollectElement extends SkyflowElement {
           : `Invalid ${this.#elementInput.label}`
         : this.#state.isEmpty
         ? DEFAULT_COLLECT_ELEMENT_REQUIRED_TEXT
-        : DEFAULT_COLLECT_ELEMENT_ERROR_TEXT;
+        : this.#containerType === ContainerType.COLLECT
+        ? DEFAULT_COLLECT_ELEMENT_ERROR_TEXT
+        : DEFAULT_ERROR_TEXT_ELEMENT_TYPES[this.#elementType];
       this.hasError = true;
     } else {
       this.#errorText = '';
