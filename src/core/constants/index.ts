@@ -129,3 +129,14 @@ export const ALLOWED_EXPIRY_DATE_FORMATS = [
 ];
 
 export const DEFAULT_COLLECT_ELEMENT_REQUIRED_TEXT = 'Field is required';
+
+export const DEFAULT_ERROR_TEXT_ELEMENT_TYPES = {
+  [ElementType.CVV]: 'Invalid cvv',
+  [ElementType.EXPIRATION_DATE]: 'Invalid expiration date',
+  [ElementType.CARD_NUMBER]: 'Invalid card number',
+  [ElementType.CARDHOLDER_NAME]: 'Invalid cardholder name',
+  [ElementType.INPUT_FIELD]: DEFAULT_COLLECT_ELEMENT_ERROR_TEXT,
+  [ElementType.PIN]: 'Invalid pin',
+  [ElementType.EXPIRATION_MONTH]: 'Invalid expiration month',
+  [ElementType.EXPIRATION_YEAR]: 'Invalid expiration year',
+};

@@ -12,6 +12,7 @@ import {
   formatRecordsForIframe,
 } from '../../core-utils/reveal';
 import {
+  ContainerType,
   Env,
   IRevealRecord,
   LogLevel,
@@ -27,6 +28,8 @@ import Skyflow from '../Skyflow';
 const CLASS_NAME = 'RevealContainer';
 
 class RevealContainer extends Container {
+  type: string = ContainerType.REVEAL;
+
   #revealRecords: RevealElementInput[];
   #tokensList: IRevealRecord[];
   #elementList: RevealSkyflowElement[];

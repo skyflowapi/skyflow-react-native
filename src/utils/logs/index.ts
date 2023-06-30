@@ -145,6 +145,20 @@ const logs = {
       'Interface: reveal container - Invalid redaction value, redaction must be from RedactionType enum.',
     INVALID_REDACTION_TYPE:
       'Interface: reveal container - Invalid redaction type, redaction must be one of RedactionType enum value.',
+    MISSING_COMPOSABLE_LAYOUT_KEY:
+      'Interface: client container - layout is required in composable container options.',
+    EMPTY_COMPOSABLE_LAYOUT_ARRAY:
+      'Interface: client container - layout array cannot be empty in composable container options.',
+    INVALID_COMPOSABLE_LAYOUT_TYPE:
+      'Interface: client container - invalid layout value, layout should be of type array of numbers in composable container options.',
+    NEGATIVE_VALUES_COMPOSABLE_LAYOUT:
+      'Interface: client container - layout array should only have postive numbers in composable container options.',
+    MISMATCH_ELEMENT_COUNT_LAYOUT_SUM:
+      'Interface: composable container mount - created elements count should be equal to sum of layout values.',
+    MISSING_COMPOSABLE_CONTAINER_OPTIONS:
+      'Interface: client composable container - options object is required for composable container.',
+    INVALID_COMPOSABLE_CONTAINER_OPTIONS:
+      'Interface: client composable container - invalid options value, should be an object type.',
   },
   warnLogs: {
     INVALID_EXPIRATION_DATE_FORMAT:
