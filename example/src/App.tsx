@@ -3,12 +3,21 @@
 */
 
 import * as React from 'react';
-import {SafeAreaView} from 'react-native';
-
-import {Env, IConfig, LogLevel, SkyflowProvider} from 'skyflow-react-native';
+import { Button, SafeAreaView, View } from 'react-native';
+import { SkyflowProvider, LogLevel, IConfig, Env } from "skyflow-react-native"
 import ElementView from './ElementView';
+import ComposableElements from './ComposableElements';
 
 const App = () => {
+
+  const [displayComposable, setDisplayComposable] = React.useState(false);
+  const [displayCollect, setDisplayCollect] = React.useState(false);
+
+  const handleReset = () => {
+    setDisplayCollect(false);
+    setDisplayComposable(false);
+  }
+
   const skyflowConfig: IConfig = {
     getBearerToken: () => {
       return new Promise((resolve, reject) => {
@@ -43,9 +52,19 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <SkyflowProvider config={skyflowConfig}>
-        <ElementView />
+        {!displayCollect && !displayComposable && <>
+          <View style={{ margin: 10 }}>
+            <Button onPress={() => { setDisplayCollect(true) }} title='Collect And Reveal Elements' />
+          </View>
+          <View style={{ margin: 10 }}>
+            <Button onPress={() => { setDisplayComposable(true) }} title='Composable Elements' />
+          </View>
+        </>}
+
+        {displayCollect && <ElementView handleReset={handleReset} />}
+        {displayComposable && <ComposableElements handleReset={handleReset} />}
       </SkyflowProvider>
     </SafeAreaView>
   );

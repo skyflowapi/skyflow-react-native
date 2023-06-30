@@ -3,7 +3,7 @@
 */
 
 import React from 'react';
-import {Button, StyleSheet, View} from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 import {
   CardHolderNameElement,
   CardNumberElement,
@@ -115,6 +115,10 @@ const CollectElements = props => {
       </View>
       <View style={viewStyles.box}>
         <Button title='Collect' onPress={handleCollect} />
+      </View>
+
+      <View style={viewStyles.box}>
+        <Button title='Reset' onPress={props.handleReset} />
       </View>
     </View>
   );

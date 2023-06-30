@@ -7,6 +7,7 @@ Skyflow’s React Native SDK can be used to securely collect, tokenize, and reve
 - [**Including Skyflow React Native**](#including-skyflow-react-native) 
 - [**Initializing Skyflow React Native**](#initializing-skyflow-react-native)
 - [**Securely collecting data client-side**](#securely-collecting-data-client-side)
+- [**Securely collecting data client-side using composable elements**](#securely-collecting-data-client-side-using-composable-elements)
 - [**Securely revealing data client-side**](#securely-revealing-data-client-side)
 - [**Reporting a Vulnerability**](#reporting-a-vulnerability)
 - [**License**](#license)
@@ -124,7 +125,7 @@ In [Event Listeners](#event-listener-on-collect-elements), the actual value of e
 ---
 ## Securely collecting data client-side
 -  [**Using Skyflow Elements to collect data**](#using-skyflow-elements-to-collect-data)
--  [**Event listener on collect elements**](#event-listener-on-collect-elements)
+-  [**Event listener on collect elements**](#event-listener-on-skyflow-elements)
 
 ### Using Skyflow Elements to collect data
 
@@ -595,7 +596,7 @@ const form = props => {
 };
 
 ```
-## Event Listener on Collect Elements
+## Event Listener on Skyflow Elements
 
 Event listeners are triggered by passing the handler methods as props to the Element components.
 
@@ -738,6 +739,343 @@ export default App;
   value: '41111111XXXXXXXX',
 };
 ```
+
+## Securely collecting data client-side using Composable Elements
+
+Composable Elements combine multiple Skyflow Elements in a single row. The following steps create a composable element and securely collect data through it.
+
+### Step 1: Create a composable container
+
+Create a container for the composable element using the useComposableContainer hook:
+
+```javascript
+const container = useComposableContainer(containerOptions)
+```
+
+The container requires an options object that contains the following keys:
+
+* `layout`: An array that indicates the number of rows in the container and the number of elements in each row. The index value of the array defines the number of rows, and each value in the array represents the number of elements in that row, in order.
+
+	For example: `[2,1]` means the container has two rows, with two elements in the first row and one element in the second row.
+
+	`Note`: The sum of values in the layout array should be equal to the number of elements created
+
+* `styles`:  styles to apply to each composable row.
+* `errorTextStyles`:  styles to apply if an error is encountered.
+
+```javascript
+const options = {
+    layout: [2, 1],                           // Required
+    styles: {                                 // Optional
+        base: {
+            borderWidth: 2,
+            borderRadius: 4,
+            borderColor: '#eae8ee',
+            paddingVertical: 8,
+            paddingHorizontal: 6,
+            color: '#1d1d1d',
+        },
+    },
+    errorTextStyles: {                       // Optional
+        base: {
+            color: 'red',
+        },
+    },
+};
+```
+
+### Step 2: Create Composable Elements
+
+Composable Elements use the following format. Create other elements within the ComposableContainer Element.
+
+```jsx
+import {
+    ComposableContainer,
+    CardHolderNameElement,
+    CardNumberElement,
+} from "skyflow-react-native";
+
+<ComposableContainer container="<CONTAINER>">
+  <CardHolderNameElement 
+      table="<TABLE_NAME>" 
+      container="<CONTAINER>" 
+      column="<COLUMN_NAME>" 
+      ... props 
+  />
+  <CardNumberElement 
+      table="<TABLE_NAME>" 
+      container="<CONTAINER>" 
+      column="<COLUMN_NAME>" 
+      ... props 
+  />
+</ComposableContainer>
+```
+
+The following `props` can be passed to Skyflow Composable Element:
+
+```javascript
+{
+  container: 'ComposableContainer' // Required, the Composable Container.
+  table: 'string',                 // Required, the table this data belongs to.
+  column: 'string',                // Required, the column into which this data should be inserted.
+  label: 'string',                 // Optional, label for the form element.
+  placeholder: 'string',           // Optional, placeholder for the form element.
+  validations: [],                 // Optional, array of validation rules.
+  onChange: Function,              // Optional, function that is passed to trigger the onChange event.
+  onFocus: Function,               // Optional, function that is passed to trigger the onChange event.
+  onBlur: Function,                // Optional, function that is passed to trigger the onChange event.
+  onReady: Function,               // Optional, function that is passed to trigger the onChange event.
+  inputStyles: {},                 // Optional, styles object applied to the textinput field.
+  labelStyles: {},                 // Optional, styles object applied to label of textinput field.
+  errorTextStyle: {},              // Optional, styles object applied to errortext of textinput field.
+}
+```
+
+The `table` and `column` fields indicate which table and column in the vault the Element corresponds to.
+
+**Note**: 
+-  Use dot delimited strings to specify columns nested inside JSON fields (e.g. `address.street.line1`)
+
+All elements can be styled using [StyleSheet](https://reactnative.dev/docs/stylesheet) syntax.
+
+An example of styling an element:
+
+```jsx
+import {StyleSheet} from 'react-native';
+
+const elementInputStyles = StyleSheet.create({
+  base: {
+    color: '#1d1d1d',
+  },
+  invalid: {
+    color: '#f44336',
+  },
+});
+
+// "Passing the styles object to element
+<CardNumberElement
+  container='<CONTAINER>'
+  table='<TABLE_NAME>'
+  column='<COLUMN_NAME>'
+  inputStyles={elementInputStyles}
+/>;
+```
+
+The `inputStyles` field accepts a style object which consists of CSS properties that should be applied to the form element in the following states:
+- `base`: applied by default, all below variants inherit from these styles.
+- `complete`: applied when the element has valid input.
+- `empty`: applied when the element has no input.
+- `focus`: applied when the element has focus.
+- `invalid`: applied when the element has invalid input.
+
+The states that are available for `labelStyles` are `base`, `focus` and `requiredAsterisk`.
+- `requiredAsterisk`: styles applied for the Asterisk symbol in the label. 
+
+An example of a labelStyles object:
+
+```jsx
+const elementLabelStyles = StyleSheet.create({
+  base: {
+    fontWeight: 'normal',
+  },
+  focus: {
+    fontWeight: 'bold',
+  },
+  requiredAsterisk: {
+    color: 'red',
+  },
+});
+
+```
+
+The state that is available for `errorTextStyles` is only the `base` state, it shows up when there is some error in the collect element.
+
+An example of a errorTextStyles object:
+
+```jsx
+const errorTextStyles = StyleSheet.create({
+  base: {
+    color: '#f44336',
+  },
+});
+```
+The following collection elements are supported in the React Native SDK:
+
+- `CardHolderNameElement`
+- `CardNumberElement`
+- `ExpirationDateElement`
+- `CvvElement`
+- `PinElement`
+- `ExpirationDateElement`
+- `ExpirationMonthElement`
+- `ExpirationYearElement`
+- `InputFieldElement` 
+  
+The InputFieldElement type is a custom UI element without any built-in validations. See the section on [validations](#validations) for more information.
+  
+
+Along with the collect element props you can define other options that take an object of optional parameters as described below:
+
+```jsx
+const options = {
+  // Optional, indicates whether the field is marked as required. Defaults to 'false'.
+  required: boolean,
+  // Optional, format for the element (only applicable currently for EXPIRATION_DATE, EXPIRATION_YEAR ElementType).
+  format: string,
+};
+
+```
+
+The `required` parameter indicates whether the field is marked as required or not. If not provided, it defaults to false.
+
+
+The `format` parameter takes string value and indicates the format pattern applicable to the element type, It's currently only applicable to `EXPIRATION_DATE` and `EXPIRATION_YEAR` element types.
+
+
+The values that are accepted for `EXPIRATION_DATE` are
+  - `MM/YY` (default)
+  - `MM/YYYY`
+  - `YY/MM`
+  - `YYYY/MM`
+
+The values that are accepted for `EXPIRATION_YEAR` are
+  - `YY` (default)
+  - `YYYY`
+
+**Note**: If not specified or an invalid value is passed to the `format` then it takes default value.
+
+### Step 3: Collect data from Elements
+
+To submit a form, call the collect(options?) method on the container object. The `options` parameter takes an object of optional parameters as shown below: 
+
+- `tokens`: indicates whether tokens for the collected data should be returned or not. Defaults to 'true'.
+- `additionalFields`: Non-PCI elements data to be inserted into the vault which should be in the `records` object format.
+- `upsert`: To support upsert operations while collecting the data from Skyflow elements, pass the table and column that have been marked as unique in the table.
+
+```javascript
+const options = {
+    tokens: true,  // Optional, indicates whether tokens for the collected data should be returned. Defaults to 'true'.
+    additionalFields: {
+        records: [
+            {
+                table: 'string',       // Table into which record should be inserted.
+                fields: {
+                    column1: 'value',  // Column names should match vault column names.
+                    // ...additional fields here.
+                }
+            }
+            // ...additional records here.
+        ]
+    }, // Optional
+    upsert: [   // Optional, upsert operations support in the vault.
+        {
+            table: 'string',    // Table name.
+            column: 'string',   // Unique column in the table.
+        }
+    ],
+}
+
+```
+### End to end example of collecting data with Composable Elements:
+```javascript
+import React from 'react';
+import { Button, Text, View } from 'react-native';
+import {
+    CardHolderNameElement,
+    CardNumberElement,
+    ComposableContainer,
+    CvvElement,
+    ExpirationDateElement,
+    useComposableContainer,
+} from 'skyflow-react-native';
+
+const ComposableElements = props => {
+
+    const containerOptions = {
+        layout: [3, 1],           // Required.
+        styles: {
+            base: {
+                borderWidth: 2,
+                borderRadius: 4,
+                borderColor: '#eae8ee',
+                paddingVertical: 4,
+                paddingHorizontal: 5,
+                marginLeft: 5,
+                marginRight: 5,
+                justifyContent: 'space-between',
+                color: '#1d1d1d',
+            }
+        },
+        errorTextStyles: {
+            base: {
+                color: 'green',
+            }
+        }
+    }
+
+  
+    const container = useComposableContainer(containerOptions);
+
+    const handleCollect = () => {
+        container
+            .collect()
+            .then((response: any) => {
+                console.log('Collect Success: ', JSON.stringify(response));
+            })
+            .catch(err => {
+                console.error('Collect Failed: ', err);
+            });
+    };
+    return (
+        <View style={{ marginTop: 10 }}>
+            <Text>Composable Elements</Text>
+            <ComposableContainer container={container}>
+                <CardNumberElement
+                    container={container}
+                    table='cards'
+                    column='card_number'
+                    placeholder='XXXX XXXX XXXX XXXX'
+                />
+                <ExpirationDateElement
+                    container={container}
+                    table='cards'
+                    column='expiry_date'
+                    placeholder='MM/YYYY'
+                    options={{
+                        format: 'MM/YYYY',
+                    }}
+                />
+                <CvvElement
+                    container={container}
+                    table='cards'
+                    column='cvv'
+                    placeholder='XXXX'
+                />
+
+                <CardHolderNameElement
+                    container={container}
+                    table='cards'
+                    column='first_name'
+                    placeholder='cardholder name'
+                />
+
+            </ComposableContainer>
+            <View>
+                <Button title='Collect' onPress={handleCollect} />
+            </View>
+        </View>
+    );
+};
+
+export default ComposableElements;
+```
+
+For information on event listeners, see [event listeners](#event-listener-on-skyflow-elements)
+
+
+For information on validations, see [validations](#validations).
+
+
 ## Securely revealing data client-side
 
 ### Using Skyflow Elements to reveal data
