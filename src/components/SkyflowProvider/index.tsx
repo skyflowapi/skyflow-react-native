@@ -6,14 +6,14 @@ import Skyflow from '../../core/Skyflow';
 import { IConfig, SkyflowConfigIntialState } from '../../utils/constants';
 
 export interface ISkyflowProvider {
-    /** sample documentation*/
+    /** Configuration object for SkyflowProvider. */
     config: IConfig,
 }
 
 export const skyflowContext = React.createContext<Skyflow>(null);
 
 /**
- *  sample documentation for SkyflowProvider
+ *  Sets up the Skyflow context using the provided configuration.
  */
 const SkyflowProvider: React.FC<React.PropsWithChildren<ISkyflowProvider>> = ({children,config}): JSX.Element => {
     const skyflow = new Skyflow(config);

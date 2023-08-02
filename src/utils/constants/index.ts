@@ -8,13 +8,13 @@ import RevealContainer from '../../core/RevealContainer';
  *  sample documentation for IConfig interface
  */
 export interface IConfig {
-  /** sample documentation*/
+  /** ID of the vault to connect to. */
   vaultID: string;
-  /** sample documentation*/
+  /** URL of the vault to connect to. */
   vaultURL: string;
-  /** sample documentation*/
+  /** Function that retrieves a Skyflow bearer token from your backend. */
   getBearerToken: () => Promise<string>;
-  /** sample documentation*/
+  /** Additional configuration options. */
   options?: Record<string, any>;
 }
 
@@ -43,17 +43,17 @@ export interface CollectElementInput {
 }
 
 export interface CollectElementProps {
-   /** sample documentation*/
+   /** Table that the data belongs to. */
   table: string;
-   /** sample documentation*/
+   /** Column that the data belongs to. */
   column: string;
-   /** sample documentation*/
+   /** Used to declare the type of container you want to create*/
   container: CollectContainer;
-   /** sample documentation*/
+   /** Label for the element. */
   label?: string;
-   /** sample documentation*/
+   /** Placeholder text for the element. */
   placeholder?: string;
-   /** sample documentation*/
+   /** Input validation rules for the element. */
   validations?: IValidationRule[];
    /** sample documentation*/
   onChange?: Function;
@@ -129,21 +129,21 @@ export interface RevealElementInput {
 }
 
 export interface RevealElementProps {
-   /** sample documentation*/
+   /** The actual data token. */
   token: string;
-   /** sample documentation*/
+   /** The reveal container. */
   container: RevealContainer;
-   /** sample documentation*/
+   /** Label for the form element. */
   label?: string;
-   /** sample documentation*/
+   /** Alternative text for the Reveal Element. */
   altText?: string;
-   /** sample documentation*/
+   /** Styles for the element. */
   inputStyles?: StylesBaseVariant;
-   /** sample documentation*/
+   /** Styles for the element's label. */
   labelStyles?: StylesBaseVariant;
-   /** sample documentation*/
+   /** Styles for the element's error text. */
   errorTextStyles?: StylesBaseVariant;
-   /** sample documentation*/
+   /** Redaction type of the revealed data. */
   redaction?: RedactionType
 }
 
@@ -164,7 +164,7 @@ export interface IRevealResponseType {
 }
 
 /**
- *  sample documentation for ValidationRuleType enum
+ *  Supported validation rule types.
  */
 export enum ValidationRuleType {
   REGEX_MATCH_RULE = 'REGEX_MATCH_RULE',
@@ -237,7 +237,7 @@ export const REQUIRED_MARK_DEFAULT_STYLE = {
 export const ELEMENT_REQUIRED_ASTERISK = ' *';
 
 /**
- *  sample documentation for RedactionType enum
+ *  Supported redaction types.
  */
 export enum RedactionType {
   DEFAULT = 'DEFAULT',

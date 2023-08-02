@@ -11,7 +11,7 @@ import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
 /**
- *  sample documentation for ExpirationDateElement
+ *  Collect Element for capturing expiration date information.
  */
 const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, options, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>();
