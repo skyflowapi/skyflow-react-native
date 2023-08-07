@@ -5,7 +5,7 @@ import type CollectContainer from '../../core/CollectContainer';
 import RevealContainer from '../../core/RevealContainer';
 
 /**
- *  sample documentation for IConfig interface
+ *  Configuration for connecting to the Skyflow vault.
  */
 export interface IConfig {
   /** ID of the vault to connect to. */
@@ -47,7 +47,7 @@ export interface CollectElementProps {
   table: string;
    /** Column that the data belongs to. */
   column: string;
-   /** Used to declare the type of container you want to create*/
+   /** Type of the container. */
   container: CollectContainer;
    /** Label for the element. */
   label?: string;
@@ -55,26 +55,26 @@ export interface CollectElementProps {
   placeholder?: string;
    /** Input validation rules for the element. */
   validations?: IValidationRule[];
-   /** sample documentation*/
+   /** Function to call when the onChange event triggers. */
   onChange?: Function;
-   /** sample documentation*/
+   /** Function to call when the onReady event triggers. */
   onReady?: Function;
-   /** sample documentation*/
+   /** Function to call when the onBlur event triggers. */
   onBlur?: Function;
-   /** sample documentation*/
+   /** Function to call when the onFocus event triggers. */
   onFocus?: Function;
-   /** sample documentation*/
+   /** Additional configuration options. */
   options?: Record<string, any>;
-   /** sample documentation*/
+   /** Styles for the element.*/
   inputStyles?: CollectInputStylesVariant;
-   /** sample documentation*/
+   /** Styles for the element's label. */
   labelStyles?: CollectLabelStylesVariant;
-   /** sample documentation*/
+   /** Styles for the element's error text. */
   errorTextStyles?: StylesBaseVariant;
 }
 
 /**
- *  sample documentation for ElementType enum
+ *  Supported element types.
  */
 export enum ElementType {
   CVV = 'CVV',
@@ -104,7 +104,7 @@ export enum ContentType {
 }
 
 /**
- *  sample documentation for LogLevel enum
+ *  Supported log levels.
  */
 export enum LogLevel {
   WARN = 'WARN',
@@ -114,7 +114,7 @@ export enum LogLevel {
 }
 
 /**
- *  sample documentation for Env enum
+ *  Supported environments.
  */
 export enum Env {
   DEV = 'DEV',

@@ -9,7 +9,7 @@ import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
 /**
- *  Collect Element for capturing pin.
+ *  Element to collect PIN values.
  */
 const PinElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>();
