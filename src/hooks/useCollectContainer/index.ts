@@ -6,7 +6,7 @@ import CollectContainer from '../../core/CollectContainer';
 
 /**
  *  Container for Collect Elements.
- * @returns CollectContainer
+ * @returns Returns the CollectContainer instance.
  */
 const useCollectContainer = () => {
   const skyflowClient = useSkyflowContext();

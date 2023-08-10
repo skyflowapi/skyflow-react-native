@@ -6,7 +6,7 @@ import RevealContainer from '../../core/RevealContainer';
 
 /**
  *  Container for Reveal Elements.
- * @returns RevealContainer
+ * @returns Returns the RevealContainer instance.
  */
 const useRevealContainer = () => {
   const skyflowClient = useSkyflowContext();
