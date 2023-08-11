@@ -14,6 +14,10 @@ const logs = {
     REVEAL_METHOD_INVOKED: 'Invoked reveal method.',
     CURRENT_ENV: '%s1 - Client Env is %s2',
     CURRENT_LOG_LEVEL: '%s1 - Client LogLevel is %s2',
+    EMIT_PURE_JS_REQUEST: '%s1 - Emitted %s2 request.',
+    GET_TRIGGERED: 'get method triggered.',
+    VALIDATE_GET_INPUT: '%s1 - Validating get input.',
+    GET_RESOLVED: 'Interface: client get - get request is resolved.',
   },
   errorLogs: {
     CLIENT_CONNECTION:
@@ -159,6 +163,58 @@ const logs = {
       'Interface: client composable container - options object is required for composable container.',
     INVALID_COMPOSABLE_CONTAINER_OPTIONS:
       'Interface: client composable container - invalid options value, should be an object type.',
+    RECORDS_KEY_NOT_FOUND_GET:
+      'Interface: client get - records object is required.',
+    INVALID_RECORDS_IN_GET:
+      'Interface: client get - Invalid records. records object should be an array.',
+    EMPTY_RECORDS_GET: 'Interface: client get - records array cannot be empty.',
+    MISSING_IDS_IN_GET:
+      'Interface: client get - "ids" key is required in records array at index %s1',
+    INVALID_IDS_IN_GET:
+      'Interface: client get - Invalid ids. ids object should be an array.',
+    INVALID_COLUMN_VALUES_IN_GET:
+      'Interface: client get - Invalid column values. column values object should be an array.',
+    EMPTY_IDS_IN_GET:
+      'Interface: client get - ids array cannot be empty at index %s1',
+    INVALID_SKYFLOWID_TYPE_IN_GET:
+      'Interface: client get - Invalid skyflowId in ids array at index %s1',
+    MISSING_TABLE_IN_GET:
+      'Interface: client get - "table" key is required in records array at index %s1',
+    INVALID_TABLE_IN_GET:
+      'Interface: client get - table of type string is required at index %s1 in records array.',
+    MISSING_REDACTION_IN_GET:
+      'Interface: client get - "redaction" key is required in records array at index %s1',
+    INVALID_REDACTION_TYPE_IN_GET:
+      'Interface: client get - Invalid redaction type in records array at index %s1',
+    INVALID_TOKENS_IN_GET:
+      'Interface: client get - Invalid tokens in options. tokens of type boolean is required.',
+    TOKENS_GET_COLUMN_NOT_SUPPORTED:
+      'Interface: client get - column_name or column_values cannot be used with tokens in options.',
+    REDACTION_WITH_TOKENS_NOT_SUPPORTED:
+      'Interface: client get - redaction cannot be used when tokens are true in options.',
+    EMPTY_SKYFLOWID_IN_GET:
+      'Interface: client get - id cannot be empty in records array at index %s1',
+    EMPTY_TABLE_IN_GET:
+      'Interface: client get - table cannot be empty in records array at index %s1',
+    EMPTY_REDACTION_TYPE_IN_GET:
+      'Interface: client get - redaction cannot be empty in records array at index %s1',
+    INVALID_RECORD_COLUMN_VALUE: 'Invalid Record Column value.',
+    MISSING_RECORD_COLUMN_VALUE:
+      'Column Values is required when Column Name is specified.',
+    MISSING_RECORD_COLUMN_NAME:
+      'Column Name is required when Column Values are specified.',
+    INVALID_RECORD_COLUMN_NAME_TYPE: 'Invalid Type of Records Column Name.',
+    INVALID_RECORD_COLUMN_VALUE_TYPE: 'Invalid Type of Records Column Values.',
+    INVALID_COLUMN_VALUES_TYPE:
+      'Invalid column values type, should be an Array.',
+    EMPTY_RECORD_COLUMN_VALUES: 'Record column values cannot be empty.',
+    EMPTY_COLUMN_VALUE: 'Column Value is empty.',
+    MISSING_IDS_OR_COLUMN_VALUES_IN_GET:
+      'Interface: client get - "ids" key  or "columnValues" key is missing.',
+    SKYFLOW_IDS_AND_COLUMN_NAME_BOTH_SPECIFIED:
+      'ids and columnName can not be specified together.',
+    GET_BY_SKYFLOWID_RESOLVED: '%s1 - GetById request is resolved.',
+    GET_REJECTED: 'Interface: client get - get request is rejected.',
   },
   warnLogs: {
     INVALID_EXPIRATION_DATE_FORMAT:

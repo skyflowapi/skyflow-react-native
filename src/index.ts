@@ -13,6 +13,7 @@ export {
 export { default as useCollectContainer } from './hooks/useCollectContainer';
 export { default as useRevealContainer } from './hooks/useRevealContainer';
 export { default as useComposableContainer } from './hooks/useComposableContainer';
+export { default as useSkyflow } from './hooks/useSkyflow';
 export { default as InputFieldElement } from './components/InputFieldElement';
 export { default as PinElement } from './components/PinElement';
 export { default as CardHolderNameElement } from './components/CardHolderNameElement';
