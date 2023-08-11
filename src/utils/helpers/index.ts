@@ -17,6 +17,28 @@ import { ElementType, MessageType } from '../constants';
 import logs from '../logs';
 import { printLog, parameterizedString } from '../logs-helper';
 
+const getDeviceModel = (Platform: any): string => {
+  if (Platform.OS === 'ios') {
+    return Platform.constants.systemName == "iPadOS" ? "iPad" : "Iphone";
+  } else if (Platform.OS === 'android') {
+    return Platform.constants.Model;
+  }
+  return Platform.OS;
+};
+
+export const getMetaObject = (Platform: any, sdkDetails: any) => {
+  const deviceModel = getDeviceModel(Platform);
+  const osVersion = Platform.Version ?? '';
+  const osName = Platform.OS;
+  const metaObject = {
+    sdk_name_version: `${sdkDetails.name}@${sdkDetails.version}`,
+    sdk_client_device_model: deviceModel,
+    sdk_os_version: `${osName}@${osVersion}`,
+    sdk_runtime_details: `react-native@${sdkDetails.devDependencies["react-native"]}`,
+  };
+  return metaObject;
+}
+
 export const appendZeroToOne = (value) => {
   if (value.length === 1 && Number(value) === 1) {
     return `0${value}`;

@@ -197,6 +197,8 @@ export const REQUIRED_MARK_DEFAULT_STYLE = {
 
 export const ELEMENT_REQUIRED_ASTERISK = ' *';
 
+export const SKY_METADATA_HEADER = 'sky-metadata';
+
 export enum RedactionType {
   DEFAULT = 'DEFAULT',
   PLAIN_TEXT = 'PLAIN_TEXT',
