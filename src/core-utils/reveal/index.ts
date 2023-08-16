@@ -175,6 +175,7 @@ export const fetchRecordsGET = async (
         vaultResponseSet = skyflowIdRecords.map(
           (skyflowIdRecord) =>
             new Promise((resolve, reject) => {
+              const response: any[] = [];
               getRecordsFromVault(
                 skyflowIdRecord,
                 options,
@@ -183,7 +184,6 @@ export const fetchRecordsGET = async (
               )
                 .then(
                   (resolvedResult: any) => {
-                    const response: any[] = [];
                     const recordsData: any[] = resolvedResult.records;
                     recordsData.forEach((fieldData) => {
                       const id = fieldData.fields.skyflow_id;
@@ -197,7 +197,6 @@ export const fetchRecordsGET = async (
                       delete currentRecord.fields.skyflow_id;
                       response.push(currentRecord);
                     });
-                    resolve(response);
                   },
                   (rejectedResult) => {
                     let errorResponse = rejectedResult;
@@ -218,30 +217,40 @@ export const fetchRecordsGET = async (
                       MessageType.ERROR,
                       LogLevel.ERROR
                     );
-                    reject(errorResponse);
+                    response.push(errorResponse);
                   }
                 )
-                .catch((error) => {
-                  reject(error);
+                .finally(() => {
+                  resolve(response);
                 });
             })
         );
-        Promise.allSettled(vaultResponseSet).then((resultSet) => {
-          const recordsResponse: any[] = [];
-          const errorsResponse: any[] = [];
-          resultSet.forEach((result) => {
-            if (result.status === 'fulfilled') {
-              recordsResponse.push(...result.value);
-            } else {
-              errorsResponse.push(result.reason);
-            }
+
+        Promise.all(vaultResponseSet)
+          .then((resultSet) => {
+            const recordsResponse: Record<string, any>[] = [];
+            const errorResponse: Record<string, any>[] = [];
+            resultSet.forEach((result) => {
+              result.forEach((res: Record<string, any>) => {
+                console.warn('res', res);
+                if (Object.prototype.hasOwnProperty.call(res, 'error')) {
+                  errorResponse.push(res);
+                } else {
+                  recordsResponse.push(res);
+                }
+              });
+            });
+
+            if (errorResponse.length === 0) {
+              rootResolve({ records: recordsResponse });
+            } else if (recordsResponse.length === 0)
+              rootReject({ errors: errorResponse });
+            else
+              rootReject({ records: recordsResponse, errors: errorResponse });
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          if (errorsResponse.length === 0) {
-            rootResolve({ records: recordsResponse });
-          } else if (recordsResponse.length === 0)
-            rootReject({ errors: errorsResponse });
-          else rootReject({ records: recordsResponse, errors: errorsResponse });
-        });
       })
       .catch((err) => {
         rootReject(err);
