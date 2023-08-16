@@ -4,7 +4,6 @@ import {
 } from '../../core-utils/element-validations';
 import { fetchRecordsGET } from '../../core-utils/reveal';
 import {
-  IConfig,
   IGetInput,
   IGetOptions,
   IGetRecord,
@@ -18,23 +17,20 @@ import Skyflow from '../Skyflow';
 const CLASS_NAME = 'SkyflowContainer';
 
 class SkyflowContainer {
-  #config: IConfig;
-
   #skyflowClient: Skyflow;
 
   constructor(skyflowClient: Skyflow) {
     this.#skyflowClient = skyflowClient;
-    this.#config = skyflowClient.getSkyflowConfig();
   }
 
   get(getInput: IGetInput, options: IGetOptions) {
     return new Promise((resolve, reject) => {
-      validateInitConfig(this.#config);
+      validateInitConfig(this.#skyflowClient.getSkyflowConfig());
       try {
         printLog(
           parameterizedString(logs.infoLogs.VALIDATE_GET_INPUT, CLASS_NAME),
           MessageType.LOG,
-          this.#config.options.logLevel
+          this.#skyflowClient.getSkyflowConfig().options.logLevel
         );
 
         validateGetInput(getInput, options);
@@ -45,7 +41,7 @@ class SkyflowContainer {
             PUREJS_TYPES.GET
           ),
           MessageType.LOG,
-          this.#config.options.logLevel
+          this.#skyflowClient.getSkyflowConfig().options.logLevel
         );
 
         fetchRecordsGET(
@@ -57,7 +53,7 @@ class SkyflowContainer {
             printLog(
               parameterizedString(logs.infoLogs.GET_RESOLVED, CLASS_NAME),
               MessageType.LOG,
-              this.#config.options.logLevel
+              this.#skyflowClient.getSkyflowConfig().options.logLevel
             );
 
             resolve(resolvedResult);
@@ -67,20 +63,24 @@ class SkyflowContainer {
               printLog(
                 logs.errorLogs.GET_REJECTED,
                 MessageType.ERROR,
-                this.#config.options.logLevel
+                this.#skyflowClient.getSkyflowConfig().options.logLevel
               );
             } else {
               printLog(
                 parameterizedString(logs.infoLogs.GET_RESOLVED, CLASS_NAME),
                 MessageType.LOG,
-                this.#config.options.logLevel
+                this.#skyflowClient.getSkyflowConfig().options.logLevel
               );
             }
             return reject(rejectedResult);
           }
         );
       } catch (e) {
-        printLog(e.message, MessageType.ERROR, this.#config.options.logLevel);
+        printLog(
+          e.message,
+          MessageType.ERROR,
+          this.#skyflowClient.getSkyflowConfig().options.logLevel
+        );
         reject(e);
       }
     });

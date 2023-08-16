@@ -469,16 +469,16 @@ const getRecordColumn = {
 const optionsFalse = { tokens: false };
 const optionsTrue = { tokens: true };
 
-const getSuccessRecord = {
-  fields: {
-    cvv: 123,
-    id: 'id1',
-    name: 'name',
-  },
-  table: 'pii_fields',
+const invalidGetRequest = {
+  records: [
+    {
+      ids: ['invalid_id1'],
+      table: 'pii_fields',
+    },
+  ],
 };
 
-const getErrorRecord = {
+const getErrorResponse = {
   error: {
     code: 404,
     description: 'No records found requestId - 3wq45w8-2fni-33fd-vt62-3rdsbe45',
@@ -486,10 +486,14 @@ const getErrorRecord = {
   ids: ['id1'],
 };
 
-const invalidGetRequest = {
+const getSuccessResponse = {
   records: [
     {
-      ids: ['id1'],
+      fields: {
+        cvv: 123,
+        id: 'id1',
+        name: 'name',
+      },
       table: 'pii_fields',
     },
   ],
@@ -523,6 +527,10 @@ describe('fetchRecordGET fn test', () => {
   });
 
   it('should reject promise in case of error', (done) => {
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.reject(getErrorResponse),
+    }));
+
     const testSkyflowClient = new Skyflow({
       vaultID: '1234',
       vaultURL: 'https://url.com',
@@ -533,16 +541,16 @@ describe('fetchRecordGET fn test', () => {
       .spyOn(testSkyflowClient, 'getAccessToken')
       .mockResolvedValue('valid token');
 
-    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
-      request: () => Promise.reject({ error: getErrorRecord }),
-    }));
-
     fetchRecordsGET(testSkyflowClient, invalidGetRequest.records, optionsTrue)
       .then(
         (res) => {},
         (err) => {
           expect(err.errors.length).toBe(1);
           expect(err.records).toBe(undefined);
+          expect(err.errors[0].error.code).toBe(404);
+          expect(err.errors[0].error.description).toBe(
+            getErrorResponse.error.description
+          );
           done();
         }
       )
@@ -552,6 +560,10 @@ describe('fetchRecordGET fn test', () => {
   });
 
   it('should give success reponse in case of success', (done) => {
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => new Promise.resolve(getSuccessResponse),
+    }));
+
     const testSkyflowClient = new Skyflow({
       vaultID: '1234',
       vaultURL: 'https://url.com',
@@ -561,11 +573,6 @@ describe('fetchRecordGET fn test', () => {
     jest
       .spyOn(testSkyflowClient, 'getAccessToken')
       .mockResolvedValue('valid token');
-
-    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
-      request: () =>
-        Promise.resolve({ records: [getSuccessRecord, getSuccessRecord] }),
-    }));
 
     fetchRecordsGET(
       testSkyflowClient,
@@ -577,6 +584,46 @@ describe('fetchRecordGET fn test', () => {
         expect(res.records.length).toBe(2);
         done();
       })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should reject promise in case of partial success', (done) => {
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (requestInput) => {
+        return new Promise((resolve, reject) => {
+          if (requestInput.url.includes('column_name=column-name'))
+            resolve(getSuccessResponse);
+          else reject(getErrorResponse);
+        });
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    const getRequestRecords = [
+      { ...invalidGetRequest.records[0] },
+      getRecordColumn,
+    ];
+
+    fetchRecordsGET(testSkyflowClient, getRequestRecords, optionsFalse)
+      .then(
+        (res) => {},
+        (err) => {
+          expect(err.errors.length).toBe(1);
+          expect(err.records.length).toBe(1);
+          done();
+        }
+      )
       .catch((err) => {
         done(err);
       });

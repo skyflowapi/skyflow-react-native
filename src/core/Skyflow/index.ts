@@ -3,20 +3,12 @@
 */
 import Client from '../../core-utils/client';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import {
-  Env,
-  IConfig,
-  IGetInput,
-  IGetOptions,
-  LogLevel,
-  MessageType,
-} from '../../utils/constants';
+import { Env, IConfig, LogLevel, MessageType } from '../../utils/constants';
 import isTokenValid from '../../utils/jwt-utils';
 import logs from '../../utils/logs';
 import { printLog, parameterizedString } from '../../utils/logs-helper';
 import SkyflowError from '../../utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
-// import SkyflowContainer from '../SkyflowContainer';
 
 const CLASS_NAME = 'Skyflow';
 
