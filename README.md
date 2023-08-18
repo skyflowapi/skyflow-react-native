@@ -1118,7 +1118,7 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
       ]
     }
     ```
-  An Example og Get call to fetch records
+  An Example of Get call to fetch records
 
   ```js
   const skyflowContainer = useSkyflow();
@@ -1127,8 +1127,8 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
     records: [
       {
         ids: [
-          'f8d8a622-b557-4c6b-a12c-c5ebe0b0bfd9',
-          'da26de53-95d5-4bdb-99db-8d8c66a35ff9',
+          'h4f5k569-c577-8o1j-r91c-x9gfd0b0fd9',
+          'fa27dj53-95d5-1bdb-55db-8e8c11a36ff9',
         ],
         table: 'cards',
         redaction: RedactionType.PLAIN_TEXT,
@@ -1158,10 +1158,10 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
   skyflowContainer
     .get(getRequestInput, options)
     .then((response) => {
-      console.log(JSON.parse(response));
+      console.log(JSON.stringify(response));
     })
     .catch((err) => {
-      console.error(JSON.parse(err));
+      console.error(JSON.stringify(err));
     });
   ```
 
@@ -1174,7 +1174,7 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
           "card_number": "4111111111111111",
           "expiry_date": "11/35",
           "fullname": "myname",
-          "id": "f8d8a622-b557-4c6b-a12c-c5ebe0b0bfd9"
+          "id": "h4f5k569-c577-8o1j-r91c-x9gfd0b0fd9"
         },
         "table": "cards"
       },
@@ -1183,7 +1183,7 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
           "card_number": "4111111111111111",
           "expiry_date": "10/23",
           "fullname": "sam",
-          "id": "da26de53-95d5-4bdb-99db-8d8c66a35ff9"
+          "id": "fa27dj53-95d5-1bdb-55db-8e8c11a36ff9"
         },
         "table": "cards"
       },
@@ -1192,7 +1192,7 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
           "card_number": "4111111111111111",
           "email": "john@doe@gmail.com",
           "name": "john",
-          "id": "f8d8a622-b557-4c6b-a12c-c5ebe0b0bfd9"
+          "id": "s74ik950-c577-8o1j-r91c-x9gf7bh0fd9"
         },
         "table": "customers"
       },
@@ -1201,7 +1201,7 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
           "card_number": "4111111111111111",
           "email": "jane@doe@gmail.com",
           "name": "jane",
-          "id": "f8d8a622-b557-4c6b-a12c-c5ebe0b0bfd9"
+          "id": "z7a9k950-c783-80aj-r91c-x9gf7bh0ff9"
         },
         "table": "customers"
       }
@@ -1220,7 +1220,6 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
           "description": "No Records Found"
         },
         "columnName": "email",
-        "columnValues": ["invalid column value"],
       }
     ]
   }
@@ -1234,8 +1233,8 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
     records: [
       {
         ids: [
-          'f8d8a622-b557-4c6b-a12c-c5ebe0b0bfd9',
-          'da26de53-95d5-4bdb-99db-8d8c66a35ff9',
+          'h4f5k569-c577-8o1j-r91c-x9gfd0b0fd9',
+          'fa27dj53-95d5-1bdb-55db-8e8c11a36ff9',
         ],
         table: 'cards',
       },
@@ -1251,10 +1250,10 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
   skyflowContainer
     .get(getRequestInput, options)
     .then((response) => {
-      console.log(JSON.parse(response));
+      console.log(JSON.stringify(response));
     })
     .catch((err) => {
-      console.error(JSON.parse(err));
+      console.error(JSON.stringify(err));
     });
   ```
 
@@ -1267,7 +1266,7 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
           "card_number": "9802-3257-3113-0294",
           "expiry_date": "45012507-f72b-4f5c-9bf9-86b133bae719",
           "fullname": "131e2507-f72b-4f5c-9bf9-86b133bae719",
-          "id": "f8d8a622-b557-4c6b-a12c-c5ebe0b0bfd9",
+          "id": "h4f5k569-c577-8o1j-r91c-x9gfd0b0fd9",
         },
         "table": "cards"
       },
@@ -1276,7 +1275,7 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
           "card_number": "0294-3213-3157-9802",
           "expiry_date": "131e2507-f72b-4f5c-9bf9-86b133bae719",
           "fullname": "45012507-f72b-4f5c-9bf9-86b133bae719",
-          "id": "da26de53-95d5-4bdb-99db-8d8c66a35ff9"
+          "id": "fa27dj53-95d5-1bdb-55db-8e8c11a36ff9"
         },
         "table": "cards"
       }

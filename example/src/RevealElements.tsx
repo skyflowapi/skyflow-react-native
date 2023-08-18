@@ -24,7 +24,9 @@ const RevealElements = (props) => {
       .catch(err => {
         console.error('Reveal Failed', JSON.stringify(err));
       });
+  };
 
+  const handleGet = () =>{
     const getRecord1 = {
       ids: [
         '<SKYFLOW_ID_1>',
@@ -112,6 +114,9 @@ const RevealElements = (props) => {
       />
       <View style={buttonStyles.button}>
         <Button title='Reveal' onPress={handleReveal} />
+      </View>
+      <View style={buttonStyles.button}>
+        <Button title='Get method' onPress={handleGet} />
       </View>
       <View style={buttonStyles.button}>
         <Button
