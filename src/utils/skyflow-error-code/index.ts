@@ -254,6 +254,110 @@ const SKYFLOW_ERROR_CODE = {
     code: 400,
     description: logs.errorLogs.INVALID_COMPOSABLE_CONTAINER_OPTIONS,
   },
+  INVALID_TOKENS_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_TOKENS_IN_GET,
+  },
+  RECORDS_KEY_NOT_FOUND_GET: {
+    code: 400,
+    description: logs.errorLogs.RECORDS_KEY_NOT_FOUND_GET,
+  },
+  INVALID_RECORDS_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_RECORDS_IN_GET,
+  },
+  TOKENS_GET_COLUMN_NOT_SUPPORTED: {
+    code: 400,
+    description: logs.errorLogs.TOKENS_GET_COLUMN_NOT_SUPPORTED,
+  },
+  REDACTION_WITH_TOKENS_NOT_SUPPORTED: {
+    code: 400,
+    description: logs.errorLogs.REDACTION_WITH_TOKENS_NOT_SUPPORTED,
+  },
+  EMPTY_RECORDS_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_RECORDS_GET,
+  },
+  EMPTY_IDS_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_IDS_IN_GET,
+  },
+  INVALID_IDS_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_IDS_IN_GET,
+  },
+  EMPTY_SKYFLOWID_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_SKYFLOWID_IN_GET,
+  },
+  INVALID_SKYFLOWID_TYPE_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_SKYFLOWID_TYPE_IN_GET,
+  },
+  MISSING_TABLE_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.MISSING_TABLE_IN_GET,
+  },
+  EMPTY_TABLE_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_TABLE_IN_GET,
+  },
+  INVALID_TABLE_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_TABLE_IN_GET,
+  },
+  MISSING_REDACTION_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.MISSING_REDACTION_IN_GET,
+  },
+  EMPTY_REDACTION_TYPE_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_REDACTION_TYPE_IN_GET,
+  },
+  INVALID_REDACTION_TYPE_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_REDACTION_TYPE_IN_GET,
+  },
+  SKYFLOW_IDS_AND_COLUMN_NAME_BOTH_SPECIFIED: {
+    code: 400,
+    description: logs.errorLogs.SKYFLOW_IDS_AND_COLUMN_NAME_BOTH_SPECIFIED,
+  },
+  MISSING_IDS_OR_COLUMN_VALUES_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.MISSING_IDS_OR_COLUMN_VALUES_IN_GET,
+  },
+  MISSING_RECORD_COLUMN_VALUE: {
+    code: 400,
+    description: logs.errorLogs.MISSING_RECORD_COLUMN_VALUE,
+  },
+  EMPTY_RECORD_COLUMN_VALUES: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_RECORD_COLUMN_VALUES,
+  },
+  INVALID_COLUMN_VALUES_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_COLUMN_VALUES_IN_GET,
+  },
+  MISSING_RECORD_COLUMN_NAME: {
+    code: 400,
+    description: logs.errorLogs.MISSING_RECORD_COLUMN_NAME,
+  },
+  INVALID_RECORD_COLUMN_VALUE: {
+    code: 400,
+    description: logs.errorLogs.INVALID_RECORD_COLUMN_VALUE,
+  },
+  EMPTY_COLUMN_VALUE: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_COLUMN_VALUE,
+  },
+  INVALID_RECORD_COLUMN_VALUE_TYPE: {
+    code: 400,
+    description: logs.errorLogs.INVALID_RECORD_COLUMN_VALUE_TYPE,
+  },
+  INVALID_RECORD_COLUMN_NAME_TYPE: {
+    code: 400,
+    description: logs.errorLogs.INVALID_RECORD_COLUMN_NAME_TYPE,
+  },
 };
 
 export default SKYFLOW_ERROR_CODE;

@@ -16,17 +16,23 @@ class Skyflow {
   #client: Client;
   #config: IConfig;
   #bearerToken: string = '';
+  #logLevel: LogLevel;
+  #env: Env;
 
   constructor(config: IConfig) {
     this.#client = new Client();
+    this.#logLevel = config?.options?.logLevel || LogLevel.ERROR;
+    this.#env = config?.options?.env || Env.PROD;
+
     const options = {
-      logLevel: config?.options?.logLevel || LogLevel.ERROR,
-      env: config?.options?.env || Env.PROD,
+      logLevel: this.#logLevel,
+      env: this.#env,
     };
     this.#config = {
       ...config,
       options,
     };
+
     printLog(
       parameterizedString(
         logs.infoLogs.CURRENT_ENV,

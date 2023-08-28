@@ -33,7 +33,7 @@ export interface CollectElementInput {
   inputStyles?: CollectInputStylesVariant;
   labelStyles?: CollectLabelStylesVariant;
   errorTextStyles?: StylesBaseVariant;
-  containerType?:string;
+  containerType?: string;
 }
 
 export interface CollectElementProps {
@@ -51,7 +51,7 @@ export interface CollectElementProps {
   inputStyles?: CollectInputStylesVariant;
   labelStyles?: CollectLabelStylesVariant;
   errorTextStyles?: StylesBaseVariant;
-  containerMethods?: Record<any,any>;
+  containerMethods?: Record<any, any>;
 }
 
 export enum ElementType {
@@ -97,7 +97,7 @@ export interface RevealElementInput {
   token: string;
   label?: string;
   altText?: string;
-  redaction?: RedactionType
+  redaction?: RedactionType;
 }
 
 export interface RevealElementProps {
@@ -108,7 +108,7 @@ export interface RevealElementProps {
   inputStyles?: StylesBaseVariant;
   labelStyles?: StylesBaseVariant;
   errorTextStyles?: StylesBaseVariant;
-  redaction?: RedactionType
+  redaction?: RedactionType;
 }
 
 export enum MessageType {
@@ -119,7 +119,7 @@ export enum MessageType {
 
 export interface IRevealRecord {
   token: string;
-  redaction?: RedactionType
+  redaction?: RedactionType;
 }
 
 export interface IRevealResponseType {
@@ -208,4 +208,24 @@ export enum ContainerType {
   COLLECT = 'COLLECT',
   REVEAL = 'REVEAL',
   COMPOSABLE = 'COMPOSABLE',
+}
+
+export const PUREJS_TYPES = {
+  GET: 'GET',
+};
+
+export interface IGetRecord {
+  ids?: string[];
+  redaction?: RedactionType;
+  table: string;
+  columnName?: string;
+  columnValues?: string[];
+}
+
+export interface IGetInput {
+  records: IGetRecord[];
+}
+
+export interface IGetOptions {
+  tokens?: Boolean;
 }

@@ -5,6 +5,7 @@ import Skyflow from '../../src/core/Skyflow';
 import {
   formatRecordsForClient,
   formatRecordsForIframe,
+  fetchRecordsGET,
   fetchRecordsByTokenId,
 } from '../../src/core-utils/reveal';
 import * as ClientModule from '../../src/core-utils/client';
@@ -446,6 +447,183 @@ describe('test fetchRecordsByTokenId', () => {
         });
         done();
       })
+      .catch((err) => {
+        done(err);
+      });
+  });
+});
+
+const getRecordID = {
+  ids: ['id1'],
+  table: 'pii_fields',
+  redaction: RedactionType.PLAIN_TEXT,
+};
+
+const getRecordColumn = {
+  table: 'pii_fields',
+  redaction: RedactionType.PLAIN_TEXT,
+  columnName: 'column-name',
+  columnValues: ['value1'],
+};
+
+const optionsFalse = { tokens: false };
+const optionsTrue = { tokens: true };
+
+const invalidGetRequest = {
+  records: [
+    {
+      ids: ['invalid_id1'],
+      table: 'pii_fields',
+    },
+  ],
+};
+
+const getErrorResponse = {
+  error: {
+    code: 404,
+    description: 'No records found requestId - 3wq45w8-2fni-33fd-vt62-3rdsbe45',
+  },
+  ids: ['id1'],
+};
+
+const getSuccessResponse = {
+  records: [
+    {
+      fields: {
+        cvv: 123,
+        id: 'id1',
+        name: 'name',
+      },
+      table: 'pii_fields',
+    },
+  ],
+};
+
+describe('fetchRecordGET fn test', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
+
+  it('should throw error for invalid access token', (done) => {
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.reject('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockRejectedValue('Invalid Access Token');
+
+    fetchRecordsGET(
+      testSkyflowClient,
+      [getRecordID, getRecordColumn],
+      optionsFalse
+    ).catch((err) => {
+      expect(err).toEqual('Invalid Access Token');
+      done();
+    });
+  });
+
+  it('should reject promise in case of error', (done) => {
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.reject(getErrorResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, invalidGetRequest.records, optionsTrue)
+      .then(
+        (res) => {},
+        (err) => {
+          expect(err.errors.length).toBe(1);
+          expect(err.records).toBe(undefined);
+          expect(err.errors[0].error.code).toBe(404);
+          expect(err.errors[0].error.description).toBe(
+            getErrorResponse.error.description
+          );
+          done();
+        }
+      )
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should give success reponse in case of success', (done) => {
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => new Promise.resolve(getSuccessResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(
+      testSkyflowClient,
+      [getRecordID, getRecordColumn],
+      optionsFalse
+    )
+      .then((res) => {
+        expect(res.errors).toBe(undefined);
+        expect(res.records.length).toBe(2);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should reject promise in case of partial success', (done) => {
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (requestInput) => {
+        return new Promise((resolve, reject) => {
+          if (requestInput.url.includes('column_name=column-name'))
+            resolve(getSuccessResponse);
+          else reject(getErrorResponse);
+        });
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    const getRequestRecords = [
+      { ...invalidGetRequest.records[0] },
+      getRecordColumn,
+    ];
+
+    fetchRecordsGET(testSkyflowClient, getRequestRecords, optionsFalse)
+      .then(
+        (res) => {},
+        (err) => {
+          expect(err.errors.length).toBe(1);
+          expect(err.records.length).toBe(1);
+          done();
+        }
+      )
       .catch((err) => {
         done(err);
       });
