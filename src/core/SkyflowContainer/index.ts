@@ -23,7 +23,7 @@ class SkyflowContainer {
     this.#skyflowClient = skyflowClient;
   }
 
-  get(getInput: IGetInput, options: IGetOptions) {
+  get(getInput: IGetInput, options?: IGetOptions) {
     return new Promise((resolve, reject) => {
       validateInitConfig(this.#skyflowClient.getSkyflowConfig());
       try {
