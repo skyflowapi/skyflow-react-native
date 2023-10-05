@@ -31,6 +31,7 @@ const formatForPureJsSuccess = (
   return currentResponseRecords.map((record) => ({
     token: record.token,
     value: record.value,
+    valueType: record?.valueType,
     elementId,
   }));
 };
@@ -168,6 +169,7 @@ export const formatRecordsForClient = (response: IRevealResponseType) => {
   if (response.records) {
     const successRecords = response.records.map((record) => ({
       token: record.token,
+      valueType: record.valueType,
     }));
     if (errorRecords) return { success: successRecords, errors: errorRecords };
     return { success: successRecords };
