@@ -59,11 +59,29 @@ describe('test RevealConatiner Class', () => {
       });
   });
   it('test reveal method partial success', (done) => {
+    const setValueMock = jest.fn();
+    const setErrorMock = jest.fn();
+    const setValueMock2 = jest.fn();
+    const setErrorMock2 = jest.fn();
+
+    const revealElement1 = revealContainer.create({
+      token: 'random_token',
+      elementId: '123',
+    });
+    revealElement1.setMethods(setValueMock, setErrorMock);
+    const revealElement2 = revealContainer.create({
+      token: 'invalid_token',
+      elementId: '456',
+    });
+    revealElement2.setMethods(setValueMock2, setErrorMock2);
+
     const revealFailedVaule = {
       records: [
         {
           token: 'random_token',
           value: 'test_value',
+          valueType: 'STRING',
+          elementId: revealElement1.elementId,
         },
       ],
       errors: [
@@ -79,15 +97,7 @@ describe('test RevealConatiner Class', () => {
     jest
       .spyOn(revealUtils, 'fetchRecordsByTokenId')
       .mockRejectedValue(revealFailedVaule);
-    const setValueMock = jest.fn();
-    const setErrorMock = jest.fn();
-    const setValueMock2 = jest.fn();
-    const setErrorMock2 = jest.fn();
 
-    const revealElement1 = revealContainer.create({ token: 'random_token' });
-    revealElement1.setMethods(setValueMock, setErrorMock);
-    const revealElement2 = revealContainer.create({ token: 'invalid_token' });
-    revealElement2.setMethods(setValueMock2, setErrorMock2);
     revealContainer
       .reveal()
       .then((res) => {
@@ -100,7 +110,7 @@ describe('test RevealConatiner Class', () => {
           expect(setErrorMock2).toHaveBeenCalledTimes(1);
           expect(setValueMock2).toBeCalledTimes(0);
           expect(err).toEqual({
-            success: [{ token: 'random_token' }],
+            success: [{ token: 'random_token', valueType: 'STRING' }],
             errors: revealFailedVaule.errors,
           });
           done();
