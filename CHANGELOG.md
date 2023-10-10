@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2023-10-10
+### Added
+- reveal support for signed data tokens.
+- `valueType` in reveal response.
+### Fixed
+- removed trimming of spaces in event listeners state value.
+## [1.4.0] - 2023-06-30
+### Added
+- Composable elements support.
 ## [1.3.0] - 2023-06-07
 ### Added
 -   `redaction` prop in reveal element component.

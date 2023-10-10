@@ -1208,7 +1208,8 @@ export default App;
 {
   "success": [
     {
-      "token": "b63ec4e0-bbad-4e43-96e6-6bd50f483f75"
+      "token": "b63ec4e0-bbad-4e43-96e6-6bd50f483f75",
+      "valueType": "STRING"
     }
   ],
   "errors": [
