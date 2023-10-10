@@ -122,19 +122,26 @@ export const getReturnValue = (
   elementType: ElementType,
   cardType?: CardType
 ) => {
-  value = value && value.replace(/\s/g, '');
-  if (doesReturnValue) {
-    return value;
-  }
-  if (elementType === ElementType.CARD_NUMBER && !doesReturnValue) {
-    const threshold =
-      cardType !== CardType.DEFAULT && cardType === CardType.AMEX ? 6 : 8;
-    if (value.length > threshold) {
-      return value.replace(
-        new RegExp(`.(?=.{0,${value?.length - threshold - 1}}$)`, 'g'),
-        'X'
-      );
+  if (typeof value === 'string') {
+    if (elementType === ElementType.CARD_NUMBER) {
+      value = value && value.replace(/\s/g, '');
+      if (!doesReturnValue) {
+        const threshold =
+          cardType !== CardType.DEFAULT && cardType === CardType.AMEX ? 6 : 8;
+        if (value.length > threshold) {
+          return value.replace(
+            new RegExp(`.(?=.{0,${value?.length - threshold - 1}}$)`, 'g'),
+            'X'
+          );
+        }
+        return value;
+      }
+      return value;
     }
+    if (doesReturnValue) {
+      return value;
+    }
+  } else {
     return value;
   }
   return '';
