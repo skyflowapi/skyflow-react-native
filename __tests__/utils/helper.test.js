@@ -116,6 +116,16 @@ describe('test getReturnValue function', () => {
   it('should return whole value when return value is true', () => {
     expect(getReturnValue('4111', true, ElementType.PIN)).toBe('4111');
   });
+
+  it('should return whole card number value when return value is true', () => {
+    expect(
+      getReturnValue('4111 1111 1111 1111', true, ElementType.CARD_NUMBER)
+    ).toBe('4111111111111111');
+  });
+
+  it('should return non string value when return value is true', () => {
+    expect(getReturnValue(1000, true, ElementType.INPUT_FIELD)).toBe(1000);
+  });
   it('should return empty string when return value is false,not a card element', () => {
     expect(getReturnValue('4111', false, ElementType.PIN)).toBe('');
   });
