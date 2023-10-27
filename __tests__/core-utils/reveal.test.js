@@ -14,7 +14,9 @@ import { RedactionType } from '../../src/utils/constants';
 describe('formatRecordsForClient fn test', () => {
   it('only success records', () => {
     const testInput = {
-      records: [{ token: '7402-2242-2342-232', value: '231' }],
+      records: [
+        { token: '7402-2242-2342-232', value: '231', valueType: 'STRING' },
+      ],
     };
     const fnResponse = formatRecordsForClient(testInput, {
       '7402-2242-2342-232': '231',
@@ -50,10 +52,12 @@ describe('formatRecordsForIframe fn test', () => {
 
   it('with records should return token value object', () => {
     const testInput = {
-      records: [{ token: '7823-323-242-2232', value: 'token_value' }],
+      records: [
+        { token: '7823-323-242-2232', value: 'token_value', elementId: '7823' },
+      ],
     };
     const fnResponse = formatRecordsForIframe(testInput);
-    expect(fnResponse).toStrictEqual({ '7823-323-242-2232': 'token_value' });
+    expect(fnResponse).toStrictEqual({ 7823: 'token_value' });
   });
 });
 

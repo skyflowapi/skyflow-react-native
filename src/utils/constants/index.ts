@@ -98,6 +98,7 @@ export interface RevealElementInput {
   label?: string;
   altText?: string;
   redaction?: RedactionType;
+  elementId?: string;
 }
 
 export interface RevealElementProps {
@@ -120,6 +121,7 @@ export enum MessageType {
 export interface IRevealRecord {
   token: string;
   redaction?: RedactionType;
+  elementId?: string;
 }
 
 export interface IRevealResponseType {

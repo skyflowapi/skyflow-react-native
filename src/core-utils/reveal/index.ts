@@ -25,15 +25,20 @@ interface IApiSuccessResponse {
   ];
 }
 
-const formatForPureJsSuccess = (response: IApiSuccessResponse) => {
+const formatForPureJsSuccess = (
+  response: IApiSuccessResponse,
+  elementId: string
+) => {
   const currentResponseRecords = response.records;
   return currentResponseRecords.map((record) => ({
     token: record.token,
     value: record.value,
+    valueType: record?.valueType,
+    elementId,
   }));
 };
 
-const formatForPureJsFailure = (cause, tokenId: string) => ({
+const formatForPureJsFailure = (cause, tokenId: string, elementId: string) => ({
   token: tokenId,
   ...new SkyflowError(
     {
@@ -43,6 +48,7 @@ const formatForPureJsFailure = (cause, tokenId: string) => ({
     [],
     true
   ),
+  elementId,
 });
 
 const getTokenRecordsFromVault = (
@@ -88,13 +94,17 @@ export const fetchRecordsByTokenId = (
               )
                 .then(
                   (response: IApiSuccessResponse) => {
-                    const fieldsData = formatForPureJsSuccess(response);
+                    const fieldsData = formatForPureJsSuccess(
+                      response,
+                      tokenRecord.elementId
+                    );
                     apiResponse.push(...fieldsData);
                   },
                   (cause: any) => {
                     const errorData = formatForPureJsFailure(
                       cause,
-                      tokenRecord.token
+                      tokenRecord.token,
+                      tokenRecord.elementId
                     );
                     printLog(
                       errorData.error?.description || '',
@@ -144,22 +154,29 @@ export const formatRecordsForIframe = (response: IRevealResponseType) => {
   const result: Record<string, string> = {};
   if (response.records) {
     response.records.forEach((record) => {
-      result[record.token] = record.value;
+      result[record.elementId] = record.value;
     });
   }
   return result;
 };
 
 export const formatRecordsForClient = (response: IRevealResponseType) => {
+  let errorRecords;
+  if (response?.errors) {
+    errorRecords = response?.errors?.map((currentError) => ({
+      token: currentError?.token,
+      error: currentError?.error,
+    }));
+  }
   if (response.records) {
     const successRecords = response.records.map((record) => ({
       token: record.token,
+      valueType: record.valueType,
     }));
-    if (response.errors)
-      return { success: successRecords, errors: response.errors };
+    if (errorRecords) return { success: successRecords, errors: errorRecords };
     return { success: successRecords };
   }
-  return { errors: response.errors };
+  return { errors: errorRecords };
 };
 
 export const fetchRecordsGET = async (

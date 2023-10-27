@@ -24,6 +24,7 @@ import { parameterizedString, printLog } from '../../utils/logs-helper';
 import Container from '../Container';
 import RevealSkyflowElement from '../RevealSkyflowElement';
 import Skyflow from '../Skyflow';
+import uuid from 'react-native-uuid';
 
 const CLASS_NAME = 'RevealContainer';
 
@@ -44,12 +45,17 @@ class RevealContainer extends Container {
   }
 
   create(revealInput: RevealElementInput) {
+    const revealElementId = uuid.v4() as string;
     this.#revealRecords.push(revealInput);
     this.#tokensList.push({
       token: revealInput.token,
       redaction: revealInput?.redaction,
+      elementId: revealElementId,
     });
-    const element = new RevealSkyflowElement(revealInput);
+    const element = new RevealSkyflowElement({
+      ...revealInput,
+      elementId: revealElementId,
+    });
     this.#elementList.push(element);
     return element;
   }
@@ -105,9 +111,9 @@ class RevealContainer extends Container {
   private setRevealValuesInElements(revealedResult) {
     this.#elementList.forEach((current) => {
       if (
-        Object.prototype.hasOwnProperty.call(revealedResult, current.getToken())
+        Object.prototype.hasOwnProperty.call(revealedResult, current.elementId)
       ) {
-        const revealedValue = revealedResult[current.getToken()];
+        const revealedValue = revealedResult[current.elementId];
         current.setRevealValue(revealedValue);
       } else {
         current.setError();

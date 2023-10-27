@@ -10,10 +10,12 @@ class RevealSkyflowElement extends SkyflowElement {
   #token: string;
   setRevealValue: Function;
   #setErrorText: Function;
+  elementId: string;
 
   constructor(revealInput: RevealElementInput) {
     super();
     this.#token = revealInput.token;
+    this.elementId = revealInput.elementId;
   }
 
   setMethods(setValue, setErrorText) {
