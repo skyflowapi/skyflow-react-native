@@ -1,10 +1,13 @@
 /*
  Copyright (c) 2022 Skyflow, Inc.
 */
-import { ContentType } from '../../utils/constants';
+import { ContentType, SKY_METADATA_HEADER } from '../../utils/constants';
 import logs from '../../utils/logs';
 import SkyflowError from '../../utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
+import { getMetaObject } from '../../utils/helpers';
+import { Platform } from 'react-native';
+import sdkDetails from '../../../package.json';
 
 export interface IClientRequest {
   body?: any;
@@ -35,6 +38,8 @@ class Client {
       httpRequest.open(request.requestMethod, request.url);
 
       if (request.headers) {
+        const metaDataObject = getMetaObject(Platform, sdkDetails);
+        request.headers[SKY_METADATA_HEADER] = JSON.stringify(metaDataObject);
         const { headers } = request;
         Object.keys(request.headers).forEach((key) => {
           if (
