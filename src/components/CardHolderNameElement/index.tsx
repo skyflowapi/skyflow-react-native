@@ -1,27 +1,36 @@
 /*
  Copyright (c) 2022 Skyflow, Inc.
 */
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
-import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE } from "../../utils/constants";
+import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE, ContainerType } from "../../utils/constants";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
+import uuid from 'react-native-uuid';
 
 /**
  *  Element to collect cardholder names.
  */
 const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>();
+    const [elementValue, setElementValue] = React.useState<string>('');
     const [errorText, setErrorText] = React.useState<string>('');
     const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
     const [inputStyles, setInputStyles] = React.useState(rest?.inputStyles?.base || {});
+    const textInputRef = useRef();
+    const uniqueElementID = useRef(uuid.v4() as string);
 
     useEffect(() => {
         if (container) {
-            const element: CollectElement = container.create({ ...rest, type: ElementType.CARDHOLDER_NAME }, options);
+            const element: CollectElement = container.create({ ...rest, type: ElementType.CARDHOLDER_NAME, containerType: container.type }, options);
             setElement(element);
-            element.setMethods(setErrorText, { setInputStyles: setInputStyles, setLabelStyles: setLabelStyles });
+            if (container.type === ContainerType.COLLECT)
+                element.setMethods(setErrorText, { setInputStyles: setInputStyles, setLabelStyles: setLabelStyles });
+            else if (container.type === ContainerType.COMPOSABLE) {
+                element.setMethods(rest.containerMethods.setErrorText, { setInputStyles: setInputStyles, setLabelStyles: setLabelStyles })
+                rest.containerMethods.setRef(textInputRef, uniqueElementID.current);
+            }
             if (rest.onReady) {
                 rest.onReady(element.getClientState());
             }
@@ -32,17 +41,20 @@ const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, optio
 
     return (<View>
         {
-            rest.label && ( <Text style={labelStyles}>
+            rest.label && (<Text style={labelStyles}>
                 {rest.label}
-                <Text style={{ ...REQUIRED_MARK_DEFAULT_STYLE, ...rest?.labelStyles?.requiredAsterisk } }>
+                <Text style={{ ...REQUIRED_MARK_DEFAULT_STYLE, ...rest?.labelStyles?.requiredAsterisk }}>
                     {options.required ? ELEMENT_REQUIRED_ASTERISK : ''}
                 </Text>
             </Text>)
         }
         <TextInput
+            ref={textInputRef}
+            value={elementValue}
             placeholder={rest.placeholder}
             onChangeText={(text) => {
                 element?.onChangeElement(text)
+                setElementValue(element.getInternalState().value)
             }}
             onFocus={() => {
                 element?.onFocusElement()
@@ -51,13 +63,24 @@ const CardHolderNameElement: React.FC<CollectElementProps> = ({ container, optio
             }}
             onBlur={() => {
                 element?.onBlurElement();
-                setErrorText(element?.getErrorText() || '');
+                if (container.type === ContainerType.COLLECT) {
+                    setErrorText(element?.getErrorText() || '');
+                } else if (container.type === ContainerType.COMPOSABLE) {
+                    rest.containerMethods.setErrorText(element?.getErrorText() || '')
+                }
+                setElementValue(element.getInternalState().value);
                 setLabelStyles(element.updateLabelStyles());
                 setInputStyles(element.updateInputStyles());
             }}
             style={inputStyles}
         />
-        <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
+
+        {
+            container && container?.type === ContainerType.COLLECT
+            &&
+            <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
+        }
+
     </View>);
 }
 

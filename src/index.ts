@@ -12,6 +12,7 @@ export {
 } from './utils/constants';
 export { default as useCollectContainer } from './hooks/useCollectContainer';
 export { default as useRevealContainer } from './hooks/useRevealContainer';
+export { default as useComposableContainer } from './hooks/useComposableContainer';
 export { default as InputFieldElement } from './components/InputFieldElement';
 export { default as PinElement } from './components/PinElement';
 export { default as CardHolderNameElement } from './components/CardHolderNameElement';
@@ -21,3 +22,4 @@ export { default as ExpirationYearElement } from './components/ExpirationYearEle
 export { default as ExpirationDateElement } from './components/ExpirationDateElement';
 export { default as CardNumberElement } from './components/CardNumberElement';
 export { default as RevealElement } from './components/RevealElement';
+export { default as ComposableContainer } from './components/ComposableContainer';

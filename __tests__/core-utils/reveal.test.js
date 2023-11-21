@@ -8,11 +8,14 @@ import {
   fetchRecordsByTokenId,
 } from '../../src/core-utils/reveal';
 import * as ClientModule from '../../src/core-utils/client';
+import { RedactionType } from '../../src/utils/constants';
 
 describe('formatRecordsForClient fn test', () => {
   it('only success records', () => {
     const testInput = {
-      records: [{ token: '7402-2242-2342-232', value: '231' }],
+      records: [
+        { token: '7402-2242-2342-232', value: '231', valueType: 'STRING' },
+      ],
     };
     const fnResponse = formatRecordsForClient(testInput, {
       '7402-2242-2342-232': '231',
@@ -48,10 +51,12 @@ describe('formatRecordsForIframe fn test', () => {
 
   it('with records should return token value object', () => {
     const testInput = {
-      records: [{ token: '7823-323-242-2232', value: 'token_value' }],
+      records: [
+        { token: '7823-323-242-2232', value: 'token_value', elementId: '7823' },
+      ],
     };
     const fnResponse = formatRecordsForIframe(testInput);
-    expect(fnResponse).toStrictEqual({ '7823-323-242-2232': 'token_value' });
+    expect(fnResponse).toStrictEqual({ 7823: 'token_value' });
   });
 });
 
@@ -217,6 +222,236 @@ describe('test fetchRecordsByTokenId', () => {
         } catch (error) {
           done(error);
         }
+      });
+  });
+
+  it('test with valid Reveal records and redaction plain text', (done) => {
+    const successResponse = {
+      records: [
+        {
+          token: 'test_token1',
+          value: 'token_value',
+        },
+      ],
+    };
+
+    let requestBody;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        requestBody = args.body;
+        return new Promise.resolve(successResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    const revealResponse = fetchRecordsByTokenId(testSkyflowClient, [
+      { token: 'test_token1', redaction: RedactionType.PLAIN_TEXT },
+    ]);
+    revealResponse
+      .then((res) => {
+        expect(res.records[0].token).toBe(successResponse.records[0].token);
+        const tokenRecords = requestBody.detokenizationParameters;
+        tokenRecords.forEach((record) => {
+          expect(record.token).toBe('test_token1');
+          expect(record.redaction).toBe('PLAIN_TEXT');
+        });
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('test with valid Reveal records and redaction redacted', (done) => {
+    const successResponse = {
+      records: [
+        {
+          token: 'test_token1',
+          value: 'token_value',
+        },
+      ],
+    };
+
+    let requestBody;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        requestBody = args.body;
+        return new Promise.resolve(successResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    const revealResponse = fetchRecordsByTokenId(testSkyflowClient, [
+      { token: 'test_token1', redaction: RedactionType.REDACTED },
+    ]);
+    revealResponse
+      .then((res) => {
+        expect(res.records[0].token).toBe(successResponse.records[0].token);
+        const tokenRecords = requestBody.detokenizationParameters;
+        tokenRecords.forEach((record) => {
+          expect(record.token).toBe('test_token1');
+          expect(record.redaction).toBe('REDACTED');
+        });
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('test with valid Reveal records and redaction masked', (done) => {
+    const successResponse = {
+      records: [
+        {
+          token: 'test_token1',
+          value: 'token_value',
+        },
+      ],
+    };
+
+    let requestBody;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        requestBody = args.body;
+        return new Promise.resolve(successResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    const revealResponse = fetchRecordsByTokenId(testSkyflowClient, [
+      { token: 'test_token1', redaction: RedactionType.MASKED },
+    ]);
+    revealResponse
+      .then((res) => {
+        expect(res.records[0].token).toBe(successResponse.records[0].token);
+        const tokenRecords = requestBody.detokenizationParameters;
+        tokenRecords.forEach((record) => {
+          expect(record.token).toBe('test_token1');
+          expect(record.redaction).toBe('MASKED');
+        });
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('test with valid Reveal records and redaction default', (done) => {
+    const successResponse = {
+      records: [
+        {
+          token: 'test_token1',
+          value: 'token_value',
+        },
+      ],
+    };
+
+    let requestBody;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        requestBody = args.body;
+        return new Promise.resolve(successResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    const revealResponse = fetchRecordsByTokenId(testSkyflowClient, [
+      { token: 'test_token1', redaction: RedactionType.DEFAULT },
+    ]);
+    revealResponse
+      .then((res) => {
+        expect(res.records[0].token).toBe(successResponse.records[0].token);
+        const tokenRecords = requestBody.detokenizationParameters;
+        tokenRecords.forEach((record) => {
+          expect(record.token).toBe('test_token1');
+          expect(record.redaction).toBe('DEFAULT');
+        });
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('test with valid Reveal records default redaction should passed as default', (done) => {
+    const successResponse = {
+      records: [
+        {
+          token: 'test_token1',
+          value: 'token_value',
+        },
+      ],
+    };
+
+    let requestBody;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        requestBody = args.body;
+        return new Promise.resolve(successResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    const revealResponse = fetchRecordsByTokenId(testSkyflowClient, [
+      { token: 'test_token1' },
+    ]);
+    revealResponse
+      .then((res) => {
+        expect(res.records[0].token).toBe(successResponse.records[0].token);
+        const tokenRecords = requestBody.detokenizationParameters;
+        tokenRecords.forEach((record) => {
+          expect(record.token).toBe('test_token1');
+          expect(record.redaction).toBe('PLAIN_TEXT');
+        });
+        done();
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 });

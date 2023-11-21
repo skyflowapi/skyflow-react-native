@@ -7,7 +7,7 @@ import {StyleSheet, View} from 'react-native';
 import CollectElements from './CollectElements';
 import RevealElements from './RevealElements';
 
-const ElementView = () => {
+const ElementView = (props) => {
   const [tokens, setTokens] = React.useState(null);
   const [showReveal, setShowRevealView] = React.useState<boolean>(false);
 
@@ -20,9 +20,9 @@ const ElementView = () => {
   return (
     <View style={styles.container}>
       {showReveal ? (
-        <RevealElements tokens={tokens} setShowRevealView={setShowRevealView} />
+        <RevealElements tokens={tokens} setShowRevealView={setShowRevealView} handleReset={props.handleReset}/>
       ) : (
-        <CollectElements setTokens={setTokens} />
+        <CollectElements setTokens={setTokens} handleReset={props.handleReset}/>
       )}
     </View>
   );

@@ -20,7 +20,7 @@ import SkyflowProvider from '../../src/components/SkyflowProvider';
 import { Text } from 'react-native';
 import SkyflowError from '../../src/utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../src/utils/skyflow-error-code';
-import { ElementType } from '../../src/utils/constants';
+import { ContainerType, ElementType } from '../../src/utils/constants';
 
 const testSkyflowClient = new Skyflow({
   vaultID: '1234',
@@ -54,6 +54,7 @@ describe('test Collect And Reveal Elements Components', () => {
       getInternalState: () => ({}),
       getCardType: () => CardType.VISA,
       setMethods: jest.fn(),
+      type: ContainerType.COLLECT,
     }));
   });
 

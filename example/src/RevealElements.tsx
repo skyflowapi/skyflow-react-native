@@ -66,10 +66,16 @@ const RevealElements = props => {
       </View>
       <View style={buttonStyles.button}>
         <Button
-          title='Reset'
+          title='GO TO COLLECT'
           onPress={() => {
             props.setShowRevealView(null);
           }}
+        />
+      </View>
+      <View style={buttonStyles.button}>
+        <Button
+          title='HOME'
+          onPress={props.handleReset}
         />
       </View>
     </View>

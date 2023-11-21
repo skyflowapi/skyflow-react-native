@@ -40,6 +40,7 @@ export interface CollectElementInput {
   inputStyles?: CollectInputStylesVariant;
   labelStyles?: CollectLabelStylesVariant;
   errorTextStyles?: StylesBaseVariant;
+  containerType?:string;
 }
 
 export interface CollectElementProps {
@@ -71,6 +72,7 @@ export interface CollectElementProps {
   labelStyles?: CollectLabelStylesVariant;
    /** Styles for the element's error text. */
   errorTextStyles?: StylesBaseVariant;
+  containerMethods?: Record<any,any>;
 }
 
 /**
@@ -125,7 +127,8 @@ export interface RevealElementInput {
   token: string;
   label?: string;
   altText?: string;
-  redaction?: RedactionType
+  redaction?: RedactionType;
+  elementId?: string;
 }
 
 export interface RevealElementProps {
@@ -155,7 +158,8 @@ export enum MessageType {
 
 export interface IRevealRecord {
   token: string;
-  redaction?: RedactionType
+  redaction?: RedactionType;
+  elementId?: string;
 }
 
 export interface IRevealResponseType {
@@ -244,4 +248,10 @@ export enum RedactionType {
   PLAIN_TEXT = 'PLAIN_TEXT',
   MASKED = 'MASKED',
   REDACTED = 'REDACTED',
+}
+
+export enum ContainerType {
+  COLLECT = 'COLLECT',
+  REVEAL = 'REVEAL',
+  COMPOSABLE = 'COMPOSABLE',
 }
