@@ -4,10 +4,17 @@
 import type CollectContainer from '../../core/CollectContainer';
 import RevealContainer from '../../core/RevealContainer';
 
+/**
+ *  Configuration for connecting to the Skyflow vault.
+ */
 export interface IConfig {
+  /** ID of the vault to connect to. */
   vaultID: string;
+  /** URL of the vault to connect to. */
   vaultURL: string;
+  /** Function that retrieves a Skyflow bearer token from your backend. */
   getBearerToken: () => Promise<string>;
+  /** Additional configuration options. */
   options?: Record<string, any>;
 }
 
@@ -37,23 +44,40 @@ export interface CollectElementInput {
 }
 
 export interface CollectElementProps {
+   /** Table that the data belongs to. */
   table: string;
+   /** Column that the data belongs to. */
   column: string;
+   /** Type of the container. */
   container: CollectContainer;
+   /** Label for the element. */
   label?: string;
+   /** Placeholder text for the element. */
   placeholder?: string;
+   /** Input validation rules for the element. */
   validations?: IValidationRule[];
+   /** Function to call when the onChange event triggers. */
   onChange?: Function;
+   /** Function to call when the onReady event triggers. */
   onReady?: Function;
+   /** Function to call when the onBlur event triggers. */
   onBlur?: Function;
+   /** Function to call when the onFocus event triggers. */
   onFocus?: Function;
+   /** Additional configuration options. */
   options?: Record<string, any>;
+   /** Styles for the element.*/
   inputStyles?: CollectInputStylesVariant;
+   /** Styles for the element's label. */
   labelStyles?: CollectLabelStylesVariant;
+   /** Styles for the element's error text. */
   errorTextStyles?: StylesBaseVariant;
   containerMethods?: Record<any,any>;
 }
 
+/**
+ *  Supported element types.
+ */
 export enum ElementType {
   CVV = 'CVV',
   EXPIRATION_DATE = 'EXPIRATION_DATE',
@@ -81,6 +105,9 @@ export enum ContentType {
   FORMDATA = 'multipart/form-data',
 }
 
+/**
+ *  Supported log levels.
+ */
 export enum LogLevel {
   WARN = 'WARN',
   INFO = 'INFO',
@@ -88,6 +115,9 @@ export enum LogLevel {
   ERROR = 'ERROR',
 }
 
+/**
+ *  Supported environments.
+ */
 export enum Env {
   DEV = 'DEV',
   PROD = 'PROD',
@@ -102,13 +132,21 @@ export interface RevealElementInput {
 }
 
 export interface RevealElementProps {
+   /** The actual data token. */
   token: string;
+   /** The reveal container. */
   container: RevealContainer;
+   /** Label for the form element. */
   label?: string;
+   /** Alternative text for the Reveal Element. */
   altText?: string;
+   /** Styles for the element. */
   inputStyles?: StylesBaseVariant;
+   /** Styles for the element's label. */
   labelStyles?: StylesBaseVariant;
+   /** Styles for the element's error text. */
   errorTextStyles?: StylesBaseVariant;
+   /** Redaction type of the revealed data. */
   redaction?: RedactionType
 }
 
@@ -129,6 +167,9 @@ export interface IRevealResponseType {
   errors?: Record<string, any>[];
 }
 
+/**
+ *  Supported validation rule types.
+ */
 export enum ValidationRuleType {
   REGEX_MATCH_RULE = 'REGEX_MATCH_RULE',
   LENGTH_MATCH_RULE = 'LENGTH_MATCH_RULE',
@@ -199,6 +240,9 @@ export const REQUIRED_MARK_DEFAULT_STYLE = {
 
 export const ELEMENT_REQUIRED_ASTERISK = ' *';
 
+/**
+ *  Supported redaction types.
+ */
 export enum RedactionType {
   DEFAULT = 'DEFAULT',
   PLAIN_TEXT = 'PLAIN_TEXT',
