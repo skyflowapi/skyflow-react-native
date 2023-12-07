@@ -31,6 +31,7 @@ jobs:
         # echo "github sha: $(git rev-parse --short "$GITHUB_SHA")"
         cd skyflow-react-native/skyflow-react-native/
         rm -r docs/
+        ls
         # git checkout -- package-lock.json
 
     - name: Create a branch in skyflow-docs
