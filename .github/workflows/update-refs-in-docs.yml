@@ -28,7 +28,7 @@ jobs:
         cd ../..
         mkdir refs
         cp -r skyflow-react-native/skyflow-react-native/docs/* refs/
-        echo "github sha: $(git rev-parse --short "$GITHUB_SHA")"
+        # echo "github sha: $(git rev-parse --short "$GITHUB_SHA")"
         cd skyflow-react-native/skyflow-react-native/
         rm -r docs/
         git checkout -- package-lock.json
