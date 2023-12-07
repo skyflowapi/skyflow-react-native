@@ -30,7 +30,7 @@ jobs:
         cp -r skyflow-react-native/skyflow-react-native/docs/markdown/* refs/
         # echo "github sha: $(git rev-parse --short "$GITHUB_SHA")"
         cd skyflow-react-native/skyflow-react-native/
-        # rm -r docs/
+        rm -r lib/
         git clean -df
 
     - name: Create a branch in skyflow-docs
