@@ -32,7 +32,7 @@ jobs:
         cd skyflow-react-native/skyflow-react-native/
         rm -r docs/
         ls
-        # git checkout -- package-lock.json
+        git checkout -- package-lock.json
 
     - name: Create a branch in skyflow-docs
       env:
