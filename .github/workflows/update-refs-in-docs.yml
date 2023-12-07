@@ -46,7 +46,7 @@ jobs:
         git remote add skyflow-docs https://${TOKEN}@github.com/${REPO_OWNER}/${REPO_NAME}.git
         git fetch skyflow-docs main
         # BRANCH_NAME="feature-branch-${{ github.run_number }}"
-        BRANCH_NAME="feature-branch-${{ github.sha | slice(0, 7) }}"
+        BRANCH_NAME="feature-branch-${{ github.sha | rev | slice(0, 7) | rev }}"
         git remote set-url --push skyflow-docs https://${ACTOR}:${TOKEN}@github.com/${REPO_OWNER}/${REPO_NAME}.git
         git checkout -b $BRANCH_NAME skyflow-docs/main
         cp -r ../../refs/* src/pages/content/docs/sdks/skyflow-react-native/
