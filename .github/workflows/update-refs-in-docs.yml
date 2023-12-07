@@ -69,7 +69,7 @@ jobs:
           # Raise a pull request
           BASE_BRANCH="main"
           BRANCH_NAME="SDK-${{ env.SHORT_SHA }}/react-native"
-          TITLE="SDK-${{ env.SHORT_SHA }}/react-native: Updated react-native SDK references"
+          TITLE="SDK-${{ env.SHORT_SHA }}: Updated React Native SDK references"
           BODY="This pull request adds the latest React Native SDK references. Commit id for reference: $GITHUB_SHA"
           API_URL="https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/pulls"
           echo "API URL: $API_URL"       
