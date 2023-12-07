@@ -3,7 +3,7 @@ name: Update references in Docsite
 on:
   push:
     branches:
-      - DEX-420/test-docs-workflow
+      - main
 
 jobs:
   generate-react-native-sdk-refs:
@@ -12,7 +12,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       with:
-        ref: DEX-420/test-docs-workflow
+        ref: main
         fetch-depth: 0
         persist-credentials: false
     
