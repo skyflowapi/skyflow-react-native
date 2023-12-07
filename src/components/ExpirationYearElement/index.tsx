@@ -12,6 +12,9 @@ import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import uuid from 'react-native-uuid';
 
 
+/**
+ *  Element to collect expiration year values.
+ */
 const ExpirationYearElement: React.FC<CollectElementProps> = ({ container, options, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>();
     const [elementValue, setElementValue] = React.useState<string>('');
