@@ -16,9 +16,10 @@ jobs:
         fetch-depth: 0
         persist-credentials: false
     
-    - name: install modules
-      run: |
-        npm install
+    - uses: actions/setup-node@v1
+      with:
+          node-version: 14.17.6
+    - run: npm install
 
     - name: Generate React Native SDK references
       run: |
