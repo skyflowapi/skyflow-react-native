@@ -21,6 +21,9 @@ jobs:
           node-version: 14.17.6
     - run: npm install
 
+    - name: Set Short SHA
+      run: echo "SHORT_SHA=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_ENV
+      
     - name: Generate React Native SDK references
       run: |
         mkdir docs
@@ -46,7 +49,7 @@ jobs:
         git remote add skyflow-docs https://${TOKEN}@github.com/${REPO_OWNER}/${REPO_NAME}.git
         git fetch skyflow-docs main
         # BRANCH_NAME="feature-branch-${{ github.run_number }}"
-        BRANCH_NAME="feature-branch-${{ github.sha[0:7] }}"
+        BRANCH_NAME="feature-branch-${{ env.SHORT_SHA }}"
         git remote set-url --push skyflow-docs https://${ACTOR}:${TOKEN}@github.com/${REPO_OWNER}/${REPO_NAME}.git
         git checkout -b $BRANCH_NAME skyflow-docs/main
         cp -r ../../refs/* src/pages/content/docs/sdks/skyflow-react-native/
@@ -60,7 +63,7 @@ jobs:
       run: |
         git config user.name ${{ github.actor }}
         git config user.email ${{ github.actor }}@users.noreply.github.com
-        BRANCH_NAME="feature-branch-${{ github.run_number }}"
+        BRANCH_NAME="feature-branch-${{ env.SHORT_SHA }}"
         git add .
         
         # Check if there are changes to commit
@@ -69,7 +72,7 @@ jobs:
           git push skyflow-docs $BRANCH_NAME
           # Raise a pull request
           BASE_BRANCH="main"
-          BRANCH_NAME="feature-branch-${{ github.run_number }}"
+          BRANCH_NAME="feature-branch-${{ env.SHORT_SHA }}"
           TITLE="DEX-${{ github.run_number }} Updated React Native SDK references"
           BODY="This pull request adds the latest React Native SDK references."
           API_URL="https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/pulls"
