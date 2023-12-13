@@ -5,7 +5,7 @@ import useSkyflowContext from '../../components/SkyflowProvider/hook';
 import CollectContainer from '../../core/CollectContainer';
 
 /**
- *  Container for Collect Elements.
+ *  Hook for Collect Elements Container.
  * @returns Returns the CollectContainer instance.
  */
 const useCollectContainer = () => {
