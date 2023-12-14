@@ -33,7 +33,7 @@ export interface CollectElementInput {
   inputStyles?: CollectInputStylesVariant;
   labelStyles?: CollectLabelStylesVariant;
   errorTextStyles?: StylesBaseVariant;
-  containerType?:string;
+  containerType?: string;
 }
 
 export interface CollectElementProps {
@@ -51,7 +51,7 @@ export interface CollectElementProps {
   inputStyles?: CollectInputStylesVariant;
   labelStyles?: CollectLabelStylesVariant;
   errorTextStyles?: StylesBaseVariant;
-  containerMethods?: Record<any,any>;
+  containerMethods?: Record<any, any>;
 }
 
 export enum ElementType {
@@ -109,7 +109,7 @@ export interface RevealElementProps {
   inputStyles?: StylesBaseVariant;
   labelStyles?: StylesBaseVariant;
   errorTextStyles?: StylesBaseVariant;
-  redaction?: RedactionType
+  redaction?: RedactionType;
 }
 
 export enum MessageType {
@@ -199,6 +199,8 @@ export const REQUIRED_MARK_DEFAULT_STYLE = {
 
 export const ELEMENT_REQUIRED_ASTERISK = ' *';
 
+export const SKY_METADATA_HEADER = 'sky-metadata';
+
 export enum RedactionType {
   DEFAULT = 'DEFAULT',
   PLAIN_TEXT = 'PLAIN_TEXT',
@@ -210,4 +212,24 @@ export enum ContainerType {
   COLLECT = 'COLLECT',
   REVEAL = 'REVEAL',
   COMPOSABLE = 'COMPOSABLE',
+}
+
+export const PUREJS_TYPES = {
+  GET: 'GET',
+};
+
+export interface IGetRecord {
+  ids?: string[];
+  redaction?: RedactionType;
+  table: string;
+  columnName?: string;
+  columnValues?: string[];
+}
+
+export interface IGetInput {
+  records: IGetRecord[];
+}
+
+export interface IGetOptions {
+  tokens?: Boolean;
 }

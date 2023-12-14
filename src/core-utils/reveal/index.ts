@@ -9,6 +9,8 @@ import {
   LogLevel,
   MessageType,
   RedactionType,
+  IGetRecord,
+  IGetOptions,
 } from '../../utils/constants';
 import { printLog } from '../../utils/logs-helper';
 import SkyflowError from '../../utils/skyflow-error';
@@ -175,4 +177,136 @@ export const formatRecordsForClient = (response: IRevealResponseType) => {
     return { success: successRecords };
   }
   return { errors: errorRecords };
+};
+
+export const fetchRecordsGET = async (
+  skyflowClient: Skyflow,
+  skyflowIdRecords: IGetRecord[],
+  options: IGetOptions
+) =>
+  new Promise((rootResolve, rootReject) => {
+    let vaultResponseSet: Promise<any>[];
+    skyflowClient
+      .getAccessToken()
+      .then((authToken) => {
+        vaultResponseSet = skyflowIdRecords.map(
+          (skyflowIdRecord) =>
+            new Promise((resolve, reject) => {
+              const response: any[] = [];
+              getRecordsFromVault(
+                skyflowIdRecord,
+                options,
+                skyflowClient,
+                authToken as string
+              )
+                .then(
+                  (resolvedResult: any) => {
+                    const recordsData: any[] = resolvedResult.records;
+                    recordsData.forEach((fieldData) => {
+                      const id = fieldData.fields.skyflow_id;
+                      const currentRecord = {
+                        fields: {
+                          id,
+                          ...fieldData.fields,
+                        },
+                        table: skyflowIdRecord.table,
+                      };
+                      delete currentRecord.fields.skyflow_id;
+                      response.push(currentRecord);
+                    });
+                  },
+                  (rejectedResult) => {
+                    let errorResponse = rejectedResult;
+                    if (rejectedResult && rejectedResult.error) {
+                      errorResponse = {
+                        error: {
+                          code: rejectedResult?.error?.code,
+                          description: rejectedResult?.error?.description,
+                        },
+                        ids: skyflowIdRecord.ids,
+                        ...(skyflowIdRecord?.columnName
+                          ? { columnName: skyflowIdRecord?.columnName }
+                          : {}),
+                      };
+                    }
+                    printLog(
+                      rejectedResult.error?.description || '',
+                      MessageType.ERROR,
+                      LogLevel.ERROR
+                    );
+                    response.push(errorResponse);
+                  }
+                )
+                .finally(() => {
+                  resolve(response);
+                });
+            })
+        );
+
+        Promise.all(vaultResponseSet)
+          .then((resultSet) => {
+            const recordsResponse: Record<string, any>[] = [];
+            const errorResponse: Record<string, any>[] = [];
+            resultSet.forEach((result) => {
+              result.forEach((res: Record<string, any>) => {
+                if (Object.prototype.hasOwnProperty.call(res, 'error')) {
+                  errorResponse.push(res);
+                } else {
+                  recordsResponse.push(res);
+                }
+              });
+            });
+
+            if (errorResponse.length === 0) {
+              rootResolve({ records: recordsResponse });
+            } else if (recordsResponse.length === 0)
+              rootReject({ errors: errorResponse });
+            else
+              rootReject({ records: recordsResponse, errors: errorResponse });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        rootReject(err);
+      });
+  });
+
+export const getRecordsFromVault = (
+  getRecord: IGetRecord,
+  options: IGetOptions,
+  skyflowClient: Skyflow,
+  authToken: string
+) => {
+  let paramList: string = '';
+  const client = skyflowClient.getHttpClient();
+  const config = skyflowClient.getSkyflowConfig();
+
+  getRecord.ids?.forEach((skyflowId) => {
+    paramList += `skyflow_ids=${skyflowId}&`;
+  });
+
+  getRecord.columnValues?.forEach((column) => {
+    paramList += `column_name=${getRecord.columnName}&column_values=${column}&`;
+  });
+
+  if (options && Object.prototype.hasOwnProperty.call(options, 'tokens')) {
+    paramList += `tokenization=${options.tokens}&`;
+  }
+
+  if (getRecord?.redaction) {
+    paramList += `redaction=${getRecord.redaction}`;
+  }
+
+  const vault = config.vaultURL;
+  const vaultEndPointurl: string = `${vault}/v1/vaults/${config.vaultID}/${getRecord.table}?${paramList}`;
+
+  return client.request({
+    requestMethod: 'GET',
+    url: vaultEndPointurl,
+    headers: {
+      authorization: `Bearer ${authToken}`,
+    },
+  });
 };
