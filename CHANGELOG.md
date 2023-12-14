@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 2023-12-14
+### Added
+- `get` method support
+
 ## [1.5.0] - 2023-10-10
 ### Added
 - reveal support for signed data tokens.

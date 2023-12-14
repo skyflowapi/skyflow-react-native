@@ -1078,6 +1078,219 @@ For information on validations, see [validations](#validations).
 
 ## Securely revealing data client-side
 
+- [Retrieving data from the vault](#retrieving-data-from-the-vault)
+- [Using Skyflow Elements to reveal data](#using-skyflow-elements-to-reveal-data)
+
+### Retrieving data from the vault
+
+For non-PCI use-cases, retrieving data from the vault and revealing it in the mobile can be done using the SkyflowID's or Unique Column Values as described below
+
+- #### Using Skyflow ID's or Unique Column Values
+    For retrieving data from the vault, use the `get(getInput: IGetInput, options: IGetOptions)` method.
+    
+    The `getInput` parameter takes an object that contains an array of the records to fetch. Each object inside array should contain:
+
+    - Either an array of Skyflow IDs to fetch
+    - Or a column name and an array of column values
+
+    The second parameter, `options`, is a `GetOptions` object that retrieves tokens of Skyflow IDs. 
+
+    Notes: 
+    - You can use either Skyflow IDs or unique values to retrieve records. You can't use both at the same time.
+    - GetOptions parameter is applicable only for retrieving tokens using Skyflow ID.
+    - You can't pass GetOptions along with the redaction type.
+    - `tokens` defaults to false.
+    
+    ```json5
+    {
+      "records":[
+        {
+          "ids": Array,                  // Array of SkyflowID's of the records to be fetched
+          "table": String,               // name of table holding the above skyflow_id's
+          "redaction": RedactionType     // redaction to be applied to retrieved data
+        },
+        {
+          "table": String,               // name of table from where records are to be fetched
+          "redaction": RedactionType,    // redaction to be applied to retrieved data
+          "columnName": String,          // a unique column name
+          "colunmnValues": Array         // Array of Column Values of the records to be fetched
+        }
+      ]
+    }
+    ```
+  An Example of Get call to fetch records
+
+  ```js
+  const skyflowContainer = useSkyflow();
+  
+  const getRequestInput = {
+    records: [
+      {
+        ids: [
+          'h4f5k569-c577-8o1j-r91c-x9gfd0b0fd9',
+          'fa27dj53-95d5-1bdb-55db-8e8c11a36ff9',
+        ],
+        table: 'cards',
+        redaction: RedactionType.PLAIN_TEXT,
+      },
+      {
+        ids: ['invalid skyflow id'],
+        table: 'cards',
+        redaction: RedactionType.PLAIN_TEXT,
+      },
+      {
+        table: 'customers',
+        redaction: RedactionType.PLAIN_TEXT,
+        columnName: 'email',
+        columnValues: ['john.doe@gmail.com', 'jane.doe@gmail.com'],
+      },
+      {
+        table: 'customers',
+        redaction: RedactionType.PLAIN_TEXT,
+        columnName: 'email',
+        columnValues: ['invalid column value'],
+      },
+    ]
+  };
+
+  const options = { tokens: false };
+
+  skyflowContainer
+    .get(getRequestInput, options)
+    .then((response) => {
+      console.log(JSON.stringify(response));
+    })
+    .catch((err) => {
+      console.error(JSON.stringify(err));
+    });
+  ```
+
+  The sample response:
+  ```json
+  {
+    "records": [
+      {
+        "fields": {
+          "card_number": "4111111111111111",
+          "expiry_date": "11/35",
+          "fullname": "myname",
+          "id": "h4f5k569-c577-8o1j-r91c-x9gfd0b0fd9"
+        },
+        "table": "cards"
+      },
+      {
+        "fields": {
+          "card_number": "4111111111111111",
+          "expiry_date": "10/23",
+          "fullname": "sam",
+          "id": "fa27dj53-95d5-1bdb-55db-8e8c11a36ff9"
+        },
+        "table": "cards"
+      },
+      {
+        "fields": {
+          "card_number": "4111111111111111",
+          "email": "john@doe@gmail.com",
+          "name": "john",
+          "id": "s74ik950-c577-8o1j-r91c-x9gf7bh0fd9"
+        },
+        "table": "customers"
+      },
+      {
+        "fields": {
+          "card_number": "4111111111111111",
+          "email": "jane@doe@gmail.com",
+          "name": "jane",
+          "id": "z7a9k950-c783-80aj-r91c-x9gf7bh0ff9"
+        },
+        "table": "customers"
+      }
+    ],
+    "errors": [
+      {
+        "error": {
+          "code": "404",
+          "description": "No Records Found"
+        },
+        "ids": ["invalid skyflow id"]
+      },
+      {
+        "error": {
+          "code": "404",
+          "description": "No Records Found"
+        },
+        "columnName": "email",
+      }
+    ]
+  }
+  ```
+  An Example of Get call to fetch Tokens
+
+  ```js
+  const skyflowContainer = useSkyflow();
+  
+  const getRequestInput = {
+    records: [
+      {
+        ids: [
+          'h4f5k569-c577-8o1j-r91c-x9gfd0b0fd9',
+          'fa27dj53-95d5-1bdb-55db-8e8c11a36ff9',
+        ],
+        table: 'cards',
+      },
+      {
+        ids: ['invalid skyflow id'],
+        table: 'cards',
+      },
+    ]
+  };
+
+  const options = { tokens: true };
+
+  skyflowContainer
+    .get(getRequestInput, options)
+    .then((response) => {
+      console.log(JSON.stringify(response));
+    })
+    .catch((err) => {
+      console.error(JSON.stringify(err));
+    });
+  ```
+
+  The sample Response:
+  ```json
+  {
+    "records": [
+      {
+        "fields": {
+          "card_number": "9802-3257-3113-0294",
+          "expiry_date": "45012507-f72b-4f5c-9bf9-86b133bae719",
+          "fullname": "131e2507-f72b-4f5c-9bf9-86b133bae719",
+          "id": "h4f5k569-c577-8o1j-r91c-x9gfd0b0fd9",
+        },
+        "table": "cards"
+      },
+      {
+        "fields": {
+          "card_number": "0294-3213-3157-9802",
+          "expiry_date": "131e2507-f72b-4f5c-9bf9-86b133bae719",
+          "fullname": "45012507-f72b-4f5c-9bf9-86b133bae719",
+          "id": "fa27dj53-95d5-1bdb-55db-8e8c11a36ff9"
+        },
+        "table": "cards"
+      }
+    ],
+    "errors": [
+      {
+        "error": {
+          "code": "404",
+          "description": "No Records Found"
+        },
+        "ids": ["invalid skyflow id"]
+      }
+    ]
+  }
+  ```
 ### Using Skyflow Elements to reveal data
 
 Skyflow Elements can securely reveal data in an application without exposing your frontend to sensitive data. This is useful for cases like card issuance, where you may want to reveal the card number to a user without increasing your PCI compliance scope.

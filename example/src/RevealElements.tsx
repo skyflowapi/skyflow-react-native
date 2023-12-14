@@ -3,11 +3,17 @@
 */
 
 import React from 'react';
-import {Button, StyleSheet, View} from 'react-native';
-import {RedactionType, RevealElement, useRevealContainer} from 'skyflow-react-native';
+import { Button, StyleSheet, View } from 'react-native';
+import {
+  RedactionType,
+  RevealElement,
+  useRevealContainer,
+  useSkyflow,
+} from 'skyflow-react-native';
 
-const RevealElements = props => {
+const RevealElements = (props) => {
   const revealContainer = useRevealContainer();
+  const skyflowContainer = useSkyflow();
 
   const handleReveal = () => {
     revealContainer
@@ -17,6 +23,51 @@ const RevealElements = props => {
       })
       .catch(err => {
         console.error('Reveal Failed', JSON.stringify(err));
+      });
+  };
+
+  const handleGet = () =>{
+    const getRecord1 = {
+      ids: [
+        '<SKYFLOW_ID_1>',
+        '<SKYFLOW_ID_2>',
+      ],
+      table: 'cards',
+    };
+
+    const getRecord2 = {
+      table: 'cards',
+      columnName: '<COLUMN_NAME>',
+      columnValues: ['<COLUMN_VALUE_1>', '<COLUMN_VALUE_2>'],
+    };
+
+    const getRequest1 = { records: [getRecord1] };
+
+    const getRequest2 = {
+      records: [
+        { ...getRecord1, redaction: RedactionType.PLAIN_TEXT },
+        { ...getRecord2, redaction: RedactionType.PLAIN_TEXT },
+      ],
+    };
+
+    // Get Tokens by Skyflow ID
+    skyflowContainer
+      .get(getRequest1, { tokens: true })
+      .then((response) => {
+        console.log('Get request 1 Success', JSON.stringify(response));
+      })
+      .catch((err) => {
+        console.error('Get request 1 Failed', JSON.stringify(err));
+      });
+
+    // get by Skyflow ID and Column Values
+    skyflowContainer
+      .get(getRequest2, { tokens: false })
+      .then((response) => {
+        console.log('Get request 2 Success', JSON.stringify(response));
+      })
+      .catch((err) => {
+        console.error('Get request 2 Failed', JSON.stringify(err));
       });
   };
 
@@ -63,6 +114,9 @@ const RevealElements = props => {
       />
       <View style={buttonStyles.button}>
         <Button title='Reveal' onPress={handleReveal} />
+      </View>
+      <View style={buttonStyles.button}>
+        <Button title='Get method' onPress={handleGet} />
       </View>
       <View style={buttonStyles.button}>
         <Button
