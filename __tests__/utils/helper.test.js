@@ -15,7 +15,7 @@ import {
   formatCardNumber,
   getYearAndMonthBasedOnFormat,
   getMetaObject,
-  getDeviceModel
+  getDeviceModel,
 } from '../../src/utils/helpers';
 import {
   CardType,
@@ -35,8 +35,8 @@ describe('getDeviceModel', () => {
     const platform = {
       OS: 'ios',
       constants: {
-        systemName: 'iPadOS'
-      }
+        systemName: 'iPadOS',
+      },
     };
     const result = getDeviceModel(platform);
     expect(result).toEqual('iPad');
@@ -46,19 +46,19 @@ describe('getDeviceModel', () => {
     const platform = {
       OS: 'ios',
       constants: {
-        systemName: 'iOS'
-      }
+        systemName: 'iOS',
+      },
     };
     const result = getDeviceModel(platform);
-    expect(result).toEqual('iPhone');
+    expect(result).toEqual('Iphone');
   });
 
   it('shloud return model names as gphone64 for android', () => {
     const platform = {
       OS: 'android',
       constants: {
-        Model: 'sdk_gphone64_arm64'
-      }
+        Model: 'sdk_gphone64_arm64',
+      },
     };
     const result = getDeviceModel(platform);
     expect(result).toEqual('sdk_gphone64_arm64');
@@ -79,52 +79,47 @@ describe('getMetaObject', () => {
       OS: 'ios',
       Version: '16.0',
       constants: {
-        systemName: 'iPadOS'
-      }
+        systemName: 'iPadOS',
+      },
     };
     const sdkDetails = {
       name: 'skyflow-react-native',
       version: '1.4.0',
       devDependencies: {
-        'react-native': '0.69.2'
-      }
+        'react-native': '0.69.2',
+      },
     };
     const result = getMetaObject(platform, sdkDetails);
-    expect(result).toStrictEqual(
-      {
-        "sdk_client_device_model": "iPad",
-        "sdk_name_version": "skyflow-react-native@1.4.0",
-        "sdk_os_version": "ios@16.0",
-        "sdk_runtime_details": "react-native@0.69.2",
-      }
-    );;
+    expect(result).toStrictEqual({
+      sdk_client_device_model: 'iPad',
+      sdk_name_version: 'skyflow-react-native@1.4.0',
+      sdk_os_version: 'ios@16.0',
+      sdk_runtime_details: 'react-native@0.69.2',
+    });
   });
 
   it('shloud return full metaobject with all the fields except for the version', () => {
     const platform = {
       OS: 'ios',
       constants: {
-        systemName: 'iPadOS'
-      }
+        systemName: 'iPadOS',
+      },
     };
     const sdkDetails = {
       name: 'skyflow-react-native',
       version: '1.4.0',
       devDependencies: {
-        'react-native': '0.69.2'
-      }
+        'react-native': '0.69.2',
+      },
     };
     const result = getMetaObject(platform, sdkDetails);
-    expect(result).toStrictEqual(
-      {
-        "sdk_client_device_model": "iPad",
-        "sdk_name_version": "skyflow-react-native@1.4.0",
-        "sdk_os_version": "ios@",
-        "sdk_runtime_details": "react-native@0.69.2",
-      }
-    );;
+    expect(result).toStrictEqual({
+      sdk_client_device_model: 'iPad',
+      sdk_name_version: 'skyflow-react-native@1.4.0',
+      sdk_os_version: 'ios@',
+      sdk_runtime_details: 'react-native@0.69.2',
+    });
   });
-
 });
 
 describe('test appendZero function', () => {

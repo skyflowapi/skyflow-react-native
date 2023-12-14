@@ -54,15 +54,19 @@ class Client {
         });
       }
 
-      if (
-        request.headers?.['content-type']?.includes(
-          ContentType.FORMURLENCODED
-        ) ||
-        request.headers?.['content-type']?.includes(ContentType.FORMDATA)
-      ) {
-        httpRequest.send(request.body);
+      if (request.body) {
+        if (
+          request.headers?.['content-type']?.includes(
+            ContentType.FORMURLENCODED
+          ) ||
+          request.headers?.['content-type']?.includes(ContentType.FORMDATA)
+        ) {
+          httpRequest.send(request.body);
+        } else {
+          httpRequest.send(JSON.stringify({ ...request.body }));
+        }
       } else {
-        httpRequest.send(JSON.stringify({ ...request.body }));
+        httpRequest.send();
       }
 
       httpRequest.onload = () => {

@@ -249,7 +249,6 @@ export const fetchRecordsGET = async (
             const errorResponse: Record<string, any>[] = [];
             resultSet.forEach((result) => {
               result.forEach((res: Record<string, any>) => {
-                console.warn('res', res);
                 if (Object.prototype.hasOwnProperty.call(res, 'error')) {
                   errorResponse.push(res);
                 } else {
@@ -307,8 +306,7 @@ export const getRecordsFromVault = (
     requestMethod: 'GET',
     url: vaultEndPointurl,
     headers: {
-      'authorization': `Bearer ${authToken}`,
-      'content-type': 'application/json',
+      authorization: `Bearer ${authToken}`,
     },
   });
 };
