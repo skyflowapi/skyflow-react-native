@@ -6,11 +6,15 @@ import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
 export interface IComposableContainer {
+    /** Type of the container. */
     container: CoreComposableContainer,
+    /** Function to call when the onSubmit event triggers. */
     onSubmit?: () => void
 }
 
-
+/**
+ *  Container Component for all composable elements.
+ */
 const ComposableContainer: React.FC<IComposableContainer> = (props) => {
     const containerRef = useRef([]);
     const { container, children } = props;
