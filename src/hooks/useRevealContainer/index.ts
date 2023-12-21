@@ -5,7 +5,7 @@ import useSkyflowContext from '../../components/SkyflowProvider/hook';
 import RevealContainer from '../../core/RevealContainer';
 
 /**
- *  Hook for Reveal Elements Container.
+ *  Container for Reveal Elements.
  * @returns Returns the RevealContainer instance.
  */
 const useRevealContainer = () => {

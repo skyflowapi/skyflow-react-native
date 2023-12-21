@@ -6,7 +6,7 @@ import { validateComposableContainerOptions } from '../../core-utils/element-val
 import CoreComposableContainer from '../../core/ComposableContainer';
 
 /**
- *  Hook for Composable Container.
+ *  Container for Composable Elements.
  * @returns Returns the ComposableContainer instance.
  */
 const useComposableContainer = (options: any) => {
