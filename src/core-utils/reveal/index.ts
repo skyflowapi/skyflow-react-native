@@ -307,6 +307,7 @@ export const getRecordsFromVault = (
     url: vaultEndPointurl,
     headers: {
       authorization: `Bearer ${authToken}`,
+      'content-type': 'application/json',
     },
   });
 };
