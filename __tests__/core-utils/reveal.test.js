@@ -470,6 +470,13 @@ const getRecordColumn = {
   columnValues: ['value1'],
 };
 
+const getRecordColumnValues = {
+  table: 'pii_fields',
+  redaction: RedactionType.PLAIN_TEXT,
+  columnName: 'name',
+  columnValues: ['name', 'value2', 'value3'],
+};
+
 const optionsFalse = { tokens: false };
 const optionsTrue = { tokens: true };
 
@@ -628,6 +635,42 @@ describe('fetchRecordGET fn test', () => {
           done();
         }
       )
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should send request with single column name in url for multiple column values', (done) => {
+    let reqArg;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        reqArg = args;
+        return new Promise.resolve(getSuccessResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(
+      testSkyflowClient,
+      [getRecordID, getRecordColumnValues],
+      optionsFalse
+    )
+      .then((res) => {
+        expect(res.errors).toBe(undefined);
+        expect(res.records.length).toBe(2);
+        console.log('url', reqArg);
+        expect(reqArg.url.match(/column_name=name/gi)?.length).toBe(1);
+        done();
+      })
       .catch((err) => {
         done(err);
       });
