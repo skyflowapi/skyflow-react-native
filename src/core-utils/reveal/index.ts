@@ -287,8 +287,8 @@ export const getRecordsFromVault = (
     paramList += `skyflow_ids=${skyflowId}&`;
   });
 
-  getRecord.columnValues?.forEach((column) => {
-    paramList += `column_name=${getRecord.columnName}&column_values=${column}&`;
+  getRecord.columnValues?.forEach((column, index) => {
+    paramList += `${(index === 0) ? `column_name=${getRecord.columnName}&` : ''}column_values=${column}&`;
   });
 
   if (options && Object.prototype.hasOwnProperty.call(options, 'tokens')) {
@@ -307,6 +307,7 @@ export const getRecordsFromVault = (
     url: vaultEndPointurl,
     headers: {
       authorization: `Bearer ${authToken}`,
+      'content-type': 'application/json',
     },
   });
 };

@@ -161,15 +161,15 @@ describe('test Collect Element class', () => {
     );
     expect(collectElement.getCardType()).toBe(undefined);
     const currentDate = new Date();
-    const validExipryDate = `${
-      currentDate.getFullYear() + 1
-    }/${currentDate.getMonth()}`;
+    const validExipryDate = `${currentDate.getFullYear() + 1}/${
+      currentDate.getMonth() + 1
+    }`;
     collectElement.onChangeElement(validExipryDate);
     expect(collectElement.getInternalState().isValid).toBe(true);
     const elementValue = collectElement.getInternalState().value;
     const [year, month] = elementValue.split('/');
     expect(Number(year)).toBe(currentDate.getFullYear() + 1);
-    expect(Number(month)).toBe(currentDate.getMonth());
+    expect(Number(month)).toBe(currentDate.getMonth() + 1);
     expect(onChangeMock).toBeCalledWith({
       elementType: ElementType.EXPIRATION_DATE,
       isFocused: false,
