@@ -2,6 +2,14 @@
  Copyright (c) 2022 Skyflow, Inc.
 */
 import { ElementType } from '../../utils/constants';
+import sdkDetails from '../../../package.json';
+
+export const SDK_DETAILS = {
+  sdkName: 'React Native',
+  sdkVersion: sdkDetails.version,
+};
+
+export const SDK_NAME_VERSION = `${SDK_DETAILS.sdkName} SDK v${SDK_DETAILS.sdkVersion}`
 
 export const ELEMENTS_CONSTANTS_LIST = {
   [ElementType.CARDHOLDER_NAME]: {
