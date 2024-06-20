@@ -9,6 +9,9 @@ import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import uuid from 'react-native-uuid';
 
+/**
+ *  Element to collect CVVs.
+ */
 const CvvElement: React.FC<CollectElementProps> = ({ container, options = { requried: false }, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>();
     const [elementValue, setElementValue] = React.useState<string>('');

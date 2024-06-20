@@ -11,6 +11,9 @@ import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import uuid from 'react-native-uuid';
 
+/**
+ *  Element to collect expiration dates.
+ */
 const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, options, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>();
     const [elementValue, setElementValue] = React.useState<string>('');
