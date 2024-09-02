@@ -67,7 +67,7 @@ const CollectElements = props => {
           column='card_number'
           placeholder='XXXX XXXX XXXX XXXX'
           label='Card Number'
-          inputStyles={elementInputStyles}
+          inputStyles={cardNumElementInputStyles}
           labelStyles={elementLabelStyles}
           errorTextStyles={errorTextStyles}
           onChange={handleOnChange}
@@ -123,6 +123,12 @@ const CollectElements = props => {
     </View>
   );
 };
+
+const cardNumElementInputStyles = StyleSheet.create({
+  invalid: {
+    color: '#f44336',
+  },
+});
 
 const elementInputStyles = StyleSheet.create({
   base: {
