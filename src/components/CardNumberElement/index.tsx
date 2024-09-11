@@ -37,6 +37,13 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options =
             throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.CARD_NUMBER, 'useCollectContainer()'], true)
         }
     }, []);
+
+    useEffect(() => {
+        if(rest.updateOptions) {
+            element.update(rest.updateOptions)
+        }
+    },[rest.updateOptions])
+
     return (<View>
         {
             rest.label && (<Text style={labelStyles}>

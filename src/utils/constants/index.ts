@@ -52,6 +52,7 @@ export interface CollectElementProps {
   labelStyles?: CollectLabelStylesVariant;
   errorTextStyles?: StylesBaseVariant;
   containerMethods?: Record<any, any>;
+  updateOptions?: Record<string, any>;
 }
 
 export enum ElementType {

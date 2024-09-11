@@ -113,6 +113,12 @@ class CollectElement extends SkyflowElement {
     );
   }
 
+  update(updateOptions: Record<string, any>) {
+    if(updateOptions.label) {
+      this.#elementInput.label = updateOptions.label;
+    }
+  }
+
   setMethods(setErrorText, stylesSetters?: any) {
     this.#setErrorText = setErrorText;
     if (stylesSetters) {
