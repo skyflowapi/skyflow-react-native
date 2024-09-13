@@ -9,6 +9,7 @@ import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_M
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import uuid from 'react-native-uuid';
+import useUpdateElement from "../../hooks/useUpdateElement";
 
 const CardNumberElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>(undefined);
@@ -38,11 +39,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options =
         }
     }, []);
 
-    useEffect(() => {
-        if(rest.updateOptions) {
-            element.update(rest.updateOptions)
-        }
-    },[rest.updateOptions])
+    useUpdateElement({ container, ...rest }, element)
 
     return (<View>
         {

@@ -10,6 +10,7 @@ import { formatCollectElementOptions } from "../../utils/helpers";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import uuid from 'react-native-uuid';
+import useUpdateElement from "../../hooks/useUpdateElement";
 
 const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, options, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>();
@@ -40,6 +41,8 @@ const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, optio
             throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.EXPIRATION_DATE, 'useCollectContainer()'], true)
         }
     }, []);
+
+    useUpdateElement({ container, ...rest }, element)
 
     return (<View>
         {

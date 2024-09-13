@@ -8,6 +8,7 @@ import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_M
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import uuid from 'react-native-uuid';
+import useUpdateElement from "../../hooks/useUpdateElement";
 
 const InputFieldElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>(undefined);
@@ -37,6 +38,8 @@ const InputFieldElement: React.FC<CollectElementProps> = ({ container, options =
             throw new SkyflowError(SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED, [ElementType.INPUT_FIELD, 'useCollectContainer()'], true)
         }
     }, []);
+
+    useUpdateElement({ container, ...rest }, element)
 
     return (<View>
         {
