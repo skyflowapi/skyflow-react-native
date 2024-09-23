@@ -125,6 +125,9 @@ const CollectElements = props => {
 };
 
 const cardNumElementInputStyles = StyleSheet.create({
+  base: {
+    color: '#1d1d1d',
+  },
   invalid: {
     color: '#f44336',
   },
