@@ -2,6 +2,17 @@
  Copyright (c) 2022 Skyflow, Inc.
 */
 import { ElementType } from '../../utils/constants';
+import defaultCardIcon from '../../../assets/default.png';
+import amexIcon from '../../../assets/amex.png';
+import dinnersClubIcon from '../../../assets/diners-club.png';
+import discoverIcon from '../../../assets/discover.png';
+import hipperCardIcon from '../../../assets/hipercard.png';
+import jcbIcon from '../../../assets/jcb.png';
+import maestroIcon from '../../../assets/maestro.png';
+import maseterCardIcon from '../../../assets/mastercard.png';
+import unionPayIcon from '../../../assets/unionpay.png';
+import visaCardIcon from '../../../assets/visa.png';
+import cartesBancairesIcon from '../../../assets/carter-banceris.png'
 import sdkDetails from '../../../package.json';
 
 export const SDK_DETAILS = {
@@ -10,6 +21,7 @@ export const SDK_DETAILS = {
 };
 
 export const SDK_NAME_VERSION = `${SDK_DETAILS.sdkName} SDK v${SDK_DETAILS.sdkVersion}`
+
 
 export const ELEMENTS_CONSTANTS_LIST = {
   [ElementType.CARDHOLDER_NAME]: {
@@ -50,7 +62,22 @@ export enum CardType {
   HIPERCARD = 'HIPERCARD',
   DEFAULT = 'DEFAULT',
   UNKNOWN = 'UNKNOWN',
+  CARTES_BANCAIRES = 'CARTES BANCAIRES',
 }
+
+export const CARD_ENCODED_ICONS = {
+  [CardType.DEFAULT]: defaultCardIcon,
+  [CardType.AMEX]: amexIcon,
+  [CardType.CARTES_BANCAIRES]: cartesBancairesIcon,
+  [CardType.DINERS_CLUB]: dinnersClubIcon,
+  [CardType.DISCOVER]: discoverIcon,
+  [CardType.HIPERCARD]: hipperCardIcon,
+  [CardType.JCB]: jcbIcon,
+  [CardType.MAESTRO]: maestroIcon,
+  [CardType.MASTERCARD]: maseterCardIcon,
+  [CardType.UNIONPAY]: unionPayIcon,
+  [CardType.VISA]: visaCardIcon,
+};
 
 export const CARD_NUMBER_MASK = {
   [CardType.AMEX]: '9999 999999 99999',

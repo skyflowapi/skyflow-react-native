@@ -233,3 +233,16 @@ export interface IGetInput {
 export interface IGetOptions {
   tokens?: Boolean;
 }
+
+export const CARD_ICON_DEFAULT_STYLE = {
+  width: 50,
+  height: 50,
+};
+
+export const CARD_NUMBER_ELEMENT_DEFAULT_STYLE = {
+  gap: 4,
+  borderWidth: 2,
+  borderRadius: 4,
+  borderColor: '#eae8ee',
+  paddingHorizontal: 6,
+}
