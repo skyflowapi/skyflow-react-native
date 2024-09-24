@@ -77,6 +77,21 @@ export const CARD_ENCODED_ICONS = {
   [CardType.MASTERCARD]: maseterCardIcon,
   [CardType.UNIONPAY]: unionPayIcon,
   [CardType.VISA]: visaCardIcon,
+}
+
+export const CardTypeValues = {
+  [CardType.VISA]: 'Visa',
+  [CardType.MASTERCARD]: 'Mastercard',
+  [CardType.AMEX]: 'Amex',
+  [CardType.DINERS_CLUB]: 'DinersClub',
+  [CardType.DISCOVER]: 'Discover',
+  [CardType.JCB]: 'Jcb',
+  [CardType.MAESTRO]: 'Maestro',
+  [CardType.UNIONPAY]: 'Unionpay',
+  [CardType.HIPERCARD]: 'Hipercard',
+  [CardType.DEFAULT]: 'Default',
+  [CardType.UNKNOWN]: 'Unknown',
+  [CardType.CARTES_BANCAIRES]: 'Cartes Bancaires'
 };
 
 export const CARD_NUMBER_MASK = {
