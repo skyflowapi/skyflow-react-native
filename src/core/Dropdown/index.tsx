@@ -17,6 +17,7 @@ interface IDropdownProps {
   setSelectedValue: (e: any) => void;
   dropdownIconStyles?: Record<string, any>;
   dropdownStyles?: Record<string, any>;
+  dropdownListItemStyles?: Record<string, any>;
 }
 
 const Dropdown: React.FC<IDropdownProps> = (props: IDropdownProps) => {
@@ -74,6 +75,7 @@ const Dropdown: React.FC<IDropdownProps> = (props: IDropdownProps) => {
                 style={{
                   ...styles.listItem,
                   borderBottomWidth: index < props?.listData.length - 1 ? 1 : 0,
+                  ...props?.dropdownListItemStyles
                 }}
                 onPress={() => {
                   props.setSelectedValue(item);

@@ -102,6 +102,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options, 
                  listData={cardBrandList}
                  dropdownIconStyles={rest?.inputStyles?.dropdownIcon}
                  dropdownStyles={rest?.inputStyles?.dropdown}
+                 dropdownListItemStyles={rest?.inputStyles?.dropdownListItem}
                 />
             )}
         <TextInput

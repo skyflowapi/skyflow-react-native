@@ -158,6 +158,7 @@ export interface CollectInputStylesVariant
   cardIcon?: Record<string, any>;
   dropdownIcon?: Record<string, any>;
   dropdown?: Record<string, any>;
+  dropdownListItem?: Record<string, any>;
 }
 
 export interface CollectLabelStylesVariant
