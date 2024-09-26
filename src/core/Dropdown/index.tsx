@@ -10,14 +10,12 @@ import {
   View,
 } from 'react-native';
 import dropdown from '../../../assets/drop-down.png';
-import { IListItem } from '../../utils/constants';
+import { CollectInputStylesVariant, IListItem } from '../../utils/constants';
 
 interface IDropdownProps {
   listData: IListItem[];
   setSelectedValue: (e: any) => void;
-  dropdownIconStyles?: Record<string, any>;
-  dropdownStyles?: Record<string, any>;
-  dropdownListItemStyles?: Record<string, any>;
+  inputStyles?: CollectInputStylesVariant;
 }
 
 const Dropdown: React.FC<IDropdownProps> = (props: IDropdownProps) => {
@@ -37,7 +35,7 @@ const Dropdown: React.FC<IDropdownProps> = (props: IDropdownProps) => {
     <SafeAreaView>
       <View style={{ flex: 1 }}>
         <TouchableOpacity
-          style={{...styles.dropdownIcon, ...props?.dropdownIconStyles}}
+          style={{...styles.dropdownIcon, ...props?.inputStyles?.dropdownIcon}}
           onPress={() => showDropdown()}
           ref={dropdownRef}
           testID="dropdown-icon"
@@ -64,9 +62,9 @@ const Dropdown: React.FC<IDropdownProps> = (props: IDropdownProps) => {
             style={{
               ...styles.modalContent,
               ...styles.listContainer,
-              top: props.dropdownStyles?.top ?? dropdownPosition.top,
-              left: props.dropdownStyles?.left ?? dropdownPosition.left,
-              ...props.dropdownStyles,
+              top: props?.inputStyles?.dropdown?.top ?? dropdownPosition.top,
+              left: props?.inputStyles?.dropdown?.left ?? dropdownPosition.left,
+              ...props?.inputStyles?.dropdown,
             }}
           >
             {props?.listData?.map((item, index) => (
@@ -75,7 +73,7 @@ const Dropdown: React.FC<IDropdownProps> = (props: IDropdownProps) => {
                 style={{
                   ...styles.listItem,
                   borderBottomWidth: index < props?.listData.length - 1 ? 1 : 0,
-                  ...props?.dropdownListItemStyles
+                  ...props?.inputStyles?.dropdownListItem
                 }}
                 onPress={() => {
                   props.setSelectedValue(item);

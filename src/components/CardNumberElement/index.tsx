@@ -83,7 +83,9 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options, 
                 </Text>
             </Text>)
         }
-        <View style={{...CARD_NUMBER_ELEMENT_DEFAULT_STYLE, flexDirection: 'row', }}>
+        <View style={{...CARD_NUMBER_ELEMENT_DEFAULT_STYLE, flexDirection: 'row',
+            ...(container?.type===ContainerType.COMPOSABLE ? {borderWidth: 0} : {})
+         }}>
             {mergedOptions?.enableCardIcon && (
             <Image
               source={getCardIconSource() || CARD_ENCODED_ICONS[CardType.DEFAULT]}
@@ -100,9 +102,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options, 
                     element.onChangeElement('', true)
                  }}
                  listData={cardBrandList}
-                 dropdownIconStyles={rest?.inputStyles?.dropdownIcon}
-                 dropdownStyles={rest?.inputStyles?.dropdown}
-                 dropdownListItemStyles={rest?.inputStyles?.dropdownListItem}
+                 inputStyles={rest?.inputStyles}
                 />
             )}
         <TextInput
@@ -135,7 +135,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options, 
             }}
             keyboardType='numeric'
             maxLength={maxLength}
-            style={{...inputStyles, flex: rest?.inputStyles?.dropdownIcon ? 0 : 1 }}
+            style={{...(container?.type===ContainerType.COLLECT ? {flex: rest?.inputStyles?.dropdownIcon ? 0 : 1} : {}), ...inputStyles}}
         />
         </View>
         {
