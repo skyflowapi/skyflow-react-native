@@ -24,7 +24,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options, 
     const [errorText, setErrorText] = React.useState<string>('');
     const [maxLength, setMaxLength] = React.useState<number>(DEFAULT_CARD_INPUT_MAX_LENGTH);
     const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
-    const [inputStyles, setInputStyles] = React.useState({});
+    const [inputStyles, setInputStyles] = React.useState(rest?.inputStyles?.base || {});
     const textInputRef = useRef();
     const uniqueElementID = useRef(uuid.v4() as string);
     const [cardIcon, setCardIcon] = React.useState<CardType>(CardType.DEFAULT);
@@ -68,7 +68,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options, 
 
     const getCardIconSource = () => {
         if(element && !isDropdownVisible) {
-            return CARD_ENCODED_ICONS[element.getCardType()];
+            return CARD_ENCODED_ICONS[element?.getCardType()];
         } else if(element && options?.cardMetadata?.scheme) {
             return CARD_ENCODED_ICONS[cardIcon]
         }

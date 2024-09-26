@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Dimensions,
   Image,
   Modal,
   SafeAreaView,
@@ -19,6 +20,9 @@ interface IDropdownProps {
 }
 
 const Dropdown: React.FC<IDropdownProps> = (props: IDropdownProps) => {
+
+  const screenWidth = Dimensions.get('window').width;
+
   const [showlist, setShowlist] = useState(false);
 
   const dropdownRef = React.useRef(null);
@@ -26,7 +30,12 @@ const Dropdown: React.FC<IDropdownProps> = (props: IDropdownProps) => {
 
   const showDropdown = () => {
     dropdownRef.current.measure((fx, fy, width, height, px, py) => {
-      setDropdownPosition({ top: py + height, left: px-width });
+      const dropdownWidth = 200;
+      let newLeft = px;
+      if (px + dropdownWidth > screenWidth) {
+        newLeft = screenWidth - dropdownWidth;
+      }
+      setDropdownPosition({ top: py + height, left: newLeft });
     });
     setShowlist(!showlist);
   };
@@ -121,7 +130,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   dropdownIcon: {
-    paddingTop: 12,
+    paddingTop: 14,
   },
 });
 
