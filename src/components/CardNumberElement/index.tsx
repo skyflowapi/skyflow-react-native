@@ -2,10 +2,10 @@
  Copyright (c) 2022 Skyflow, Inc.
 */
 import React, { useEffect, useRef } from "react";
-import { Text, TextInput, View } from "react-native";
+import { Text, TextInput, View, Image } from "react-native";
 import type CollectElement from "../../core/CollectElement";
-import { CARD_NUMBER_MASK, DEFAULT_CARD_INPUT_MAX_LENGTH } from "../../core/constants";
-import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE, ContainerType } from "../../utils/constants";
+import { CARD_ENCODED_ICONS, CARD_NUMBER_MASK, CardType, DEFAULT_CARD_INPUT_MAX_LENGTH } from "../../core/constants";
+import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE, ContainerType, CARD_ICON_DEFAULT_STYLE, CARD_NUMBER_ELEMENT_DEFAULT_STYLE } from "../../utils/constants";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import uuid from 'react-native-uuid';
@@ -16,7 +16,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options =
     const [errorText, setErrorText] = React.useState<string>('');
     const [maxLength, setMaxLength] = React.useState<number>(DEFAULT_CARD_INPUT_MAX_LENGTH);
     const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
-    const [inputStyles, setInputStyles] = React.useState(rest?.inputStyles?.base || {});
+    const [inputStyles, setInputStyles] = React.useState({});
     const textInputRef = useRef();
     const uniqueElementID = useRef(uuid.v4() as string);
 
@@ -46,8 +46,14 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options =
                 </Text>
             </Text>)
         }
-
-        <TextInput
+        <View style={{...CARD_NUMBER_ELEMENT_DEFAULT_STYLE, flexDirection: 'row'}}>
+          <Image
+            source={CARD_ENCODED_ICONS[element ? element.getCardType() : CardType.DEFAULT]}
+            resizeMode="contain"
+            style={{...CARD_ICON_DEFAULT_STYLE}}
+            key={element ? element.getCardType() : CardType.DEFAULT}
+          />
+          <TextInput
             ref={textInputRef}
             value={elementValue}
             placeholder={rest.placeholder}
@@ -78,7 +84,8 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options =
             keyboardType='numeric'
             maxLength={maxLength}
             style={inputStyles}
-        />
+          />
+        </View>
         {
             container && container?.type === ContainerType.COLLECT
             &&
