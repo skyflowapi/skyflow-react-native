@@ -10,6 +10,7 @@ export {
   ValidationRuleType,
   RedactionType,
 } from './utils/constants';
+export { CardType } from './core/constants'
 export { default as useCollectContainer } from './hooks/useCollectContainer';
 export { default as useRevealContainer } from './hooks/useRevealContainer';
 export { default as useComposableContainer } from './hooks/useComposableContainer';

@@ -240,7 +240,7 @@ describe('test fetchRecordsByTokenId', () => {
     jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
       request: (args) => {
         requestBody = args.body;
-        return new Promise.resolve(successResponse);
+        return Promise.resolve(successResponse);
       },
     }));
 
@@ -286,7 +286,7 @@ describe('test fetchRecordsByTokenId', () => {
     jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
       request: (args) => {
         requestBody = args.body;
-        return new Promise.resolve(successResponse);
+        return Promise.resolve(successResponse);
       },
     }));
 
@@ -332,7 +332,7 @@ describe('test fetchRecordsByTokenId', () => {
     jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
       request: (args) => {
         requestBody = args.body;
-        return new Promise.resolve(successResponse);
+        return Promise.resolve(successResponse);
       },
     }));
 
@@ -378,7 +378,7 @@ describe('test fetchRecordsByTokenId', () => {
     jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
       request: (args) => {
         requestBody = args.body;
-        return new Promise.resolve(successResponse);
+        return Promise.resolve(successResponse);
       },
     }));
 
@@ -424,7 +424,7 @@ describe('test fetchRecordsByTokenId', () => {
     jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
       request: (args) => {
         requestBody = args.body;
-        return new Promise.resolve(successResponse);
+        return Promise.resolve(successResponse);
       },
     }));
 
@@ -572,7 +572,7 @@ describe('fetchRecordGET fn test', () => {
 
   it('should give success reponse in case of success', (done) => {
     jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
-      request: () => new Promise.resolve(getSuccessResponse),
+      request: () => Promise.resolve(getSuccessResponse),
     }));
 
     const testSkyflowClient = new Skyflow({
@@ -645,7 +645,7 @@ describe('fetchRecordGET fn test', () => {
     jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
       request: (args) => {
         reqArg = args;
-        return new Promise.resolve(getSuccessResponse);
+        return Promise.resolve(getSuccessResponse);
       },
     }));
 
