@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2022 Skyflow, Inc.
 */
-
 import * as React from 'react';
 import { Button, SafeAreaView, View } from 'react-native';
 import { SkyflowProvider, LogLevel, IConfig, Env } from "skyflow-react-native"
