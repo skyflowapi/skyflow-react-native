@@ -46,16 +46,47 @@ exports[`test Collect And Reveal Elements Components test CardNumberElement comp
        *
     </Text>
   </Text>
-  <TextInput
-    keyboardType="numeric"
-    maxLength={23}
-    onBlur={[Function]}
-    onChangeText={[Function]}
-    onFocus={[Function]}
-    placeholder="card number"
-    style={Object {}}
-    value=""
-  />
+  <View
+    style={
+      Object {
+        "borderColor": "#eae8ee",
+        "borderRadius": 4,
+        "borderWidth": 2,
+        "flexDirection": "row",
+        "gap": 4,
+        "paddingHorizontal": 6,
+      }
+    }
+  >
+    <Image
+      resizeMode="contain"
+      source={
+        Object {
+          "testUri": "../../../assets/visa.png",
+        }
+      }
+      style={
+        Object {
+          "height": 50,
+          "width": 50,
+        }
+      }
+    />
+    <TextInput
+      keyboardType="numeric"
+      maxLength={23}
+      onBlur={[Function]}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      placeholder="card number"
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+      value=""
+    />
+  </View>
   <Text
     style={Object {}}
   />

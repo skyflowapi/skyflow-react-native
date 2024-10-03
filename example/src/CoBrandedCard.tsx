@@ -10,28 +10,12 @@ import {
   ExpirationDateElement,
   InputFieldElement,
   useCollectContainer,
-  ValidationRuleType,
+  CardType
 } from 'skyflow-react-native';
 
-const CollectElements = props => {
+const CoBrandedCard = (props) => {
+
   const collectContainer = useCollectContainer();
-
-  const lengthRule = {
-    type: ValidationRuleType.LENGTH_MATCH_RULE,
-    params: {
-      min: 4,
-      max: 8,
-      error: 'Must be between 4 and 8 alphabets',
-    },
-  };
-
-  const ssnRegexRule = {
-    type: ValidationRuleType.REGEX_MATCH_RULE,
-    params: {
-      regex: /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$/,
-      error: 'Invalid SSN',
-    },
-  };
 
   const handleCollect = () => {
     collectContainer
@@ -39,38 +23,85 @@ const CollectElements = props => {
       .then((response: any) => {
         console.log('Collect Success: ', JSON.stringify(response));
         const fieldsTokenData = response.records[0].fields;
-        props.setTokens(fieldsTokenData);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Collect Failed: ', err);
       });
   };
 
-  const handleOnChange = state => {
-    console.log('Change Listener Triggered', state);
+  const binLookup = (bin) => {
+    const myHeaders = new Headers();
+    myHeaders.append("", "{BEARER_TOKEN}");
+    myHeaders.append("Content-Type", "application/json");
+    const raw = JSON.stringify({
+      "BIN": bin
+    });
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+    return fetch("{CARD_LOOKUP_ENDPOINT}", requestOptions);
   };
 
-  const handleOnFocus = state => {
-    console.log('Focus Listener Triggered', state);
+  const getCardSchemes = (cardData)=>{
+    let schemeList = [];
+    cardData.forEach((card)=>{
+      if(card.card_scheme === 'VISA'){
+          schemeList.push(CardType.VISA);
+      }else if(card.card_scheme === 'MASTERCARD'){
+          schemeList.push(CardType.MASTERCARD)
+      }else if(card.card_scheme === 'CARTES BANCAIRES'){
+        schemeList.push(CardType.CARTES_BANCAIRES)
+      }
+    })
+    return schemeList
+  }
+
+  const [scheme, setScheme] = React.useState<CardType[]>([]);
+
+  let calledUpdate = false;
+
+  const handleOnChange = (state) => {
+    console.log("onChange event triggered: ", state)
+    const currentBin = state.value.slice(0, 8);
+    if (currentBin.length >= 8 && !calledUpdate) {
+      calledUpdate = true;
+      // Perform Bin Lookup
+      binLookup(currentBin)
+        .then((response) => response.text())
+        .then((result) => {
+          console.log("RESULT OF BIN_LOOKUP: ", result)
+          const cardData = JSON.parse(result)['cards_data'];
+          const schemeList = getCardSchemes(cardData);
+          setScheme(schemeList);
+        })
+        .catch((error) => console.error(error));
+    } else if(currentBin.length < 8 && calledUpdate){
+        calledUpdate = false
+        setScheme([])
+      }
   };
 
-  const handleOnBlur = state => {
-    console.log('Blur Listener Triggered', state);
-  };
+  
 
   return (
-    <View>
+    <View style={viewStyles.container}>
       <View style={viewStyles.box}>
         <CardNumberElement
           container={collectContainer}
-          table='cards'
-          column='card_number'
-          placeholder='XXXX XXXX XXXX XXXX'
-          label='Card Number'
+          table="cards"
+          column="card_number"
+          placeholder="XXXX XXXX XXXX XXXX"
+          label={'Card number'}
           inputStyles={cardNumElementInputStyles}
           labelStyles={elementLabelStyles}
           errorTextStyles={errorTextStyles}
           onChange={handleOnChange}
+          options={{
+            cardMetadata: { scheme: scheme }
+          }}
         />
       </View>
       <View style={viewStyles.box}>
@@ -85,7 +116,6 @@ const CollectElements = props => {
           }}
           inputStyles={elementInputStyles}
           errorTextStyles={errorTextStyles}
-          onFocus={handleOnFocus}
         />
       </View>
       <View style={viewStyles.box}>
@@ -93,12 +123,11 @@ const CollectElements = props => {
           container={collectContainer}
           table='cards'
           column='cardholder_name'
-          placeholder='john'
-          label='Name on Card'
-          validations={[lengthRule]}
+          placeholder={'Name'}
+          label={'Cardholder name'}
           inputStyles={elementInputStyles}
+          labelStyles={elementLabelStyles}
           errorTextStyles={errorTextStyles}
-          onBlur={handleOnBlur}
         />
       </View>
       <View style={viewStyles.box}>
@@ -108,17 +137,15 @@ const CollectElements = props => {
           column='ssn'
           placeholder='XXX-XX-XXXX'
           label='SSN'
-          validations={[ssnRegexRule]}
           inputStyles={elementInputStyles}
           errorTextStyles={errorTextStyles}
         />
       </View>
       <View style={viewStyles.box}>
-        <Button title='Collect' onPress={handleCollect} />
+        <Button title="Collect" onPress={handleCollect} />
       </View>
-
       <View style={viewStyles.box}>
-        <Button title='Reset' onPress={props.handleReset} />
+        <Button title="Reset" onPress={props.handleReset} />
       </View>
     </View>
   );
@@ -132,6 +159,7 @@ const cardNumElementInputStyles = StyleSheet.create({
     color: '#f44336',
   },
 });
+
 
 const elementInputStyles = StyleSheet.create({
   base: {
@@ -163,6 +191,9 @@ const viewStyles = StyleSheet.create({
   box: {
     marginVertical: 5,
   },
+  container: {
+    padding: 10
+  }
 });
 
-export default CollectElements;
+export default CoBrandedCard;
