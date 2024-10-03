@@ -60,6 +60,7 @@ describe('test Collect Element class', () => {
       isEmpty: false,
       value: '41111111X',
       isValid: false,
+      selectedCardScheme: '',
     });
     expect(cardNumberElement.getErrorText()).toBe(
       `Invalid ${elementInput.label}`
@@ -492,4 +493,23 @@ describe('test Collect Element class', () => {
     collectElement.onChangeElement('20');
     expect(collectElement.getInternalState().isValid).toBe(false);
   });
+
+  it('should test onDropdownSelect', () => {
+    const elementInput = {
+      table: 'cards',
+      column: 'string1',
+      type: ElementType.CARD_NUMBER,
+      label: 'Card Number',
+      onChange: onChangeMock,
+      containerType: ContainerType.COLLECT,
+    };
+    const cardNumberElement = new CollectElement(
+      elementInput,
+      { required: true },
+      context
+    );
+    cardNumberElement.onDropdownSelect(CardType.DISCOVER);
+    cardNumberElement.onChangeElement('', true);
+    expect(cardNumberElement.getClientState().selectedCardScheme).toEqual('DISCOVER');
+  })
 });

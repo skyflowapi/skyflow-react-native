@@ -3,6 +3,7 @@
 */
 import type CollectContainer from '../../core/CollectContainer';
 import RevealContainer from '../../core/RevealContainer';
+import { CardType } from '../../../src/core/constants';
 
 export interface IConfig {
   vaultID: string;
@@ -71,6 +72,7 @@ export interface CollectElementState {
   isEmpty: boolean;
   isFocused: boolean;
   isValid: boolean;
+  selectedCardScheme?: string;
 }
 
 export enum ContentType {
@@ -153,6 +155,10 @@ export interface CollectInputStylesVariant
   complete?: Record<string, any>;
   invalid?: Record<string, any>;
   empty?: Record<string, any>;
+  cardIcon?: Record<string, any>;
+  dropdownIcon?: Record<string, any>;
+  dropdown?: Record<string, any>;
+  dropdownListItem?: Record<string, any>;
 }
 
 export interface CollectLabelStylesVariant
@@ -191,6 +197,10 @@ export interface ICollectOptions {
 export interface CollectElementOptions {
   format?: string;
   required?: boolean;
+  enableCardIcon?: boolean,
+  cardMetadata?: {
+    scheme: typeof CardType[]
+  }
 }
 
 export const REQUIRED_MARK_DEFAULT_STYLE = {
@@ -232,4 +242,22 @@ export interface IGetInput {
 
 export interface IGetOptions {
   tokens?: Boolean;
+}
+
+export const CARD_ICON_DEFAULT_STYLE = {
+  width: 50,
+  height: 50,
+};
+
+export const CARD_NUMBER_ELEMENT_DEFAULT_STYLE = {
+  gap: 4,
+  borderWidth: 2,
+  borderRadius: 4,
+  borderColor: '#eae8ee',
+  paddingHorizontal: 6,
+}
+
+export interface IListItem {
+  label: string;
+  value: string;
 }
