@@ -7,15 +7,18 @@ import { Button, SafeAreaView, View } from 'react-native';
 import { SkyflowProvider, LogLevel, IConfig, Env } from "skyflow-react-native"
 import ElementView from './ElementView';
 import ComposableElements from './ComposableElements';
+import CardBrandChoice from './CoBrandedCard';
 
 const App = () => {
 
   const [displayComposable, setDisplayComposable] = React.useState(false);
   const [displayCollect, setDisplayCollect] = React.useState(false);
+  const [displayCobrandedCard, setDisplayCobrandedCard] = React.useState(false);
 
   const handleReset = () => {
     setDisplayCollect(false);
     setDisplayComposable(false);
+    setDisplayCobrandedCard(false);
   }
 
   const skyflowConfig: IConfig = {
@@ -54,17 +57,21 @@ const App = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <SkyflowProvider config={skyflowConfig}>
-        {!displayCollect && !displayComposable && <>
+        {!displayCollect && !displayComposable && !displayCobrandedCard && <>
           <View style={{ margin: 10 }}>
             <Button onPress={() => { setDisplayCollect(true) }} title='Collect And Reveal Elements' />
           </View>
           <View style={{ margin: 10 }}>
             <Button onPress={() => { setDisplayComposable(true) }} title='Composable Elements' />
           </View>
+          <View style={{ margin: 10 }}>
+            <Button onPress={() => { setDisplayCobrandedCard(true) }} title='Co-branded Card' />
+          </View>
         </>}
 
         {displayCollect && <ElementView handleReset={handleReset} />}
         {displayComposable && <ComposableElements handleReset={handleReset} />}
+        {displayCobrandedCard && <CardBrandChoice handleReset={handleReset} />}
       </SkyflowProvider>
     </SafeAreaView>
   );
