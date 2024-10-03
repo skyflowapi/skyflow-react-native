@@ -31,7 +31,7 @@ const CoBrandedCard = (props) => {
 
   const binLookup = (bin) => {
     const myHeaders = new Headers();
-    myHeaders.append("", "{BEARER_TOKEN}");
+    myHeaders.append("X-skyflow-authorization", "{BEARER_TOKEN}");  // TODO: replace bearer token
     myHeaders.append("Content-Type", "application/json");
     const raw = JSON.stringify({
       "BIN": bin
@@ -42,7 +42,7 @@ const CoBrandedCard = (props) => {
       body: raw,
       redirect: "follow"
     };
-    return fetch("{CARD_LOOKUP_ENDPOINT}", requestOptions);
+    return fetch("https://<VAULT_URL>/v1/card_lookup", requestOptions);
   };
 
   const getCardSchemes = (cardData)=>{
@@ -75,7 +75,9 @@ const CoBrandedCard = (props) => {
           console.log("RESULT OF BIN_LOOKUP: ", result)
           const cardData = JSON.parse(result)['cards_data'];
           const schemeList = getCardSchemes(cardData);
-          setScheme(schemeList);
+          if(schemeList.length >= 2) {
+            setScheme(schemeList);
+          }
         })
         .catch((error) => console.error(error));
     } else if(currentBin.length < 8 && calledUpdate){
