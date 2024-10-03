@@ -11,6 +11,7 @@
     "src",
     "lib",
     "android",
+    "assets",
     "ios",
     "cpp",
     "skyflow-react-native.podspec",
