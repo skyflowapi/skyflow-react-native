@@ -189,6 +189,22 @@ const elementInputStyles = StyleSheet.create({
   invalid: {
     color: '#f44336',
   },
+  cardIcon: {
+    width: 50,
+    height: 50,
+  },
+  dropdownIcon: {
+    paddingTop: 14,
+    left: 4,
+  },
+  dropdown: {
+    top: 200,
+    left: 50,
+  },
+  dropdownListItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
 });
 
 // "Passing the styles object to element
@@ -206,6 +222,10 @@ The `inputStyles` field accepts a style object which consists of CSS properties 
 - `empty`: applied when the element has no input.
 - `focus`: applied when the element has focus.
 - `invalid`: applied when the element has invalid input.
+- `cardIcon`: to modify the card icon default styles.
+- `dropdownIcon`: to modify the dropdown icon default styles/position.
+- `dropdown`: to modify the dropdown list’s default styles/position.
+- `dropdownListItem`: to modify the dropdown list item’s default styles/position.
 
 The states that are available for `labelStyles` are `base`, `focus` and `requiredAsterisk`.
 - `requiredAsterisk`: styles applied for the Asterisk symbol in the label. 
@@ -261,6 +281,12 @@ const options = {
   required: boolean,
   // Optional, format for the element (only applicable currently for EXPIRATION_DATE, EXPIRATION_YEAR ElementType).
   format: string,
+  // Optional, to choose whether to display the detected card icon, Defaults to 'true'.
+  enableCardIcon: boolean,
+  //Optional, metadata to control card number element behavior (only applicable for   CARD_NUMBER ElementType).
+  cardMetadata: {
+    scheme: typeof CardType[]
+  }
 };
 
 ```
@@ -280,6 +306,22 @@ The values that are accepted for `EXPIRATION_DATE` are
 The values that are accepted for `EXPIRATION_YEAR` are
   - `YY` (default)
   - `YYYY`
+
+The `cardMetadata` is an object containing metadata keys that govern the behavior of the card number element. It includes an optional key called `scheme`, which accepts an array of card types supported by Skyflow. This key dictates which brands appear in the dropdown for selecting a card brand in the card number element. The `CardType` is an enum representing all card schemes supported by Skyflow.
+
+**Supported card types by CardType :**
+
+- `VISA`
+- `MASTERCARD`
+- `AMEX`
+- `DINERS_CLUB`
+- `DISCOVER`
+- `JCB`
+- `MAESTRO`
+- `UNIONPAY`
+- `HIPERCARD`
+- `CARTES_BANCAIRES`
+
 
 **Note**: If not specified or an invalid value is passed to the `format` then it takes default value.
 
@@ -623,11 +665,14 @@ state : {
   isFocused: boolean
   isValid: boolean
   value: string
+  selectedCardScheme: CardType || ""  // only for CARD_NUMBER element type
 }
 ```
 
 **Note**:
-values of SkyflowElements will be returned in element state object only when `env` is  `DEV`,  else it is empty string i.e, '', but in case of CARD_NUMBER type element when the `env` is `PROD` for all the card types except AMEX, it will return first eight digits, for AMEX it will return first six digits and rest all digits in masked format.
+- Values of SkyflowElements will be returned in element state object only when `env` is  `DEV`,  else it is empty string i.e, '', but in case of CARD_NUMBER type element when the `env` is `PROD` for all the card types except AMEX, it will return first eight digits, for AMEX it will return first six digits and rest all digits in masked format.
+
+- `selectedCardScheme` is only populated for the `CARD_NUMBER` element states when a user chooses a card brand. By default, `selectedCardScheme` is an empty string.
 
 ### Example Usage of Event Listener on Collect Elements
 ```jsx
