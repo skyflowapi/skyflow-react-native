@@ -492,4 +492,35 @@ describe('test Collect Element class', () => {
     collectElement.onChangeElement('20');
     expect(collectElement.getInternalState().isValid).toBe(false);
   });
+
+  it('should test update element properties', () => {
+    const elementInput = {
+      table: 'cards',
+      column: 'string1',
+      type: ElementType.CARD_NUMBER,
+      label: 'Card Number',
+      onChange: onChangeMock,
+      containerType: ContainerType.COLLECT,
+      inputStyles: { base: {color:'#ffffff'}}
+    };
+    const cardNumberElement = new CollectElement(
+      elementInput,
+      { required: true },
+      context
+    );
+    cardNumberElement.update({label:'test', placeholder:'test', table:'test', column:'test',
+     validations:[{
+      type: ValidationRuleType.LENGTH_MATCH_RULE,
+      params: {
+        min: 2,
+        max: 4,
+        error: 'Length must be 2 or 4',
+      },
+      },],
+      inputStyles: {base: {color:'blue'}, invalid:{fontWeight:'12px'}},
+      labelStyles: {focus: {fontWeight:'12px'}},
+      errorTextStyles: {base: {color: 'red'}}
+    });
+    expect(cardNumberElement.getElementInput().placeholder).toEqual('test');
+  })
 });

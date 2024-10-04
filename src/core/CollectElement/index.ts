@@ -113,6 +113,46 @@ class CollectElement extends SkyflowElement {
     );
   }
 
+  updateStyles(existingStyles: any = {}, newStyles: any) {
+    Object.keys(newStyles).forEach((key) => {
+      if (existingStyles?.[key]) {
+        existingStyles[key] = {
+          ...existingStyles[key],
+          ...newStyles[key],
+        };
+      } else {
+        existingStyles[key] = newStyles[key];
+      }
+    });
+  }
+
+  update(updateOptions: Record<string, any>) {
+    if(updateOptions.table) {
+      this.#elementInput.table = updateOptions.table;
+    }
+    if(updateOptions.column) {
+      this.#elementInput.column = updateOptions.column;
+    }
+    if(updateOptions.label) {
+      this.#label = updateOptions.label;
+    }
+    if(updateOptions.placeholder) {
+      this.#elementInput.placeholder = updateOptions.placeholder;
+    }
+    if(updateOptions.validations) {
+      this.#validations = updateOptions.validations;
+    }
+    if(updateOptions.inputStyles) {
+      this.updateStyles(this.#elementInput.inputStyles, updateOptions?.inputStyles)
+    }
+    if(updateOptions.labelStyles) {
+      this.updateStyles(this.#elementInput.labelStyles, updateOptions?.labelStyles)
+    }
+    if(updateOptions.errorTextStyles) {
+      this.updateStyles(this.#elementInput.errorTextStyles, updateOptions?.errorTextStyles)
+    }
+  }
+
   setMethods(setErrorText, stylesSetters?: any) {
     this.#setErrorText = setErrorText;
     if (stylesSetters) {
