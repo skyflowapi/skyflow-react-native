@@ -1,9 +1,9 @@
-name: CI pipeline for master branch
+name: CI pipeline for main branch
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   ci-checks:

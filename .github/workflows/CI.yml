@@ -3,7 +3,7 @@ name: CI pipeline
 on:
   pull_request:
     branches:
-      - master
+      - main
       - release/*
 
 jobs:
