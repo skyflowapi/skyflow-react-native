@@ -11,6 +11,9 @@ interface IComposableRowProps{
   rowIndex?:any;
 }
 
+/**
+ *  @internal
+ */
 const ComposableRow:React.FC<IComposableRowProps> = (props) => {
   const [errorTextMap,setErrorTextMap] = React.useState({})
   const [rowErrorText,setRowErrorText] = React.useState('');

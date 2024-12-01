@@ -8,7 +8,9 @@ import { RevealElementProps } from "../../utils/constants"
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
-
+/**
+ *  Configuration for Reveal Elements.
+ */
 const RevealElement: React.FC<RevealElementProps> = ({ container, label, ...rest }) => {
     const [element, setElement] = React.useState<RevealSkyflowElement>(undefined);
     const [errorText, setErrorText] = React.useState<string>('');

@@ -5,6 +5,10 @@ import useSkyflowContext from '../../components/SkyflowProvider/hook';
 import { validateComposableContainerOptions } from '../../core-utils/element-validations';
 import CoreComposableContainer from '../../core/ComposableContainer';
 
+/**
+ *  Container for Composable Elements.
+ * @returns Returns the ComposableContainer instance.
+ */
 const useComposableContainer = (options: any) => {
   const skyflowClient = useSkyflowContext();
   validateComposableContainerOptions(options);
