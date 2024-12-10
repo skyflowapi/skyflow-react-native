@@ -7,7 +7,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - '*.md'
-
+      
 jobs:
   build-sdk:
     runs-on: ubuntu-latest
@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v1
         with:
-          node-version: 14.17.6
+          node-version: 14.21.3
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
 
