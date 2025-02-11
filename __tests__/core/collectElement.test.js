@@ -256,6 +256,11 @@ describe('test Collect Element class', () => {
     expect(isValid).toThrow(
       new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_COLUMN_IN_COLLECT, [], true)
     );
+
+    collecteElement = new CollectElement({  table: 'cards', column: 'test', skyflowID: '' }, {}, context);
+    expect(isValid).toThrow(
+      new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_SKYFLOW_ID_COLLECT, [], true)
+    );
   });
 
   it('test updateInputStyles', () => {

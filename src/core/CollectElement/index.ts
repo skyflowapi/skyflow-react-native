@@ -327,6 +327,13 @@ class CollectElement extends SkyflowElement {
         true
       );
     }
+    if ( this.#elementInput.skyflowID !== undefined && !this.#elementInput.skyflowID) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.EMPTY_SKYFLOW_ID_COLLECT,
+        [],
+        true,
+      );
+    }
 
     return true;
   }
