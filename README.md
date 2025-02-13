@@ -125,6 +125,7 @@ In [Event Listeners](#event-listener-on-collect-elements), the actual value of e
 ---
 ## Securely collecting data client-side
 -  [**Using Skyflow Elements to collect data**](#using-skyflow-elements-to-collect-data)
+-  [**Using Skyflow Elements to update data**](#using-skyflow-elements-to-update-data)
 -  [**Event listener on collect elements**](#event-listener-on-skyflow-elements)
 
 ### Using Skyflow Elements to collect data
@@ -556,6 +557,268 @@ export default App;
             }
         }
     ]
+}
+```
+
+### Using Skyflow Elements to update data
+
+You can update the data in a vault with Skyflow Elements. Use the following steps to securely update data. 
+
+### Step 1: Create a container
+
+Create a container for the form elements using the `useCollectContainer` hook as shown below:
+
+```jsx
+ const container = useCollectContainer()
+```
+
+### Step 2: Create a collect Element
+
+```jsx
+import {CardNumberElement} from 'skyflow-react-native';
+
+<CardNumberElement
+  container='<CONTAINER>'
+  table='<TABLE_NAME>'
+  column='<COLUMN_NAME>'
+  skyflowID='<SKYFLOW_ID>'
+  ...props
+/>
+```
+
+The following `props` can be passed to Skyflow Collection Element:
+
+``` javascript
+{
+  conatiner: 'CollectContainer'  // Required, the collect container.
+  table: 'string',               // Required, the table this data belongs to.
+  column: 'string',              // Required, the column into which this data should be inserted.
+  label: 'string',               // Optional, label for the form element.
+  placeholder: 'string',         // Optional, placeholder for the form element.
+  validations: [],               // Optional, array of validation rules.
+  onChange: Function,            // Optional, function that is passed to trigger the onChange event.
+  onFocus: Function,             // Optional, function that is passed to trigger the onChange event.
+  onBlur: Function,              // Optional, function that is passed to trigger the onChange event.
+  onReady: Function,             // Optional, function that is passed to trigger the onChange event.
+  inputStyles: {},               // Optional, styles object applied to the textinput field.
+  labelStyles: {},               // Optional, styles object applied to label of textinput field.
+  errorTextStyle: {},            // Optional, styles object applied to errortext of textinput field.
+  skyflowID: 'string'            // The skyflow_id of the record to be updated.
+}
+```
+
+The `table` and `column` fields indicate which table and column the Element corresponds to.
+
+`skyflowID` indicates the record that you want to update.
+
+### Step 3: Update data from Elements
+
+To submit a form, call the collect(options?) method on the container object. The `options` parameter takes an object of optional parameters as shown below:
+
+- `tokens`: indicates whether tokens for the collected data should be returned or not. Defaults to 'true'.
+- `additionalFields`: Non-PCI elements data to be updated or inserted into the vault which should be in the `records` object format.
+- `upsert`: To support upsert operations while collecting the data from Skyflow elements, pass the table and column that have been marked as unique in the table.
+
+```javascript
+const options = {
+    tokens: true,  // Optional, indicates whether tokens for the collected data should be returned. Defaults to 'true'.
+    additionalFields: {
+        records: [
+            {
+                table: 'string',       // Table into which record should be inserted.
+                fields: {
+                    column1: 'value',  // Column names should match vault column names.
+                    skyflowID: "value",     // The skyflow_id of the record to be updated.
+                    // ...additional fields here.
+                }
+            }
+            // ...additional records here.
+        ]
+    }, // Optional
+    upsert: [   // Optional, upsert operations support in the vault.
+        {
+            table: 'string',    // Table name.
+            column: 'string',   // Unique column in the table.
+        }
+    ],
+}
+
+```
+
+**Note:** `skyflowID` is required if you want to update the data. If `skyflowID` isn't specified, the `collect(options?)` method creates a new record in the vault.
+
+### End to end example of updating data with Skyflow Elements
+
+```jsx
+import React from 'react';
+import {CardNumberElement, useCollectContainer} from 'skyflow-react-native';
+import {View, StyleSheet, Button} from 'react-native';
+
+const App = () => {
+  const collectContainer = useCollectContainer();
+
+  const nonPCIRecords = {
+   records: [
+     {
+       table: 'cards',
+       fields: {
+         gender: 'MALE',
+         skyflowID:  '431eaa6c-5c15-4513-aa15-29f50babe882',
+       },
+     },
+   ],
+  };
+
+  const handleCollect = () => {
+    collectContainer
+      .collect({
+        tokens: true,
+        additionalFields: nonPCIRecords
+      })
+      .then((response: any) => {
+        console.log('Collect Success: ', JSON.stringify(response));
+      })
+      .catch(err => {
+        console.error('Collect Failed: ', JSON.stringify(err));
+      });
+  };
+
+  return (
+    <>
+      <View style={viewStyles.box}>
+        <CardNumberElement
+          container={collectContainer}
+          table='cards'
+          column='card_number'
+          placeholder='XXXX XXXX XXXX XXXX'
+          label='Card Number'
+          options={{
+            required: true,
+          }}
+          skyflowID='431eaa6c-5c15-4513-aa15-29f50babe882'
+          ...props
+        />
+      </View>
+      <View style={viewStyles.box}>
+        <CardHolderNameElement
+          container={collectContainer}
+          table='cards'
+          column='first_name'
+          placeholder='Card Holder Name'
+          label='First name'
+          options={{
+            required: true,
+          }}
+          skyflowID='431eaa6c-5c15-4513-aa15-29f50babe882'
+          ...props
+        />
+      </View>
+      <View style={viewStyles.box}>
+        <Button title='Collect' onPress={handleCollect} />
+      </View>
+    </>
+  );
+};
+
+export default App;
+```
+
+**Sample response :**
+```javascript
+{
+ "records": [
+   {
+     "table": "cards",
+     "fields": {
+       "skyflow_id": "431eaa6c-5c15-4513-aa15-29f50babe882",
+       "card_number": "f3907186-e7e2-466f-91e5-48e12c2bcbc1",
+       "first_name": "131e70dc-6f76-4319-bdd3-96281e051051",
+       "gender": "12f670af-6c7d-4837-83fb-30365fbc0b1e"
+     }
+   }
+ ]
+}
+```
+
+### End to end example of collecting and updating data with Skyflow Elements
+
+```jsx
+import React from 'react';
+import {CardNumberElement, useCollectContainer} from 'skyflow-react-native';
+import {View, StyleSheet, Button} from 'react-native';
+
+const App = () => {
+  const collectContainer = useCollectContainer();
+
+  const handleCollect = () => {
+    collectContainer
+      .collect()
+      .then((response: any) => {
+        console.log('Collect Success: ', JSON.stringify(response));
+      })
+      .catch(err => {
+        console.error('Collect Failed: ', JSON.stringify(err));
+      });
+  };
+
+  return (
+    <>
+      <View style={viewStyles.box}>
+        <CardNumberElement
+          container={collectContainer}
+          table='cards'
+          column='card_number'
+          placeholder='XXXX XXXX XXXX XXXX'
+          label='Card Number'
+          options={{
+            required: true,
+          }}
+          ...props
+        />
+      </View>
+      <View style={viewStyles.box}>
+        <CardHolderNameElement
+          container={collectContainer}
+          table='cards'
+          column='first_name'
+          placeholder='Card Holder Name'
+          label='First name'
+          options={{
+            required: true,
+          }}
+          skyflowID='431eaa6c-5c15-4513-aa15-29f50babe882'
+          ...props
+        />
+      </View>
+      <View style={viewStyles.box}>
+        <Button title='Collect' onPress={handleCollect} />
+      </View>
+    </>
+  );
+};
+
+export default App;
+```
+
+**Sample response :**
+```javascript
+{
+  "records": [
+    {
+      "table": "cards",
+      "fields": {  //inserted fields
+        "skyflow_id": "899b9d98-8de0-40de-b8fb-fe8a22709b72",
+        "card_number": "c32de867-eb7d-4d67-a0a9-edef8f6fdbc1"
+      }
+    },
+    {
+      "table": "cards",
+      "fields": {  //updated fields
+        "skyflow_id": "431eaa6c-5c15-4513-aa15-29f50babe882",
+        "first_name": "131e70dc-6f76-4319-bdd3-96281e051051"
+      }
+    }
+  ]
 }
 ```
 
