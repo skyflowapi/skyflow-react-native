@@ -197,6 +197,14 @@ export const validateAdditionalFieldsInCollect = (
         true
       );
     }
+    if (record.fields?.skyflowID !== undefined) {
+      if (!record.fields?.skyflowID) {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_SKYFLOW_ID_IN_ADDITIONAL_FIELDS, [`${index}`], true);
+      }
+      if (!(typeof record.fields?.skyflowID === 'string' || record.fields?.skyflowID instanceof String)) {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_SKYFLOW_ID_IN_ADDITIONAL_FIELDS, [`${index}`], true);
+      }
+    }
     if (!(typeof record.table === 'string' || record.table instanceof String)) {
       throw new SkyflowError(
         SKYFLOW_ERROR_CODE.INVALID_TABLE_IN_ADDITIONAL_FIELDS,

@@ -363,4 +363,165 @@ describe('test collect utils class', () => {
         done(err);
       });
   });
+
+  it('test tokenize with skyflow ID and tokens true', (done) => {
+    const successResponse = {
+      responses: [
+        { records: [{ skyflow_id: 'test_skyflow_id' }] },
+        { fields: { string: 'test_token', int32: '1234' } },
+      ],
+    };
+
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.resolve(successResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid_token');
+
+    const collectElement = new CollectElement(
+      { table: 'table1', column: 'string', type: ElementType.INPUT_FIELD, skyflowID: 'test1'},
+      {},
+      { env: Env.PROD, logLevel: LogLevel.ERROR }
+    );
+
+    const collectElement2 = new CollectElement(
+      { table: 'table1', column: 'int32', type: ElementType.INPUT_FIELD, skyflowID: 'test1'},
+      {},
+      { env: Env.PROD, logLevel: LogLevel.ERROR }
+    );
+    collectElement.onChangeElement('1232');
+    collectElement2.onChangeElement('test');
+
+    const tokenizeResponse = tokenize(
+      testSkyflowClient,
+      [collectElement, collectElement2],
+      {
+        tokens: true,
+      }
+    );
+    tokenizeResponse
+      .then((response) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('test tokenize with skyflow ID and tokens true and additional fields', (done) => {
+    const successResponse = {
+      responses: [
+        { records: [{ skyflow_id: 'test_skyflow_id' }] },
+        { fields: { string: 'test_token', int32: '1234' } },
+      ],
+    };
+
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.resolve(successResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid_token');
+
+    const collectElement = new CollectElement(
+      { table: 'table1', column: 'string', type: ElementType.INPUT_FIELD, skyflowID: 'test1'}, //, skyflowID: 'test1'
+      {},
+      { env: Env.PROD, logLevel: LogLevel.ERROR }
+    );
+
+    const collectElement2 = new CollectElement(
+      { table: 'table1', column: 'int32', type: ElementType.INPUT_FIELD, skyflowID: 'test1' },
+      {},
+      { env: Env.PROD, logLevel: LogLevel.ERROR }
+    );
+    collectElement.onChangeElement('1232');
+    collectElement2.onChangeElement('test');
+
+    const tokenizeResponse = tokenize(
+      testSkyflowClient,
+      [collectElement, collectElement2],
+      {
+        tokens: true,
+        additionalFields: {
+          records: [
+            { table: 'table1', fields: { int32: 'test_int', skyflowID:'test2' } },
+            { table: 'table2', fields: { string: 'test_string' } },
+          ],
+        },
+      }
+    );
+    tokenizeResponse
+      .then((response) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('test tokenize with skyflow ID and tokens true for error scenario', (done) => {
+    const failureError = new SkyflowError(
+      {
+        code: 400,
+        description:
+          'Object Name tab was not found for Vault test_vault - requestId: test_req_id',
+      },
+      [],
+      true
+    );
+
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.reject(failureError),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid_token');
+
+    const collectElement = new CollectElement(
+      { table: 'table1', column: 'string', type: ElementType.INPUT_FIELD, skyflowID: 'gduye8'}, //, skyflowID: 'test1'
+      {},
+      { env: Env.PROD, logLevel: LogLevel.ERROR }
+    );
+
+    collectElement.onChangeElement('1232');
+
+    const tokenizeResponse = tokenize(
+      testSkyflowClient,
+      [collectElement],
+      {
+        tokens: true,
+      }
+    );
+    tokenizeResponse
+      .then((response) => {
+        done();
+      })
+      .catch((err) => {
+        try {
+          done();
+        } catch (error) {
+          done(error);
+        }
+      });
+  });
+
 });

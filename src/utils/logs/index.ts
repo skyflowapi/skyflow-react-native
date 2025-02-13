@@ -217,6 +217,9 @@ const logs = {
     `${SDK_NAME_VERSION} Validation error. ids and columnName can not be specified together.`,
     GET_BY_SKYFLOWID_RESOLVED: '%s1 - GetById request is resolved.',
     GET_REJECTED: `${SDK_NAME_VERSION} Get failed. Get request is rejected.`,
+    EMPTY_SKYFLOW_ID_IN_ADDITIONAL_FIELDS: `${SDK_NAME_VERSION} Validation error.\'id\' cannot be empty in addtionalFields record at index %s1. Specify a non-empty value for \'id\'.`,
+    EMPTY_SKYFLOW_ID_COLLECT: `${SDK_NAME_VERSION} Validation error.\'skyflowID\' cannot be empty for collect element. Specify a non-empty value for \'skyflowID\'.`,
+    INVALID_SKYFLOW_ID_IN_ADDITIONAL_FIELDS: `${SDK_NAME_VERSION} Validation error.Invalid \'skyflow_id\' key value in additionalFields record at index %s1. Specify a valid value for \'skyflow_id\' key.`,
   },
   warnLogs: {
     INVALID_EXPIRATION_DATE_FORMAT:
