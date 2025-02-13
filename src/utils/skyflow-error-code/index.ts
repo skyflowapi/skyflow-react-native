@@ -358,6 +358,18 @@ const SKYFLOW_ERROR_CODE = {
     code: 400,
     description: logs.errorLogs.INVALID_RECORD_COLUMN_NAME_TYPE,
   },
+  EMPTY_SKYFLOW_ID_IN_ADDITIONAL_FIELDS: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_SKYFLOW_ID_IN_ADDITIONAL_FIELDS,
+  },
+  EMPTY_SKYFLOW_ID_COLLECT: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_SKYFLOW_ID_COLLECT,
+  },
+  INVALID_SKYFLOW_ID_IN_ADDITIONAL_FIELDS: {
+    code: 400,
+    description: logs.errorLogs.INVALID_SKYFLOW_ID_IN_ADDITIONAL_FIELDS,
+  },
 };
 
 export default SKYFLOW_ERROR_CODE;

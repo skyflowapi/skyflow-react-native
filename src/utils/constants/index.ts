@@ -35,6 +35,7 @@ export interface CollectElementInput {
   labelStyles?: CollectLabelStylesVariant;
   errorTextStyles?: StylesBaseVariant;
   containerType?: string;
+  skyflowID?: string;
 }
 
 export interface CollectElementProps {
@@ -53,6 +54,7 @@ export interface CollectElementProps {
   labelStyles?: CollectLabelStylesVariant;
   errorTextStyles?: StylesBaseVariant;
   containerMethods?: Record<any, any>;
+  skyflowID?: string;
 }
 
 export enum ElementType {
@@ -178,9 +180,19 @@ export const DEFAULT_COLLECT_ELEMENT_STYLES = {
 export interface IInsertRecord {
   table: string;
   fields: Record<string, any>;
+  skyflowID?: string;
 }
 export interface IInsertRecordInput {
   records: IInsertRecord[];
+}
+
+export interface IInsertResponse {
+  records: IInsertResponseReocrds[];
+}
+export interface IInsertResponseReocrds {
+  table: string;
+  fields?: Record<string, any>;
+  skyflowID?: string;
 }
 
 export interface IUpsertInput {
