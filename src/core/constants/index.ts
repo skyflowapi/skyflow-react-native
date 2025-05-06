@@ -163,7 +163,7 @@ export const DEFAULT_CARD_INPUT_MAX_LENGTH = 23;
 
 export const REVEAL_ELEMENT_ERROR_TEXT = 'Invalid Token';
 
-export const DEFAULT_COLLECT_ELEMENT_ERROR_TEXT = 'Invalid Value';
+export const DEFAULT_COLLECT_ELEMENT_ERROR_TEXT = 'Invalid value';
 
 export const DEFAULT_VALIDATION_ERROR_TEXT = 'Validation Failed';
 
