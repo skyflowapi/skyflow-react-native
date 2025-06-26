@@ -27,8 +27,8 @@ const RevealElement: React.FC<RevealElementProps> = ({ container, label, ...rest
 
     return <>
         <Text style={rest.labelStyles?.base || {}}>{label}</Text>
-        <Text selectable style={rest?.inputStyles?.base || {}}>{value}</Text>
-        <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
+        <Text selectable style={rest?.inputStyles?.base || {}} testID={rest?.testID}>{value}</Text>
+        <Text style={rest?.errorTextStyles?.base || {}} testID={`${label}-error`}>{errorText}</Text>
     </>
 
 }
