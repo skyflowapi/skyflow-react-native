@@ -7,7 +7,7 @@ import _ from 'lodash';
 import Skyflow from '../../core/Skyflow';
 import SkyflowError from '../../utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
-import { IInsertRecord, IInsertResponse } from '../../../src/utils/constants';
+import { ElementType, IInsertRecord, IInsertResponse } from '../../../src/utils/constants';
 import omit from 'lodash/omit';
 const set = require('set-value');
 
@@ -184,6 +184,12 @@ export const constructElementsInsertReq = (req: any, options: any) => {
   return { records };
 };
 
+export function getElementValueToInsert(element: CollectElement) {
+  return element.getClientState().elementType === ElementType.CARD_NUMBER
+    ? element.getUnformattedValue()
+    : element.getInternalState().value;
+}
+
 export const tokenize = (
   skyflowClient: Skyflow,
   elementList: CollectElement[],
@@ -223,14 +229,14 @@ export const tokenize = (
         set(
           elementsUpdateData[skyflowID],
           column,
-          currentElement.getInternalState().value,
+          getElementValueToInsert(currentElement),
         );
       } else {
         elementsUpdateData[skyflowID] = {};
         set(
           elementsUpdateData[skyflowID],
           column,
-          currentElement.getInternalState().value,
+          getElementValueToInsert(currentElement),
         );
         set(
           elementsUpdateData[skyflowID],
@@ -240,10 +246,10 @@ export const tokenize = (
       }
     }
     else if (elementsData[table]) {
-      set(elementsData[table], column, currentElement.getInternalState().value);
+      set(elementsData[table], column, getElementValueToInsert(currentElement));
     } else {
       elementsData[table] = {};
-      set(elementsData[table], column, currentElement.getInternalState().value);
+      set(elementsData[table], column, getElementValueToInsert(currentElement));
     }
   });
 

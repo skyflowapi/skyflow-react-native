@@ -517,4 +517,16 @@ describe('test Collect Element class', () => {
     cardNumberElement.onChangeElement('', true);
     expect(cardNumberElement.getClientState().selectedCardScheme).toEqual('DISCOVER');
   })
+
+  it('should remove spaces from value', () => {
+    const elementInput = {
+      table: 'cards',
+      column: 'number',
+      type: ElementType.CARD_NUMBER,
+      containerType: ContainerType.COLLECT,
+    };
+    const collectElement = new CollectElement(elementInput, {}, context);
+    collectElement.updateValue('4111 1111 1111 1111');
+    expect(collectElement.getUnformattedValue()).toBe('4111111111111111');
+  });
 });
