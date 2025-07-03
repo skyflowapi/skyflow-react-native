@@ -111,6 +111,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options, 
             ref={textInputRef}
             value={elementValue}
             placeholder={rest.placeholder}
+            testID={rest?.testID}
             onChangeText={(text) => {
                 element?.onChangeElement(text)
                 setElementValue(element.getInternalState().value)
@@ -143,7 +144,7 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options, 
         {
             container && container?.type === ContainerType.COLLECT
             &&
-            <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
+            <Text style={rest?.errorTextStyles?.base || {}} testID="cardnumber-error">{errorText}</Text>
         }
     </View>);
 }

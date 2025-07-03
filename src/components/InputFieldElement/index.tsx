@@ -48,6 +48,7 @@ const InputFieldElement: React.FC<CollectElementProps> = ({ container, options =
             </Text>)
         }
         <TextInput
+            testID={rest?.testID}
             ref={textInputRef}
             value={elementValue}
             placeholder={rest.placeholder}
@@ -77,7 +78,7 @@ const InputFieldElement: React.FC<CollectElementProps> = ({ container, options =
         {
             container && container?.type === ContainerType.COLLECT
             &&
-            <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
+            <Text style={rest?.errorTextStyles?.base || {}} testID="inputfield-error">{errorText}</Text>
         }
     </View>);
 }

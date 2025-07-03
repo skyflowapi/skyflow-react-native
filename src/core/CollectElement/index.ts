@@ -137,6 +137,10 @@ class CollectElement extends SkyflowElement {
     return this.#state;
   }
 
+  getUnformattedValue() {
+    return this.#state.value.trim().replace(/[\s-]/g, '');
+  }
+
   getElementInput() {
     return this.#elementInput;
   }
