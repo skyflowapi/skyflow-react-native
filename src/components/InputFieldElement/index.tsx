@@ -4,7 +4,7 @@
 import React, { useEffect, useRef } from "react";
 import { Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
-import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE, ContainerType } from "../../utils/constants";
+import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE, ContainerType, CollectElementOptions } from "../../utils/constants";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import uuid from 'react-native-uuid';
@@ -51,6 +51,7 @@ const InputFieldElement: React.FC<CollectElementProps> = ({ container, options =
             ref={textInputRef}
             value={elementValue}
             placeholder={rest.placeholder}
+            {...(options?.format ? { maxLength: options.format.length } : {})}
             onChangeText={(text) => {
                 element?.onChangeElement(text);
                 setElementValue(element.getInternalState().value)

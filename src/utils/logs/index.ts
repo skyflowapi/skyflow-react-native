@@ -226,6 +226,8 @@ const logs = {
       'EXPIRATION_DATE format must be in one of %s1, the format is set to default MM/YY',
     INVALID_EXPIRATION_YEAR_FORMAT:
       'EXPIRATION_YEAR format must be in one of %s1, the format is set to default YY',
+    INVALID_CARD_NUMBER_FORMAT:
+      `CARD_NUMBER format must be in one of %s1, the format is set to default XXXX XXXX XXXX XXXX`,
   },
 };
 

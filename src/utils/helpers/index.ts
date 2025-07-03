@@ -12,6 +12,8 @@ import {
   DEFAULT_EXPIRATION_DATE_FORMAT,
   ALLOWED_EXPIRY_DATE_FORMATS,
   ALLOWED_EXPIRY_YEAR_FORMATS,
+  ALLOWED_CARD_NUMBER_FORMATS,
+  DEFAULT_CARD_NUMBER_FORMAT,
 } from '../../core/constants';
 import { ElementType, MessageType } from '../constants';
 import logs from '../logs';
@@ -141,8 +143,42 @@ export const detectCardType = (cardNumber: string) => {
   return detectedType;
 };
 
-export const formatCardNumber = (cardNumber, type) => {
-  return applyMask(cardNumber, CARD_NUMBER_MASK[type]);
+export const formatCardNumber = (
+  cardNumber: string,
+  type: string | number,
+  format = DEFAULT_CARD_NUMBER_FORMAT
+) => {
+  const mask = CARD_NUMBER_MASK[type] || CARD_NUMBER_MASK[CardType.DEFAULT];
+  const maskedValue = applyMask(cardNumber, mask);
+  const separator = format.includes('-') ? '-' : ' ';
+  const formattedValue = maskedValue.replace(/[\s-]+/g, separator).trim();
+
+  return formattedValue;
+};
+
+export const formatInputFieldValue = (value: string, format: string): string => {
+  if (!value || value.length === 0) return '';
+  if (!format || format.length === 0) return value;
+
+  format = format.toUpperCase();
+  const valueChars = value.replace(/[-\s]/g, '').split('');
+  let formatted = '';
+  let valueIndex = 0;
+
+  for (let formatIndex = 0; formatIndex < format.length && valueIndex < valueChars.length; formatIndex++) {
+    const formatChar = format[formatIndex];
+    
+    if (formatChar === 'X') {
+      formatted += valueChars[valueIndex];
+      valueIndex++;
+    } else {
+      if (valueIndex < valueChars.length && valueIndex > 0) {
+        formatted += formatChar;
+      }
+    }
+  }
+
+  return formatted;
 };
 
 export const getReturnValue = (
@@ -204,6 +240,13 @@ export const isValidExpiryYearFormat = (format: string): boolean => {
   return false;
 };
 
+export const isValidCardNumberFormat = (format: string): boolean => {
+  if (format) {
+    return ALLOWED_CARD_NUMBER_FORMATS.includes(format);
+  }
+  return false;
+};
+
 export const formatCollectElementOptions = (
   elementType: ElementType,
   options,
@@ -258,6 +301,27 @@ export const formatCollectElementOptions = (
       format: isvalidFormat
         ? formattedOptions.format.toUpperCase()
         : DEFAULT_EXPIRATION_YEAR_FORMAT,
+    };
+  } else if (elementType === ElementType.CARD_NUMBER) {
+    let isvalidFormat = false;
+    if (formattedOptions.format) {
+      isvalidFormat = isValidCardNumberFormat(
+        formattedOptions.format.toUpperCase()
+      ); 
+      if (!isvalidFormat) {
+        printLog(
+          parameterizedString(
+            logs.warnLogs.INVALID_CARD_NUMBER_FORMAT,
+            ALLOWED_CARD_NUMBER_FORMATS.toString()
+          ),
+          MessageType.WARN,
+          logLevel
+        );
+      }
+    }
+    formattedOptions = {
+      ...formattedOptions,
+      format: isvalidFormat ? formattedOptions.format : DEFAULT_CARD_NUMBER_FORMAT,
     };
   }
   return formattedOptions;
