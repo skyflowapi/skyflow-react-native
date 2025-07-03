@@ -148,6 +148,8 @@ export const formatCardNumber = (
   type: string | number,
   format = DEFAULT_CARD_NUMBER_FORMAT
 ) => {
+  if (!cardNumber || cardNumber.length === 0) return '';
+
   const mask = CARD_NUMBER_MASK[type] || CARD_NUMBER_MASK[CardType.DEFAULT];
   const maskedValue = applyMask(cardNumber, mask);
   const separator = format.includes('-') ? '-' : ' ';
@@ -160,15 +162,17 @@ export const formatInputFieldValue = (value: string, format: string): string => 
   if (!value || value.length === 0) return '';
   if (!format || format.length === 0) return value;
 
-  format = format.toUpperCase();
+  format = format.trim().toUpperCase();
+  value = value.trim();
   const valueChars = value.replace(/[-\s]/g, '').split('');
   let formatted = '';
   let valueIndex = 0;
+  const separator = 'X';
 
   for (let formatIndex = 0; formatIndex < format.length && valueIndex < valueChars.length; formatIndex++) {
     const formatChar = format[formatIndex];
     
-    if (formatChar === 'X') {
+    if (formatChar === separator) {
       formatted += valueChars[valueIndex];
       valueIndex++;
     } else {

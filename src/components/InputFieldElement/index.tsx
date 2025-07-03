@@ -52,7 +52,7 @@ const InputFieldElement: React.FC<CollectElementProps> = ({ container, options =
             ref={textInputRef}
             value={elementValue}
             placeholder={rest.placeholder}
-            {...(options?.format ? { maxLength: options.format.length } : {})}
+            {...(options?.format ? { maxLength: options.format.trim().length } : {})}
             onChangeText={(text) => {
                 element?.onChangeElement(text);
                 setElementValue(element.getInternalState().value)
