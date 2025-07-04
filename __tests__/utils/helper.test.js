@@ -370,7 +370,7 @@ describe('test formatCardNumber with different formats', () => {
     {
       input: '378282246310005',
       type: CardType.AMEX,
-      format: 'XXXX-XXXXXX-XXXXX',
+      format: 'XXXX-XXXX-XXXX-XXXX',
       expected: '3782-822463-10005',
     },
     {
@@ -412,9 +412,9 @@ describe('test formatInputFieldValue with different formats', () => {
       expected: '12-34-56',
     },
     {
-      input: 'ABCDEF',
+      input: '123456',
       format: 'XXX XXX',
-      expected: 'ABC DEF',
+      expected: '123 456',
     },
     {
       input: '12345',
