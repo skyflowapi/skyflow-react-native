@@ -149,6 +149,13 @@ export const formatCardNumber = (
   format = DEFAULT_CARD_NUMBER_FORMAT
 ) => {
   if (!cardNumber || cardNumber.length === 0) return '';
+  const isvalidFormat = isValidCardNumberFormat(
+    format
+  );
+
+  if (!isvalidFormat) {
+    format = DEFAULT_CARD_NUMBER_FORMAT;
+  };
 
   const mask = CARD_NUMBER_MASK[type] || CARD_NUMBER_MASK[CardType.DEFAULT];
   const maskedValue = applyMask(cardNumber, mask);
@@ -162,22 +169,26 @@ export const formatInputFieldValue = (value: string, format: string): string => 
   if (!value || value.length === 0) return '';
   if (!format || format.length === 0) return value;
 
-  format = format.trim().toUpperCase();
-  value = value.trim();
-  const valueChars = value.replace(/[-\s]/g, '').split('');
+  const valueChars = value.replace(/\D/g, '').split('');
+  const valueCharsLength = valueChars.length;
   let formatted = '';
   let valueIndex = 0;
   const separator = 'X';
 
-  for (let formatIndex = 0; formatIndex < format.length && valueIndex < valueChars.length; formatIndex++) {
+  for (let formatIndex = 0; formatIndex < format.length; formatIndex++) {
     const formatChar = format[formatIndex];
-    
+
     if (formatChar === separator) {
-      formatted += valueChars[valueIndex];
-      valueIndex++;
+      if (valueIndex < valueCharsLength) {
+        formatted += valueChars[valueIndex++];
+      } else {
+        break;
+      }
     } else {
-      if (valueIndex < valueChars.length && valueIndex > 0) {
+      if (valueIndex < valueCharsLength) {
         formatted += formatChar;
+      } else {
+        break;
       }
     }
   }
@@ -311,7 +322,7 @@ export const formatCollectElementOptions = (
     if (formattedOptions.format) {
       isvalidFormat = isValidCardNumberFormat(
         formattedOptions.format.toUpperCase()
-      ); 
+      );
       if (!isvalidFormat) {
         printLog(
           parameterizedString(

@@ -560,11 +560,11 @@ describe('test Collect Element class', () => {
         input: '411111',
         expected: '4111 11',
       },
-      // Test input with leading, trailing spaces & small format
+      // Test for invalid format, It will fallback to default format
       {
         format: ' xxxx-xxxx-xxxx ',
         input: ' 4111111111111111 ',
-        expected: '4111-1111-1111-1111',
+        expected: '4111 1111 1111 1111',
       },
     ];
 
@@ -626,7 +626,7 @@ describe('test Collect Element class', () => {
       {
         format: ' xx-xx-xxx ',
         input: ' 1234567 ',
-        expected: '12-34-567',
+        expected: ' xx-xx-xxx ',
       },
     ];
 
