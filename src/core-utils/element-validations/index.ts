@@ -58,13 +58,17 @@ export const validateExpiryDate = (date: string, format: string) => {
   if (date.trim().length === 0) return true;
   if (!date.includes('/')) return false;
   const { month, year } = getYearAndMonthBasedOnFormat(date, format);
-  const expiryDate = new Date(`${year}-${month}-01`);
+  const expiryDate = new Date(Number(year), Number(month) - 1, 1);
   const today = new Date();
+  today.setDate(1);
+  today.setHours(0, 0, 0, 0);
 
   const maxDate = new Date();
   maxDate.setFullYear(today.getFullYear() + 50);
+  maxDate.setDate(1);
+  maxDate.setHours(0, 0, 0, 0);
 
-  return expiryDate > today && expiryDate <= maxDate;
+  return expiryDate >= today && expiryDate <= maxDate;
 };
 
 export const validateCreditCardNumber = (cardNumber: string) => {
