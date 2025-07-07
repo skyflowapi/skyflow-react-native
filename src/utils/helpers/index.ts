@@ -166,33 +166,26 @@ export const formatCardNumber = (
 };
 
 export const formatInputFieldValue = (value: string, format: string): string => {
-  if (!value || value.length === 0) return '';
   if (!format || format.length === 0) return value;
+  if (!value || value.length === 0) return '';
 
-  const valueChars = value.replace(/\D/g, '').split('');
-  const valueCharsLength = valueChars.length;
+  const formatter= 'X'; 
+
+  const inputChars = format.includes(formatter) ? value.replace(/\D/g, '').split('') : value.split('');
   let formatted = '';
-  let valueIndex = 0;
-  const separator = 'X';
+  let inputIndex = 0;
 
-  for (let formatIndex = 0; formatIndex < format.length; formatIndex++) {
-    const formatChar = format[formatIndex];
-
-    if (formatChar === separator) {
-      if (valueIndex < valueCharsLength) {
-        formatted += valueChars[valueIndex++];
-      } else {
-        break;
-      }
+  for (let idx = 0; idx < format.length && inputIndex < inputChars.length; idx++) {
+    if (format[idx] === formatter) {
+      formatted += inputChars[inputIndex];
+      inputIndex++;
     } else {
-      if (valueIndex < valueCharsLength) {
-        formatted += formatChar;
-      } else {
-        break;
+      formatted += format[idx];
+      if (inputIndex < inputChars.length && inputChars[inputIndex] === format[idx]) {
+        inputIndex++;
       }
     }
   }
-
   return formatted;
 };
 
