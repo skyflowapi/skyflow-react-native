@@ -58,6 +58,9 @@ export const validateExpiryDate = (date: string, format: string) => {
   if (date.trim().length === 0) return true;
   if (!date.includes('/')) return false;
   const { month, year } = getYearAndMonthBasedOnFormat(date, format);
+
+  if (month < 1 || month > 12) return false;
+
   const expiryDate = new Date(Number(year), Number(month) - 1, 1);
   const today = new Date();
   today.setDate(1);
