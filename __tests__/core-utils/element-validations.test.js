@@ -8,6 +8,7 @@ import {
   validatePin,
   validateRevealElementRecords,
   validateGetInput,
+  validateExpiryDate,
 } from '../../src/core-utils/element-validations';
 import SKYFLOW_ERROR_CODE from '../../src/utils/skyflow-error-code';
 import { parameterizedString } from '../../src/utils/logs-helper';
@@ -183,6 +184,41 @@ describe('test validatePin function', () => {
   it('should return true for value length outof range', () => {
     expect(validatePin('12')).toBe(false);
     expect(validatePin('12345678901234677')).toBe(false);
+  });
+});
+
+describe('test validateExpiryDate function with various format', () => {
+  it('should return true for current month/year', () => {
+    const today = new Date();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const year = today.getFullYear();
+    expect(validateExpiryDate(`${month}/${year}`, 'MM/YYYY')).toBe(true);
+    expect(validateExpiryDate(`${year}/${month}`, 'YYYY/MM')).toBe(true);
+
+    const yearTwoDigit = year % 100;
+    expect(validateExpiryDate(`${month}/${yearTwoDigit}`, 'MM/YY')).toBe(true);
+    expect(validateExpiryDate(`${yearTwoDigit}/${month}`, 'YY/MM')).toBe(true);
+  });
+
+  it('should return true for valid future date', () => {
+    expect(validateExpiryDate('07/2074', 'MM/YYYY')).toBe(true);
+    expect(validateExpiryDate('2074/04', 'YYYY/MM')).toBe(true);
+    expect(validateExpiryDate('01/35', 'MM/YY')).toBe(true);
+    expect(validateExpiryDate('35/04', 'YY/MM')).toBe(true);
+  });
+
+  it('should return false for expired dates', () => {
+    expect(validateExpiryDate('01/2020', 'MM/YYYY')).toBe(false);
+    expect(validateExpiryDate('2000/04', 'YYYY/MM')).toBe(false);
+    expect(validateExpiryDate('04/20', 'MM/YY')).toBe(false);
+    expect(validateExpiryDate('20/04', 'YY/MM')).toBe(false);
+  });
+
+  it('should return false for invalid month for expired date', () => {
+    expect(validateExpiryDate('15/2040', 'MM/YYYY')).toBe(false);
+    expect(validateExpiryDate('2040/16', 'YYYY/MM')).toBe(false);
+    expect(validateExpiryDate('14/20', 'MM/YY')).toBe(false);
+    expect(validateExpiryDate('40/14', 'YY/MM')).toBe(false);
   });
 });
 
