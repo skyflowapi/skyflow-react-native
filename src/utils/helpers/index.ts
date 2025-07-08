@@ -14,6 +14,7 @@ import {
   ALLOWED_EXPIRY_YEAR_FORMATS,
   ALLOWED_CARD_NUMBER_FORMATS,
   DEFAULT_CARD_NUMBER_FORMAT,
+  DEFAULT_INPUT_FIELD_TRANSLATION,
 } from '../../core/constants';
 import { ElementType, MessageType } from '../constants';
 import logs from '../logs';
@@ -165,28 +166,59 @@ export const formatCardNumber = (
   return formattedValue;
 };
 
-export const formatInputFieldValue = (value: string, format: string): string => {
-  if (!format || format.length === 0) return value;
-  if (!value || value.length === 0) return '';
+export const formatInputFieldValue = (
+  input: string,
+  format: string,
+  translation: Record<string, string> = DEFAULT_INPUT_FIELD_TRANSLATION
+): string => {
+  if (!format || format.length === 0) return input;
+  if (!input || input.length === 0) return '';
 
-  const formatter= 'X'; 
+  const inputArray = Array.from(input);
+  const formatArray = Array.from(format);
+  let formattedOutput = '';
+  let formatIndex = 0;
 
-  const inputChars = format.includes(formatter) ? value.replace(/\D/g, '').split('') : value.split('');
-  let formatted = '';
-  let inputIndex = 0;
+  for (let inputIndex = 0; inputIndex < inputArray.length; inputIndex++) {
+    const inputChar = inputArray[inputIndex];
 
-  for (let idx = 0; idx < format.length && inputIndex < inputChars.length; idx++) {
-    if (format[idx] === formatter) {
-      formatted += inputChars[inputIndex];
-      inputIndex++;
-    } else {
-      formatted += format[idx];
-      if (inputIndex < inputChars.length && inputChars[inputIndex] === format[idx]) {
-        inputIndex++;
+    if (formatIndex < formatArray.length) {
+      const currentFormatChar = formatArray[formatIndex];
+
+      if (translation[currentFormatChar]) {
+        const regex = new RegExp(translation[currentFormatChar]);
+        if (regex.test(inputChar)) {
+          formattedOutput += inputChar;
+          formatIndex++;
+        }
+      } else {
+        if (inputChar === currentFormatChar) {
+          formattedOutput += inputChar;
+          formatIndex++;
+        } else {
+          for (let scanIndex = formatIndex; scanIndex < formatArray.length; scanIndex++) {
+            const nextFormatChar = formatArray[scanIndex];
+
+            if (translation[nextFormatChar]) {
+              const regex = new RegExp(translation[nextFormatChar]);
+              if (regex.test(inputChar)) {
+                formattedOutput += inputChar;
+                formatIndex = scanIndex + 1;
+              }
+              break;
+            } else {
+              formattedOutput += nextFormatChar;
+              formatIndex = scanIndex + 1;
+            }
+          }
+        }
       }
+    } else {
+      break;
     }
   }
-  return formatted;
+
+  return formattedOutput;
 };
 
 export const getReturnValue = (

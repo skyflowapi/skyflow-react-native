@@ -421,6 +421,24 @@ describe('test formatInputFieldValue with different formats', () => {
       format: 'XX/XX/X',
       expected: '12/34/5',
     },
+    {
+      input: '1567C89',
+      format: 'XX/XYX/X',
+      translation: { X: '[5-9]', Y: '[A-C]' },
+      expected: '56/7C8/9',
+    },
+    // Combination of constants and dynamic inputs
+    {
+      input: '1234121234',
+      format: '+91 XXXX-XX-XXXX',
+      expected: '+91 1234-12-1234',
+    },
+    {
+      input: 'B5678978C7QAB97',
+      format: '91 YXX-XZX-XXY-XZYXX',
+      translation: { X: '[5-9]', Y: '[A-C]' },
+      expected: '91 B56-7Z8-97C-7ZA97',
+    },
     // Test with special characters in format
     {
       input: '123456',
@@ -454,10 +472,19 @@ describe('test formatInputFieldValue with different formats', () => {
   ];
 
   testCases.forEach((testCase) => {
-    it(`should format input '${testCase.input}' with format '${testCase.format}' correctly`, () => {
-      expect(formatInputFieldValue(testCase.input, testCase.format)).toBe(
-        testCase.expected
-      );
+    const translation = testCase.translation || {
+      X: '[0-9]',
+    };
+    it(`should format input '${testCase.input}' with format '${
+      testCase.format
+    }' & translation '${JSON.stringify(translation)}' correctly`, () => {
+      expect(
+        formatInputFieldValue(
+          testCase.input,
+          testCase.format,
+          testCase?.translation
+        )
+      ).toBe(testCase.expected);
     });
   });
 });

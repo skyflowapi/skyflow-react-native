@@ -167,6 +167,9 @@ export const REVEAL_ELEMENT_ERROR_TEXT = 'Invalid Token';
 export const DEFAULT_COLLECT_ELEMENT_ERROR_TEXT = 'Invalid value';
 
 export const DEFAULT_VALIDATION_ERROR_TEXT = 'Validation Failed';
+export const DEFAULT_INPUT_FIELD_TRANSLATION: Record<string, string> = {
+  'X': '[0-9]',
+};
 
 export const ALLOWED_EXPIRY_YEAR_FORMATS = [
   DEFAULT_EXPIRATION_YEAR_FORMAT,
