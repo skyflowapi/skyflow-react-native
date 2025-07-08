@@ -5,11 +5,12 @@ import React, { useEffect, useRef } from "react";
 import { Image, Text, TextInput, View } from "react-native";
 import type CollectElement from "../../core/CollectElement";
 import { CARD_ENCODED_ICONS, CARD_NUMBER_MASK, CardType, CardTypeValues, DEFAULT_CARD_INPUT_MAX_LENGTH } from "../../core/constants";
-import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE, ContainerType, CARD_NUMBER_ELEMENT_DEFAULT_STYLE, CARD_ICON_DEFAULT_STYLE, IListItem } from "../../utils/constants";
+import { CollectElementProps, ElementType, ELEMENT_REQUIRED_ASTERISK, REQUIRED_MARK_DEFAULT_STYLE, ContainerType, CARD_NUMBER_ELEMENT_DEFAULT_STYLE, CARD_ICON_DEFAULT_STYLE, IListItem, CollectElementOptions } from "../../utils/constants";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import uuid from 'react-native-uuid';
 import Dropdown from "../../core/Dropdown";
+import { formatCollectElementOptions } from "../../utils/helpers";
 
 const CardNumberElement: React.FC<CollectElementProps> = ({ container, options, ...rest }) => {
 
@@ -33,7 +34,8 @@ const CardNumberElement: React.FC<CollectElementProps> = ({ container, options, 
 
     useEffect(() => {
         if (container) {
-            const element: CollectElement = container.create({ ...rest, type: ElementType.CARD_NUMBER, containerType: container.type }, mergedOptions);
+            const elementOptions: CollectElementOptions = formatCollectElementOptions(ElementType.CARD_NUMBER, options, container.getContext().logLevel);
+            const element: CollectElement = container.create({ ...rest, type: ElementType.CARD_NUMBER, containerType: container.type }, {...mergedOptions , ...elementOptions});
             setElement(element);
             if (container.type === ContainerType.COLLECT)
                 element.setMethods(setErrorText, { setInputStyles: setInputStyles, setLabelStyles: setLabelStyles });

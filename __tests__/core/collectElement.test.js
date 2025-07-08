@@ -257,7 +257,11 @@ describe('test Collect Element class', () => {
       new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_COLUMN_IN_COLLECT, [], true)
     );
 
-    collecteElement = new CollectElement({  table: 'cards', column: 'test', skyflowID: '' }, {}, context);
+    collecteElement = new CollectElement(
+      { table: 'cards', column: 'test', skyflowID: '' },
+      {},
+      context
+    );
     expect(isValid).toThrow(
       new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_SKYFLOW_ID_COLLECT, [], true)
     );
@@ -515,8 +519,10 @@ describe('test Collect Element class', () => {
     );
     cardNumberElement.onDropdownSelect(CardType.DISCOVER);
     cardNumberElement.onChangeElement('', true);
-    expect(cardNumberElement.getClientState().selectedCardScheme).toEqual('DISCOVER');
-  })
+    expect(cardNumberElement.getClientState().selectedCardScheme).toEqual(
+      'DISCOVER'
+    );
+  });
 
   it('should remove spaces from value', () => {
     const elementInput = {
@@ -528,5 +534,119 @@ describe('test Collect Element class', () => {
     const collectElement = new CollectElement(elementInput, {}, context);
     collectElement.updateValue('4111 1111 1111 1111');
     expect(collectElement.getUnformattedValue()).toBe('4111111111111111');
+  });
+
+  it('test format option in card number element', () => {
+    const formatTestCases = [
+      // Test different valid formats for the card number
+      {
+        format: 'XXXX-XXXX-XXXX-XXXX',
+        input: '4111111111111111',
+        expected: '4111-1111-1111-1111',
+      },
+      {
+        format: 'XXXX XXXX XXXX XXXX',
+        input: '4111111111111111',
+        expected: '4111 1111 1111 1111',
+      },
+      // Test partial input
+      {
+        format: 'XXXX-XXXX-XXXX-XXXX',
+        input: '411111',
+        expected: '4111-11',
+      },
+      {
+        format: 'XXXX XXXX XXXX XXXX',
+        input: '411111',
+        expected: '4111 11',
+      },
+      // Test for invalid format, It will fallback to default format
+      {
+        format: ' xxxx-xxxx-xxxx ',
+        input: ' 4111111111111111 ',
+        expected: '4111 1111 1111 1111',
+      },
+    ];
+
+    formatTestCases.forEach((testCase) => {
+      const collectElement = new CollectElement(
+        {
+          table: 'cards',
+          column: 'card_number',
+          type: ElementType.CARD_NUMBER,
+          containerType: ContainerType.COLLECT,
+        },
+        {
+          format: testCase.format,
+        },
+        context
+      );
+
+      collectElement.onChangeElement(testCase.input);
+      expect(collectElement.getInternalState().value).toBe(testCase.expected);
+    });
+  });
+
+  it('test format option in input field element', () => {
+    const formatTestCases = [
+      {
+        format: 'XX-XX-XX',
+        input: '123456',
+        expected: '12-34-56',
+      },
+      {
+        format: 'XXX XXX',
+        input: '123456',
+        expected: '123 456',
+      },
+      {
+        format: 'XX/XX/XX',
+        input: '123456',
+        expected: '12/34/56',
+      },
+      // Test partial input
+      {
+        format: 'XX-XX-XX',
+        input: '1234',
+        expected: '12-34',
+      },
+      // Test with special characters
+      {
+        format: 'XX@XX#XX',
+        input: '123456',
+        expected: '12@34#56',
+      },
+      // Test input longer than format
+      {
+        format: 'XX-XX',
+        input: '123456',
+        expected: '12-34',
+      },
+      // Test input with leading, trailing spaces & small format
+      {
+        format: ' xx-xx-xxx ',
+        input: ' 1234567 ',
+        expected: ' xx-xx-xxx ',
+      },
+    ];
+
+    formatTestCases.forEach((testCase) => {
+      const collectElement = new CollectElement(
+        {
+          table: 'table',
+          column: 'column',
+          type: ElementType.INPUT_FIELD,
+          containerType: ContainerType.COLLECT,
+        },
+        {
+          format: testCase.format,
+        },
+        context
+      );
+
+      collectElement.onChangeElement(testCase.input);
+      expect(collectElement.getInternalState().value).toBe(testCase.expected);
+      expect(collectElement.getInternalState().isValid).toBe(true);
+    });
   });
 });

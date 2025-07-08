@@ -32,6 +32,7 @@ import {
   appendZeroToOne,
   detectCardType,
   formatCardNumber,
+  formatInputFieldValue,
   formatExpirationDate,
   formatExpirationMonthValue,
   getReturnValue,
@@ -190,7 +191,10 @@ class CollectElement extends SkyflowElement {
         break;
       case ElementType.CARD_NUMBER:
         this.#cardType = detectCardType(value);
-        this.updateElement(formatCardNumber(value, this.#cardType));
+        this.updateElement(formatCardNumber(value, this.#cardType, this.#options.format));
+        break;
+      case ElementType.INPUT_FIELD:
+        this.updateElement(formatInputFieldValue(value, this.#options.format, this.#options.translation));
         break;
       default:
         this.updateElement(value);

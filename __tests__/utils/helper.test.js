@@ -16,6 +16,7 @@ import {
   getYearAndMonthBasedOnFormat,
   getMetaObject,
   getDeviceModel,
+  formatInputFieldValue,
 } from '../../src/utils/helpers';
 import {
   CardType,
@@ -299,5 +300,224 @@ describe('test getYearAndMonthBasedOnFormat function', () => {
       month: '12',
       year: '2032',
     });
+  });
+
+  it('should format expiration date options correctly', () => {
+    const validFormats = ['MM/YY', 'MM/YYYY', 'YYYY/MM', 'YY/MM'];
+    validFormats.forEach((format) => {
+      const result = formatCollectElementOptions(
+        ElementType.EXPIRATION_DATE,
+        { format },
+        LogLevel.WARN
+      );
+      expect(result).toEqual({
+        format,
+        required: false,
+      });
+    });
+  });
+
+  it('should use default format for invalid expiration date format', () => {
+    const result = formatCollectElementOptions(
+      ElementType.EXPIRATION_DATE,
+      { format: 'INVALID' },
+      LogLevel.WARN
+    );
+    expect(result).toEqual({
+      format: DEFAULT_EXPIRATION_DATE_FORMAT,
+      required: false,
+    });
+    expect(printLog).toBeCalled();
+  });
+
+  it('should format expiration year options correctly', () => {
+    const validFormats = ['YY', 'YYYY'];
+    validFormats.forEach((format) => {
+      const result = formatCollectElementOptions(
+        ElementType.EXPIRATION_YEAR,
+        { format },
+        LogLevel.WARN
+      );
+      expect(result).toEqual({
+        format,
+        required: false,
+      });
+    });
+  });
+
+  it('should use default format for invalid expiration year format', () => {
+    const result = formatCollectElementOptions(
+      ElementType.EXPIRATION_YEAR,
+      { format: 'INVALID' },
+      LogLevel.WARN
+    );
+    expect(result).toEqual({
+      format: DEFAULT_EXPIRATION_YEAR_FORMAT,
+      required: false,
+    });
+    expect(printLog).toBeCalled();
+  });
+});
+
+describe('test formatCardNumber with different formats', () => {
+  const testCases = [
+    {
+      input: '4111111111111111',
+      type: CardType.VISA,
+      format: 'XXXX-XXXX-XXXX-XXXX',
+      expected: '4111-1111-1111-1111',
+    },
+    {
+      input: '378282246310005',
+      type: CardType.AMEX,
+      format: 'XXXX-XXXX-XXXX-XXXX',
+      expected: '3782-822463-10005',
+    },
+    {
+      input: '6011111111111117',
+      type: CardType.DISCOVER,
+      format: 'XXXX XXXX XXXX XXXX',
+      expected: '6011 1111 1111 1117',
+    },
+    // Test partial inputs
+    {
+      input: '411111',
+      type: CardType.VISA,
+      format: 'XXXX-XXXX-XXXX-XXXX',
+      expected: '4111-11',
+    },
+    // Test empty input
+    {
+      input: '',
+      type: CardType.DEFAULT,
+      format: 'XXXX-XXXX-XXXX-XXXX',
+      expected: '',
+    },
+  ];
+
+  testCases.forEach((testCase) => {
+    it(`should format ${testCase.type} card number correctly with format ${testCase.format}`, () => {
+      expect(
+        formatCardNumber(testCase.input, testCase.type, testCase.format)
+      ).toBe(testCase.expected);
+    });
+  });
+});
+
+describe('test formatInputFieldValue with different formats', () => {
+  const testCases = [
+    {
+      input: '123456',
+      format: 'XX-XX-XX',
+      expected: '12-34-56',
+    },
+    {
+      input: '123456',
+      format: 'XXX XXX',
+      expected: '123 456',
+    },
+    {
+      input: '12345',
+      format: 'XX/XX/X',
+      expected: '12/34/5',
+    },
+    {
+      input: '1567C89',
+      format: 'XX/XYX/X',
+      translation: { X: '[5-9]', Y: '[A-C]' },
+      expected: '56/7C8/9',
+    },
+    // Combination of constants and dynamic inputs
+    {
+      input: '1234121234',
+      format: '+91 XXXX-XX-XXXX',
+      expected: '+91 1234-12-1234',
+    },
+    {
+      input: 'B5678978C7QAB97',
+      format: '91 YXX-XZX-XXY-XZYXX',
+      translation: { X: '[5-9]', Y: '[A-C]' },
+      expected: '91 B56-7Z8-97C-7ZA97',
+    },
+    // Test with special characters in format
+    {
+      input: '123456',
+      format: 'XX@XX#XX',
+      expected: '12@34#56',
+    },
+    // Test partial input
+    {
+      input: '123',
+      format: 'XX-XX-XX',
+      expected: '12-3',
+    },
+    // Test input longer than format
+    {
+      input: '1234567',
+      format: 'XX-XX',
+      expected: '12-34',
+    },
+    // Test empty input
+    {
+      input: '',
+      format: 'XX-XX',
+      expected: '',
+    },
+    // Test with no format
+    {
+      input: '123456',
+      format: '',
+      expected: '123456',
+    },
+  ];
+
+  testCases.forEach((testCase) => {
+    const translation = testCase.translation || {
+      X: '[0-9]',
+    };
+    it(`should format input '${testCase.input}' with format '${
+      testCase.format
+    }' & translation '${JSON.stringify(translation)}' correctly`, () => {
+      expect(
+        formatInputFieldValue(
+          testCase.input,
+          testCase.format,
+          testCase?.translation
+        )
+      ).toBe(testCase.expected);
+    });
+  });
+});
+
+describe('test formatCollectElementOptions for different element types', () => {
+  it('should format card number options correctly', () => {
+    const options = {
+      format: 'XXXX-XXXX-XXXX-XXXX',
+      required: true,
+    };
+    const result = formatCollectElementOptions(
+      ElementType.CARD_NUMBER,
+      options,
+      LogLevel.WARN
+    );
+    expect(result).toEqual({
+      format: 'XXXX-XXXX-XXXX-XXXX',
+      required: true,
+    });
+  });
+
+  it('should preserve other options while formatting', () => {
+    const options = {
+      format: 'XXXX-XXXX-XXXX-XXXX',
+      required: true,
+      enableCardIcon: true,
+      customOption: 'value',
+    };
+    const result = formatCollectElementOptions(
+      ElementType.CARD_NUMBER,
+      options,
+      LogLevel.WARN
+    );
+    expect(result).toEqual(options);
   });
 });

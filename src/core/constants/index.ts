@@ -40,6 +40,7 @@ export const DEFAULT_EXPIRATION_YEAR_FORMAT = 'YY';
 export const FOUR_DIGIT_YEAR_FORMAT = 'YYYY';
 
 export const DEFAULT_EXPIRATION_DATE_FORMAT = 'MM/YY';
+export const DEFAULT_CARD_NUMBER_FORMAT = 'XXXX XXXX XXXX XXXX';
 
 export const MONTH_FORMAT = 'MM';
 
@@ -166,6 +167,9 @@ export const REVEAL_ELEMENT_ERROR_TEXT = 'Invalid Token';
 export const DEFAULT_COLLECT_ELEMENT_ERROR_TEXT = 'Invalid value';
 
 export const DEFAULT_VALIDATION_ERROR_TEXT = 'Validation Failed';
+export const DEFAULT_INPUT_FIELD_TRANSLATION: Record<string, string> = {
+  'X': '[0-9]',
+};
 
 export const ALLOWED_EXPIRY_YEAR_FORMATS = [
   DEFAULT_EXPIRATION_YEAR_FORMAT,
@@ -178,6 +182,10 @@ export const ALLOWED_EXPIRY_DATE_FORMATS = [
   'YY/MM',
   'MM/YYYY',
 ];
+export const ALLOWED_CARD_NUMBER_FORMATS = [
+  DEFAULT_CARD_NUMBER_FORMAT,
+  'XXXX-XXXX-XXXX-XXXX',
+]
 
 export const DEFAULT_COLLECT_ELEMENT_REQUIRED_TEXT = 'Field is required';
 
