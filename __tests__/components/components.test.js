@@ -37,7 +37,7 @@ const changeTrigger = jest.fn();
 const foucsTrigger = jest.fn();
 const blurTrigger = jest.fn();
 
-describe('test Collect And Reveal Elements Components', () => {
+describe('test Collect Elements Components', () => {
   let collectContainer;
   beforeEach(() => {
     jest.clearAllMocks();
@@ -558,44 +558,102 @@ describe('test Collect And Reveal Elements Components', () => {
     }
   });
 
-  it('test RevealElement component', () => {
-    const revealSetMethodMock = jest.fn();
-    const revealContainer = new RevealContainer(testSkyflowClient);
-    jest.spyOn(revealContainer, 'create').mockImplementation(() => ({
-      setMethods: revealSetMethodMock,
-    }));
+  describe('test Reveal Elements Components', () => {
+    it('renders correctly with the handler & snapshot', () => {
+      const revealSetMethodMock = jest.fn();
+      const revealContainer = new RevealContainer(testSkyflowClient);
+      jest.spyOn(revealContainer, 'create').mockImplementation(() => ({
+        setMethods: revealSetMethodMock,
+      }));
 
-    const revealElement = render(
-      <RevealElement
-        token={'test_token'}
-        container={revealContainer}
-        label={'Card Number'}
-        altText={'XXXX XXXX XXXX XXXX'}
-      />
-    );
-
-    expect(revealElement).toMatchSnapshot();
-    expect(revealSetMethodMock).toBeCalledTimes(1);
-
-    // render without alttext
-    const revealElement2 = render(
-      <RevealElement
-        token={'test_token'}
-        container={revealContainer}
-        label={'Card Number'}
-      />
-    );
-    try {
-      render(<RevealElement token={'test_token'} label={'Card Number'} />);
-    } catch (err) {
-      expect(err).toEqual(
-        new SkyflowError(
-          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
-          ['Reveal', 'useRevealContainer()'],
-          true
-        )
+      const revealElement = render(
+        <RevealElement
+          token={'test_token'}
+          container={revealContainer}
+          label={'Card Number'}
+          altText={'XXXX XXXX XXXX XXXX'}
+        />
       );
-    }
+
+      expect(revealElement).toMatchSnapshot();
+      expect(revealSetMethodMock).toBeCalledTimes(1);
+
+      // render without alttext
+      const revealElement2 = render(
+        <RevealElement
+          token={'test_token'}
+          container={revealContainer}
+          label={'Card Number'}
+        />
+      );
+      try {
+        render(<RevealElement token={'test_token'} label={'Card Number'} />);
+      } catch (err) {
+        expect(err).toEqual(
+          new SkyflowError(
+            SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+            ['Reveal', 'useRevealContainer()'],
+            true
+          )
+        );
+      }
+    });
+
+    it('renders formatted value when format is provided', () => {
+      const revealSetMethodMock = jest.fn();
+      const revealContainer = new RevealContainer(testSkyflowClient);
+      jest.spyOn(revealContainer, 'create').mockImplementation(() => ({
+        setMethods: revealSetMethodMock,
+      }));
+
+      const format = 'XXXX XXXX XXXX XXXX';
+      const altText = '4111111111111111';
+
+      render(
+        <RevealElement
+          token={'test_token'}
+          container={revealContainer}
+          label={'Card Number'}
+          altText={altText}
+          format={format}
+          testID="reveal-format"
+        />
+      );
+
+      // Should format altText using format
+      expect(screen.getByTestId('reveal-format').props.children).toBe(
+        '4111 1111 1111 1111'
+      );
+    });
+
+    it('renders formatted value when format and translation are provided', () => {
+      const revealSetMethodMock = jest.fn();
+      const revealContainer = new RevealContainer(testSkyflowClient);
+      jest.spyOn(revealContainer, 'create').mockImplementation(() => ({
+        setMethods: revealSetMethodMock,
+      }));
+
+      const format = 'XX-XX-XX-YYZ-ZZX';
+      const translation = { X: '[0-9]', Y: '[A-Z]' };
+      const altText = '123456AB7';
+
+      render(
+        <RevealElement
+          token={'test_token'}
+          container={revealContainer}
+          label={'Code'}
+          altText={altText}
+          format={format}
+          translation={translation}
+          testID="reveal-format-translation"
+        />
+      );
+
+      // Should format altText using format and translation
+      expect(
+        screen.getByTestId('reveal-format-translation').props.children
+      ).toBe('12-34-56-ABZ-ZZ7');
+    });
   });
 
   it('test skyflow provider', () => {

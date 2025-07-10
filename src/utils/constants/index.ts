@@ -109,6 +109,8 @@ export interface RevealElementInput {
 export interface RevealElementProps {
   token: string;
   container: RevealContainer;
+  format?: string
+  translation?: Record<string, string>;
   label?: string;
   altText?: string;
   inputStyles?: StylesBaseVariant;

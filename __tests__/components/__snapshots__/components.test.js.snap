@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test Collect And Reveal Elements Components test CardHolderNameElement component 1`] = `
+exports[`test Collect Elements Components test CardHolderNameElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -31,7 +31,7 @@ exports[`test Collect And Reveal Elements Components test CardHolderNameElement 
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test CardNumberElement component 1`] = `
+exports[`test Collect Elements Components test CardNumberElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -95,7 +95,7 @@ exports[`test Collect And Reveal Elements Components test CardNumberElement comp
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test CvvElement component 1`] = `
+exports[`test Collect Elements Components test CvvElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -128,7 +128,7 @@ exports[`test Collect And Reveal Elements Components test CvvElement component 1
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test ExpirationDateElement component 1`] = `
+exports[`test Collect Elements Components test ExpirationDateElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -161,7 +161,7 @@ exports[`test Collect And Reveal Elements Components test ExpirationDateElement 
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test ExpirationMonthElement component 1`] = `
+exports[`test Collect Elements Components test ExpirationMonthElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -194,7 +194,7 @@ exports[`test Collect And Reveal Elements Components test ExpirationMonthElement
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test ExpirationYearElement component 1`] = `
+exports[`test Collect Elements Components test ExpirationYearElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -227,7 +227,7 @@ exports[`test Collect And Reveal Elements Components test ExpirationYearElement 
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test InputFieldElement component 1`] = `
+exports[`test Collect Elements Components test InputFieldElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -258,7 +258,7 @@ exports[`test Collect And Reveal Elements Components test InputFieldElement comp
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test PinElement component 1`] = `
+exports[`test Collect Elements Components test PinElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -291,7 +291,7 @@ exports[`test Collect And Reveal Elements Components test PinElement component 1
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test RevealElement component 1`] = `
+exports[`test Collect Elements Components test Reveal Elements Components renders correctly with the handler & snapshot 1`] = `
 Array [
   <Text
     style={Object {}}
@@ -311,7 +311,7 @@ Array [
 ]
 `;
 
-exports[`test Collect And Reveal Elements Components test skyflow provider 1`] = `
+exports[`test Collect Elements Components test skyflow provider 1`] = `
 <Text>
   Provider Childern
 </Text>
