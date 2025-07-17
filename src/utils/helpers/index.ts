@@ -229,7 +229,7 @@ export const getReturnValue = (
 ) => {
   if (typeof value === 'string') {
     if (elementType === ElementType.CARD_NUMBER) {
-      value = value && value.replace(/\s/g, '');
+      value = value && value.replace(/[\s-]/g, '');
       if (!doesReturnValue) {
         const threshold =
           cardType !== CardType.DEFAULT && cardType === CardType.AMEX ? 6 : 8;

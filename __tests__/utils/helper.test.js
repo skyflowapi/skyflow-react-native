@@ -219,6 +219,16 @@ describe('test getReturnValue function', () => {
     ).toBe('4111111111111111');
   });
 
+  it('should return unformatted value for card number element', () => {
+    expect(
+      getReturnValue('4111 1111 1111 1111', true, ElementType.CARD_NUMBER)
+    ).toBe('4111111111111111');
+
+    expect(
+      getReturnValue('4111-1111-1111-1111', true, ElementType.CARD_NUMBER)
+    ).toBe('4111111111111111');
+  });
+
   it('should return non string value when return value is true', () => {
     expect(getReturnValue(1000, true, ElementType.INPUT_FIELD)).toBe(1000);
   });
