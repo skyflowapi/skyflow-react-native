@@ -229,14 +229,14 @@ export const tokenize = (
         set(
           elementsUpdateData[skyflowID],
           column,
-          getElementValueToInsert(currentElement),
+          currentElement.getInternalState().value,
         );
       } else {
         elementsUpdateData[skyflowID] = {};
         set(
           elementsUpdateData[skyflowID],
           column,
-          getElementValueToInsert(currentElement),
+          currentElement.getInternalState().value,
         );
         set(
           elementsUpdateData[skyflowID],
@@ -246,10 +246,10 @@ export const tokenize = (
       }
     }
     else if (elementsData[table]) {
-      set(elementsData[table], column, getElementValueToInsert(currentElement));
+      set(elementsData[table], column, currentElement.getInternalState().value);
     } else {
       elementsData[table] = {};
-      set(elementsData[table], column, getElementValueToInsert(currentElement));
+      set(elementsData[table], column, currentElement.getInternalState().value);
     }
   });
 
