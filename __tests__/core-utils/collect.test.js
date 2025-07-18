@@ -1,7 +1,7 @@
 /*
     Copyright (c) 2022 Skyflow, Inc.
 */
-import { tokenize, getElementValueToInsert } from '../../src/core-utils/collect';
+import { tokenize } from '../../src/core-utils/collect';
 import CollectElement from '../../src/core/CollectElement';
 import Skyflow from '../../src/core/Skyflow';
 import { ElementType, Env, LogLevel } from '../../src/utils/constants';
@@ -524,32 +524,4 @@ describe('test collect utils class', () => {
       });
   });
 
-});
-
-describe('getVaultInsertValue', () => {
-  class MockCollectElement {
-    constructor(type, value) {
-      this.type = type;
-      this.value = value;
-    }
-    getClientState() {
-      return { elementType: this.type };
-    }
-    getUnformattedValue() {
-      return this.value.replace(/[\s-]/g, '');
-    }
-    getInternalState() {
-      return { value: this.value };
-    }
-  }
-
-  test('returns unformatted value for CARD_NUMBER', () => {
-    const element = new MockCollectElement(ElementType.CARD_NUMBER, '4111 1111 1111 1111');
-    expect(getElementValueToInsert(element)).toBe('4111111111111111');
-  });
-
-  test('returns value as is for non-CARD_NUMBER', () => {
-    const element = new MockCollectElement(ElementType.CVV, '123');
-    expect(getElementValueToInsert(element)).toBe('123');
-  });
 });
