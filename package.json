@@ -1,6 +1,6 @@
 {
   "name": "skyflow-react-native",
-  "version": "1.9.0-dev.4e22480",
+  "version": "1.9.0-dev.80b44eb",
   "description": "Skyflow React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -67,7 +67,7 @@
     "@types/react": "17.0.21",
     "@babel/runtime": "^7.26.10",
     "@babel/helpers": "^7.26.10",
-     "brace-expansion": "^1.1.12"
+    "brace-expansion": "^1.1.12"
   },
   "peerDependencies": {
     "react": "^17.0.2 || ^18.0.0",
