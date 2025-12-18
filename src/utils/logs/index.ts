@@ -133,6 +133,8 @@ const logs = {
       `Skyflow ${SDK_NAME_VERSION} initialization failed - SkyflowProvider config is missing. `,
     CONTAINER_OBJECT_IS_REQUIRED:
       `${SDK_NAME_VERSION} cannot create %s1 element without container object, create a container using %s2 hook.`,
+    ELEMENT_NOT_FOUND:
+      `${SDK_NAME_VERSION} %s1 not found. The specified element does not exist in the container.`,
     INVALID_UPSERT_OPTION_TYPE:
       `${SDK_NAME_VERSION} Validation error. Invalid \'upsert\' key in insert options. Specify a value of type array instead`,
     EMPTY_UPSERT_OPTIONS_ARRAY:

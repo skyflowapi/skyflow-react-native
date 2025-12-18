@@ -70,7 +70,22 @@ class RevealContainer extends Container {
       try {
         validateInitConfig(this.#skyflowClient.getSkyflowConfig());
         validateRevealElementRecords(this.#revealRecords);
-        fetchRecordsByTokenId(this.#skyflowClient, this.#tokensList).then(
+
+        const freshTokensList = this.#tokensList.map((record) => {
+          const elementInstance = this.#elementList.find(
+            (e) => e.elementId === record.elementId
+          );
+
+          if (elementInstance) {
+            return {
+              ...record,
+              token: elementInstance.getToken(),
+            };
+          }
+          return record;
+        });
+
+        fetchRecordsByTokenId(this.#skyflowClient, freshTokensList).then(
           (resolvedResult) => {
             const formattedResult = formatRecordsForIframe(resolvedResult);
             this.setRevealValuesInElements(formattedResult);

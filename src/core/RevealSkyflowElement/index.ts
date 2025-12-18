@@ -27,6 +27,10 @@ class RevealSkyflowElement extends SkyflowElement {
     this.#setErrorText(REVEAL_ELEMENT_ERROR_TEXT);
   }
 
+ setToken(newToken: string) {
+    this.#token = newToken;
+  }
+
   getToken() {
     return this.#token;
   }
