@@ -302,6 +302,25 @@ Array [
 ]
 `;
 
+exports[`test Collect And Reveal Elements Components test RevealElement component rendering 1`] = `
+Array [
+  <Text
+    style={Object {}}
+  >
+    Card Number
+  </Text>,
+  <Text
+    selectable={true}
+    style={Object {}}
+  >
+    XXXX XXXX XXXX XXXX
+  </Text>,
+  <Text
+    style={Object {}}
+  />,
+]
+`;
+
 exports[`test Collect And Reveal Elements Components test skyflow provider 1`] = `
 <Text>
   Provider Childern
