@@ -686,7 +686,7 @@ describe('test Collect And Reveal Elements Components', () => {
 
     const providerElement = render(
       <SkyflowProvider config={testSkyflowConfig}>
-        <Text>Provider Childern</Text>
+        <Text>Provider Children</Text>
       </SkyflowProvider>
     );
     expect(providerElement).toMatchSnapshot();

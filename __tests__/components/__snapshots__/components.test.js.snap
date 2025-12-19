@@ -323,6 +323,6 @@ Array [
 
 exports[`test Collect And Reveal Elements Components test skyflow provider 1`] = `
 <Text>
-  Provider Childern
+  Provider Children
 </Text>
 `;

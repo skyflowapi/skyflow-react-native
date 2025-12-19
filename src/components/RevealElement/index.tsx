@@ -45,4 +45,6 @@ const RevealElement = forwardRef((props: RevealElementProps, ref) => {
     );
 });
 
+RevealElement.displayName = 'RevealElement';
+
 export default RevealElement;
