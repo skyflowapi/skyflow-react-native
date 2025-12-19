@@ -21,6 +21,7 @@ import { Text } from 'react-native';
 import SkyflowError from '../../src/utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../src/utils/skyflow-error-code';
 import { ContainerType, ElementType } from '../../src/utils/constants';
+import { act } from 'react-test-renderer';
 
 const testSkyflowClient = new Skyflow({
   vaultID: '1234',
@@ -598,6 +599,84 @@ describe('test Collect And Reveal Elements Components', () => {
     }
   });
 
+  it('test RevealElement component rendering', () => {
+    const revealSetMethodMock = jest.fn();
+    const revealSetTokenMock = jest.fn();
+    const revealContainer = new RevealContainer(testSkyflowClient);
+
+    jest.spyOn(revealContainer, 'create').mockImplementation(() => ({
+      setMethods: revealSetMethodMock,
+      setToken: revealSetTokenMock,
+    }));
+
+    const revealElement = render(
+      <RevealElement
+        token={'test_token'}
+        container={revealContainer}
+        label={'Card Number'}
+        altText={'XXXX XXXX XXXX XXXX'}
+      />
+    );
+
+    expect(revealElement).toMatchSnapshot();
+    expect(revealSetMethodMock).toBeCalledTimes(1);
+
+    render(
+      <RevealElement
+        token={'test_token_no_alt'}
+        container={revealContainer}
+        label={'Card Number'}
+      />
+    );
+    expect(screen.getByText('test_token_no_alt')).toBeTruthy();
+
+    try {
+      render(<RevealElement token={'test_token'} label={'Card Number'} />);
+    } catch (err) {
+      expect(err).toEqual(
+        new SkyflowError(
+          SKYFLOW_ERROR_CODE.CONTAINER_OBJECT_IS_REQUIRED,
+          ['Reveal', 'useRevealContainer()'],
+          true
+        )
+      );
+    }
+  });
+
+  it('test RevealElement setToken via ref updates UI and internal element', () => {
+    const revealSetMethodMock = jest.fn();
+    const revealSetTokenMock = jest.fn();
+    const revealContainer = new RevealContainer(testSkyflowClient);
+
+    jest.spyOn(revealContainer, 'create').mockImplementation(() => ({
+      setMethods: revealSetMethodMock,
+      setToken: revealSetTokenMock,
+    }));
+
+    const ref = React.createRef();
+    const initialToken = 'initial_token_123';
+    const newToken = 'updated_token_456';
+
+    const { getByText } = render(
+      <RevealElement
+        ref={ref}
+        token={initialToken}
+        container={revealContainer}
+        label={'Card Number'}
+      />
+    );
+
+    expect(getByText(initialToken)).toBeTruthy();
+
+    act(() => {
+      ref.current.setToken(newToken);
+    });
+
+    expect(revealSetTokenMock).toHaveBeenCalledWith(newToken);
+
+    expect(getByText(newToken)).toBeTruthy();
+  });
+
   it('test skyflow provider', () => {
     const testSkyflowConfig = {
       vaultID: '1234',
@@ -607,7 +686,7 @@ describe('test Collect And Reveal Elements Components', () => {
 
     const providerElement = render(
       <SkyflowProvider config={testSkyflowConfig}>
-        <Text>Provider Childern</Text>
+        <Text>Provider Children</Text>
       </SkyflowProvider>
     );
     expect(providerElement).toMatchSnapshot();

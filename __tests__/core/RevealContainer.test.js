@@ -146,4 +146,56 @@ describe('test RevealConatiner Class', () => {
       }
     });
   });
+
+  it('test reveal method uses updated token when setToken is called', (done) => {
+    const initialToken = 'initial_token';
+    const updatedToken = 'updated_token';
+
+    const revealElement = revealContainer.create({
+      token: initialToken,
+    });
+
+    const revealSuccessValue = {
+      records: [
+        {
+          token: updatedToken,
+          value: 'revealed_value',
+        },
+      ],
+    };
+
+    const fetchSpy = jest
+      .spyOn(revealUtils, 'fetchRecordsByTokenId')
+      .mockResolvedValue(revealSuccessValue);
+
+    const setValueMock = jest.fn();
+    const setErrorMock = jest.fn();
+    revealElement.setMethods(setValueMock, setErrorMock);
+
+    revealElement.setToken(updatedToken);
+
+    revealContainer
+      .reveal()
+      .then((res) => {
+        try {
+          expect(fetchSpy).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.arrayContaining([
+              expect.objectContaining({
+                token: updatedToken,
+                elementId: revealElement.elementId,
+              }),
+            ])
+          );
+
+          expect(res).toEqual({ success: [{ token: updatedToken }] });
+          done();
+        } catch (assertionError) {
+          done(assertionError);
+        }
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 });

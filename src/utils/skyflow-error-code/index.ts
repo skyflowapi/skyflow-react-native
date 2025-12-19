@@ -190,6 +190,10 @@ const SKYFLOW_ERROR_CODE = {
     code: 400,
     description: logs.errorLogs.CONTAINER_OBJECT_IS_REQUIRED,
   },
+  ELEMENT_NOT_FOUND: {
+    code: 400,
+    description: logs.errorLogs.ELEMENT_NOT_FOUND,
+  },
   INVALID_UPSERT_OPTION_TYPE: {
     code: 400,
     description: logs.errorLogs.INVALID_UPSERT_OPTION_TYPE,
