@@ -49,6 +49,7 @@ const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, opti
             ref={textInputRef}
             value={elementValue}
             placeholder={rest.placeholder}
+            testID={rest?.testID}
             onChangeText={(text) => {
                 element?.onChangeElement(text);
                 setElementValue(element.getInternalState().value)
@@ -79,7 +80,7 @@ const ExpirationMonthElement: React.FC<CollectElementProps> = ({ container, opti
         {
             container && container?.type === ContainerType.COLLECT
             &&
-            <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
+            <Text style={rest?.errorTextStyles?.base || {}} testID="month-error">{errorText}</Text>
         }
     </View>);
 }

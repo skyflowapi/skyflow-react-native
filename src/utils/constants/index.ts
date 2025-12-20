@@ -55,6 +55,7 @@ export interface CollectElementProps {
   errorTextStyles?: StylesBaseVariant;
   containerMethods?: Record<any, any>;
   skyflowID?: string;
+  testID?: string;
 }
 
 export enum ElementType {
@@ -108,12 +109,15 @@ export interface RevealElementInput {
 export interface RevealElementProps {
   token: string;
   container: RevealContainer;
+  format?: string
+  translation?: Record<string, string>;
   label?: string;
   altText?: string;
   inputStyles?: StylesBaseVariant;
   labelStyles?: StylesBaseVariant;
   errorTextStyles?: StylesBaseVariant;
   redaction?: RedactionType;
+  testID?: string;
 }
 
 export enum MessageType {

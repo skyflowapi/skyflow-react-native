@@ -12,6 +12,9 @@ import {
   DEFAULT_EXPIRATION_DATE_FORMAT,
   ALLOWED_EXPIRY_DATE_FORMATS,
   ALLOWED_EXPIRY_YEAR_FORMATS,
+  ALLOWED_CARD_NUMBER_FORMATS,
+  DEFAULT_CARD_NUMBER_FORMAT,
+  DEFAULT_INPUT_FIELD_TRANSLATION,
 } from '../../core/constants';
 import { ElementType, MessageType } from '../constants';
 import logs from '../logs';
@@ -141,8 +144,81 @@ export const detectCardType = (cardNumber: string) => {
   return detectedType;
 };
 
-export const formatCardNumber = (cardNumber, type) => {
-  return applyMask(cardNumber, CARD_NUMBER_MASK[type]);
+export const formatCardNumber = (
+  cardNumber: string,
+  type: string | number,
+  format = DEFAULT_CARD_NUMBER_FORMAT
+) => {
+  if (!cardNumber || cardNumber.length === 0) return '';
+  const isvalidFormat = isValidCardNumberFormat(
+    format
+  );
+
+  if (!isvalidFormat) {
+    format = DEFAULT_CARD_NUMBER_FORMAT;
+  };
+
+  const mask = CARD_NUMBER_MASK[type] || CARD_NUMBER_MASK[CardType.DEFAULT];
+  const maskedValue = applyMask(cardNumber, mask);
+  const separator = format.includes('-') ? '-' : ' ';
+  const formattedValue = maskedValue.replace(/[\s-]+/g, separator).trim();
+
+  return formattedValue;
+};
+
+export const formatInputFieldValue = (
+  input: string,
+  format: string,
+  translation: Record<string, string> = DEFAULT_INPUT_FIELD_TRANSLATION
+): string => {
+  if (!format || format.length === 0) return input;
+  if (!input || input.length === 0) return '';
+
+  const inputArray = Array.from(input);
+  const formatArray = Array.from(format);
+  let formattedOutput = '';
+  let formatIndex = 0;
+
+  for (let inputIndex = 0; inputIndex < inputArray.length; inputIndex++) {
+    const inputChar = inputArray[inputIndex];
+
+    if (formatIndex < formatArray.length) {
+      const currentFormatChar = formatArray[formatIndex];
+
+      if (translation[currentFormatChar]) {
+        const regex = new RegExp(translation[currentFormatChar]);
+        if (regex.test(inputChar)) {
+          formattedOutput += inputChar;
+          formatIndex++;
+        }
+      } else {
+        if (inputChar === currentFormatChar) {
+          formattedOutput += inputChar;
+          formatIndex++;
+        } else {
+          for (let scanIndex = formatIndex; scanIndex < formatArray.length; scanIndex++) {
+            const nextFormatChar = formatArray[scanIndex];
+
+            if (translation[nextFormatChar]) {
+              const regex = new RegExp(translation[nextFormatChar]);
+              if (regex.test(inputChar)) {
+                formattedOutput += inputChar;
+                formatIndex = scanIndex + 1;
+              }
+              break;
+            } else {
+              formattedOutput += nextFormatChar;
+              formatIndex = scanIndex + 1;
+            }
+          }
+        }
+      }
+    } else {
+      break;
+    }
+  }
+
+  return formattedOutput;
 };
 
 export const getReturnValue = (
@@ -153,7 +229,7 @@ export const getReturnValue = (
 ) => {
   if (typeof value === 'string') {
     if (elementType === ElementType.CARD_NUMBER) {
-      value = value && value.replace(/\s/g, '');
+      value = value && value.replace(/[\s-]/g, '');
       if (!doesReturnValue) {
         const threshold =
           cardType !== CardType.DEFAULT && cardType === CardType.AMEX ? 6 : 8;
@@ -200,6 +276,13 @@ export const isValidExpiryDateFormat = (format: string): boolean => {
 export const isValidExpiryYearFormat = (format: string): boolean => {
   if (format) {
     return ALLOWED_EXPIRY_YEAR_FORMATS.includes(format);
+  }
+  return false;
+};
+
+export const isValidCardNumberFormat = (format: string): boolean => {
+  if (format) {
+    return ALLOWED_CARD_NUMBER_FORMATS.includes(format);
   }
   return false;
 };
@@ -258,6 +341,27 @@ export const formatCollectElementOptions = (
       format: isvalidFormat
         ? formattedOptions.format.toUpperCase()
         : DEFAULT_EXPIRATION_YEAR_FORMAT,
+    };
+  } else if (elementType === ElementType.CARD_NUMBER) {
+    let isvalidFormat = false;
+    if (formattedOptions.format) {
+      isvalidFormat = isValidCardNumberFormat(
+        formattedOptions.format.toUpperCase()
+      );
+      if (!isvalidFormat) {
+        printLog(
+          parameterizedString(
+            logs.warnLogs.INVALID_CARD_NUMBER_FORMAT,
+            ALLOWED_CARD_NUMBER_FORMATS.toString()
+          ),
+          MessageType.WARN,
+          logLevel
+        );
+      }
+    }
+    formattedOptions = {
+      ...formattedOptions,
+      format: isvalidFormat ? formattedOptions.format : DEFAULT_CARD_NUMBER_FORMAT,
     };
   }
   return formattedOptions;

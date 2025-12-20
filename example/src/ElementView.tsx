@@ -19,7 +19,7 @@ const ElementView = (props) => {
 
   return (
     <View style={styles.container}>
-      {showReveal ? (
+      {true ? (
         <RevealElements tokens={tokens} setShowRevealView={setShowRevealView} handleReset={props.handleReset}/>
       ) : (
         <CollectElements setTokens={setTokens} handleReset={props.handleReset}/>
