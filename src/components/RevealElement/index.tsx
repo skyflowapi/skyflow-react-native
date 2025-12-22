@@ -4,13 +4,13 @@
 import React, { useEffect, useImperativeHandle, forwardRef } from "react";
 import { Text } from "react-native";
 import RevealSkyflowElement from "../../core/RevealSkyflowElement";
-import { RevealElementProps } from "../../utils/constants"
+import { RevealElementProps, SkyflowRevealElementRef } from "../../utils/constants"
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import { formatInputFieldValue } from "../../utils/helpers";
 import { DEFAULT_INPUT_FIELD_TRANSLATION } from "../../core/constants";
 
-const RevealElement = forwardRef((props: RevealElementProps, ref) => {
+const RevealElement = forwardRef<SkyflowRevealElementRef, RevealElementProps>((props, ref) => {
     const { container, label, format, translation, ...rest } = props;
     
     const [element, setElement] = React.useState<RevealSkyflowElement | undefined>(undefined);

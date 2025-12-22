@@ -2,7 +2,7 @@
   Copyright (c) 2022 Skyflow, Inc.
 */
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import {
   RedactionType,
@@ -15,8 +15,6 @@ const RevealElements = (props) => {
   const revealContainer = useRevealContainer();
   const skyflowContainer = useSkyflow();
 
-  const revealElementRef = useRef(null);
-
   const handleReveal = () => {
     revealContainer
       .reveal()
@@ -26,16 +24,6 @@ const RevealElements = (props) => {
       .catch(err => {
         console.error('Reveal Failed', JSON.stringify(err));
       });
-  };
-
-  const handleSetToken = () => {
-    if (revealElementRef.current) {
-      console.log('Updating token via Ref...');
-      // This calls the setToken method you defined in useImperativeHandle inside the SDK
-      revealElementRef.current.setToken('57b28973-9690-4031-88fe-b98650d3ac93'); 
-    } else {
-      console.error('Ref is null, cannot set token');
-    }
   };
 
   const handleGet = () =>{
@@ -86,8 +74,7 @@ const RevealElements = (props) => {
   return (
     <View>
       <RevealElement
-        ref={revealElementRef}
-        token={'INVALID_TOKEN'}
+        token={props.tokens.card_number}
         container={revealContainer}
         label='Card Number'
         altText='XXXX XXXX XXXX XXXX'
@@ -96,7 +83,7 @@ const RevealElements = (props) => {
         errorTextStyles={revealerrorTextStyles}
         redaction={RedactionType.REDACTED}
       />
-      {/* <RevealElement
+      <RevealElement
         token={props.tokens.expiration_date}
         container={revealContainer}
         label='Expiration Date'
@@ -124,12 +111,20 @@ const RevealElements = (props) => {
         inputStyles={revealInputStyles}
         labelStyles={revealLabelStyles}
         errorTextStyles={revealerrorTextStyles}
-      /> */}
+      />
       <View style={buttonStyles.button}>
         <Button title='Reveal' onPress={handleReveal} />
       </View>
       <View style={buttonStyles.button}>
-        <Button title='Update Token (Set Token)' color="#841584" onPress={handleSetToken} />
+        <Button title='Get method' onPress={handleGet} />
+      </View>
+      <View style={buttonStyles.button}>
+        <Button
+          title='GO TO COLLECT'
+          onPress={() => {
+            props.setShowRevealView(null);
+          }}
+        />
       </View>
       <View style={buttonStyles.button}>
         <Button

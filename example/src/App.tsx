@@ -26,11 +26,28 @@ const App = () => {
       return new Promise((resolve, reject) => {
         const Http = new XMLHttpRequest();
 
-        resolve('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2MiOiJiOTYzZTcxMjFkZDY0YTZkOTY0MGQ3ZTNlNGNjODdhNyIsImF1ZCI6Imh0dHBzOi8vbWFuYWdlLWJsaXR6LnNreWZsb3dhcGlzLmRldiIsImV4cCI6MTc2NjMyNzg5NCwiaWF0IjoxNzY2MjQxNDk0LCJpc3MiOiJzYS1hdXRoQG1hbmFnZS1ibGl0ei5za3lmbG93YXBpcy5kZXYiLCJqdGkiOiJwZWViYTFiYmExZTA0ODFjODk0ZGM2MWVjN2ZhODk5OSIsInN1YiI6Im0xODQ2YzA2M2FlODQ4MjhhNzM4OWQ3ZTc0OTE5MzE5In0.c1n87PWuKU0LJ2-tSwlK5rsTUfjE_zKKAkeDYclkP0Xh_6gnAynA83UoxJV8qDbPsmu1zuCXW7Pt4-M6kCDUViVkv2KhHYDbDByXl_PG7cVNrj0d6kxkUm_FORRFmyyCWZKy3S2tomdw_gQar2LakuENuWXAR2gL5LSywb_XZmJxgolLe6RdqcHxdSQTV5j7PkjbhfSnkuMaFK0_z8fA8Wdm-44aCa-eALAFEHCZ0-YiQqlB_24ERQxL9bfD6dxiVJqyWVEg-hrGUE0WDUtNQVhoevbcQdC7GxH7AA_yk2xUxxJh7w7OzN1-YBmQWXGgQUZg4DXT9qnugNxeH8B6Tg')
+        Http.onreadystatechange = () => {
+          if (Http.readyState === 4) {
+            if (Http.status === 200) {
+              const response = JSON.parse(Http.responseText);
+              resolve(response.accessToken);
+            } else {
+              reject('Error occured');
+            }
+          }
+        };
+
+        Http.onerror = error => {
+          reject('Error occured');
+        };
+
+        const url = '<YOUR_AUTH_BEARER_TOKEN_API_URL>';
+        Http.open('GET', url);
+        Http.send();
       });
     },
-    vaultID: 'tfe60a6eef66434b82e982285610e668',
-    vaultURL: 'https://qhdmceurtnlz.vault.skyflowapis.dev',
+    vaultID: '<VAULT_ID>',
+    vaultURL: '<VAULT_URL>',
     options: {
       logLevel: LogLevel.ERROR,
       env: Env.PROD,
@@ -40,7 +57,7 @@ const App = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <SkyflowProvider config={skyflowConfig}>
-        {/* {!displayCollect && !displayComposable && !displayCobrandedCard && <>
+        {!displayCollect && !displayComposable && !displayCobrandedCard && <>
           <View style={{ margin: 10 }}>
             <Button onPress={() => { setDisplayCollect(true) }} title='Collect And Reveal Elements' />
           </View>
@@ -50,11 +67,11 @@ const App = () => {
           <View style={{ margin: 10 }}>
             <Button onPress={() => { setDisplayCobrandedCard(true) }} title='Co-branded Card' />
           </View>
-        </>} */}
+        </>}
 
-        {true && <ElementView handleReset={handleReset} />}
-        {/* {displayComposable && <ComposableElements handleReset={handleReset} />}
-        {displayCobrandedCard && <CardBrandChoice handleReset={handleReset} />} */}
+        {displayCollect && <ElementView handleReset={handleReset} />}
+        {displayComposable && <ComposableElements handleReset={handleReset} />}
+        {displayCobrandedCard && <CardBrandChoice handleReset={handleReset} />}
       </SkyflowProvider>
     </SafeAreaView>
   );

@@ -137,6 +137,10 @@ export interface IRevealResponseType {
   errors?: Record<string, any>[];
 }
 
+export interface SkyflowRevealElementRef {
+    setToken: (newToken: string) => void;
+}
+
 export enum ValidationRuleType {
   REGEX_MATCH_RULE = 'REGEX_MATCH_RULE',
   LENGTH_MATCH_RULE = 'LENGTH_MATCH_RULE',
