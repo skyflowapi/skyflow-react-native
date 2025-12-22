@@ -10,6 +10,7 @@ export {
   ValidationRuleType,
   RedactionType,
   SkyflowRevealElementRef,
+  TestValidEnum
 } from './utils/constants';
 export { CardType } from './core/constants'
 export { default as useCollectContainer } from './hooks/useCollectContainer';

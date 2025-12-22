@@ -146,6 +146,11 @@ export enum ValidationRuleType {
   LENGTH_MATCH_RULE = 'LENGTH_MATCH_RULE',
 }
 
+export enum TestValidEnum {
+  REGEX_MATCH_RULE = 'REGEX_MATCH_RULE',
+  LENGTH_MATCH_RULE = 'LENGTH_MATCH_RULE',
+}
+
 export interface IValidationRule {
   type: ValidationRuleType;
   params: any;
