@@ -10,7 +10,7 @@ import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import { formatInputFieldValue } from "../../utils/helpers";
 import { DEFAULT_INPUT_FIELD_TRANSLATION } from "../../core/constants";
 
-const RevealElement = forwardRef<SkyflowRevealElementRef, RevealElementProps>((props, ref) => {
+const RevealElement = forwardRef<SkyflowRevealElementRef | null, RevealElementProps>((props, ref) => {
     const { container, label, format, translation, ...rest } = props;
     
     const [element, setElement] = React.useState<RevealSkyflowElement | undefined>(undefined);

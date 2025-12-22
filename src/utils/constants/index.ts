@@ -3,7 +3,7 @@
 */
 import type CollectContainer from '../../core/CollectContainer';
 import RevealContainer from '../../core/RevealContainer';
-import { CardType } from '../../../src/core/constants';
+import { CardType } from '../../core/constants';
 
 export interface IConfig {
   vaultID: string;
@@ -118,6 +118,7 @@ export interface RevealElementProps {
   errorTextStyles?: StylesBaseVariant;
   redaction?: RedactionType;
   testID?: string;
+  id?: string;
 }
 
 export enum MessageType {
