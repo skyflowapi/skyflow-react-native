@@ -133,6 +133,8 @@ const logs = {
       `Skyflow ${SDK_NAME_VERSION} initialization failed - SkyflowProvider config is missing. `,
     CONTAINER_OBJECT_IS_REQUIRED:
       `${SDK_NAME_VERSION} cannot create %s1 element without container object, create a container using %s2 hook.`,
+    ELEMENT_NOT_FOUND:
+      `${SDK_NAME_VERSION} %s1 not found. The specified element does not exist in the container.`,
     INVALID_UPSERT_OPTION_TYPE:
       `${SDK_NAME_VERSION} Validation error. Invalid \'upsert\' key in insert options. Specify a value of type array instead`,
     EMPTY_UPSERT_OPTIONS_ARRAY:
@@ -226,6 +228,8 @@ const logs = {
       'EXPIRATION_DATE format must be in one of %s1, the format is set to default MM/YY',
     INVALID_EXPIRATION_YEAR_FORMAT:
       'EXPIRATION_YEAR format must be in one of %s1, the format is set to default YY',
+    INVALID_CARD_NUMBER_FORMAT:
+      `CARD_NUMBER format must be in one of %s1, the format is set to default XXXX XXXX XXXX XXXX`,
   },
 };
 

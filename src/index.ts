@@ -9,6 +9,7 @@ export {
   LogLevel,
   ValidationRuleType,
   RedactionType,
+  SkyflowRevealElementRef,
 } from './utils/constants';
 export { CardType } from './core/constants'
 export { default as useCollectContainer } from './hooks/useCollectContainer';

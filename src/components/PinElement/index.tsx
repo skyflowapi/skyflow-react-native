@@ -49,6 +49,7 @@ const PinElement: React.FC<CollectElementProps> = ({ container, options = { requ
             ref={textInputRef}
             value={elementValue}
             placeholder={rest.placeholder}
+            testID={rest?.testID}
             onChangeText={(text) => {
                 element?.onChangeElement(text)
                 setElementValue(element.getInternalState().value)
@@ -76,7 +77,7 @@ const PinElement: React.FC<CollectElementProps> = ({ container, options = { requ
         {
             container && container?.type === ContainerType.COLLECT
             &&
-            <Text style={rest?.errorTextStyles?.base || {}}>{errorText}</Text>
+            <Text style={rest?.errorTextStyles?.base || {}} testID="pin-error">{errorText}</Text>
         }
     </View>);
 }

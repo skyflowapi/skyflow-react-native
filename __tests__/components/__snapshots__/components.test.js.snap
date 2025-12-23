@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test Collect And Reveal Elements Components test CardHolderNameElement component 1`] = `
+exports[`test Collect Elements Components test CardHolderNameElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -26,11 +26,12 @@ exports[`test Collect And Reveal Elements Components test CardHolderNameElement 
   />
   <Text
     style={Object {}}
+    testID="name-error"
   />
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test CardNumberElement component 1`] = `
+exports[`test Collect Elements Components test CardNumberElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -89,11 +90,12 @@ exports[`test Collect And Reveal Elements Components test CardNumberElement comp
   </View>
   <Text
     style={Object {}}
+    testID="cardnumber-error"
   />
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test CvvElement component 1`] = `
+exports[`test Collect Elements Components test CvvElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -121,11 +123,12 @@ exports[`test Collect And Reveal Elements Components test CvvElement component 1
   />
   <Text
     style={Object {}}
+    testID="cvv-error"
   />
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test ExpirationDateElement component 1`] = `
+exports[`test Collect Elements Components test ExpirationDateElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -153,11 +156,12 @@ exports[`test Collect And Reveal Elements Components test ExpirationDateElement 
   />
   <Text
     style={Object {}}
+    testID="date-error"
   />
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test ExpirationMonthElement component 1`] = `
+exports[`test Collect Elements Components test ExpirationMonthElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -185,11 +189,12 @@ exports[`test Collect And Reveal Elements Components test ExpirationMonthElement
   />
   <Text
     style={Object {}}
+    testID="month-error"
   />
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test ExpirationYearElement component 1`] = `
+exports[`test Collect Elements Components test ExpirationYearElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -217,11 +222,12 @@ exports[`test Collect And Reveal Elements Components test ExpirationYearElement 
   />
   <Text
     style={Object {}}
+    testID="year-error"
   />
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test InputFieldElement component 1`] = `
+exports[`test Collect Elements Components test InputFieldElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -247,11 +253,12 @@ exports[`test Collect And Reveal Elements Components test InputFieldElement comp
   />
   <Text
     style={Object {}}
+    testID="inputfield-error"
   />
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test PinElement component 1`] = `
+exports[`test Collect Elements Components test PinElement component 1`] = `
 <View>
   <Text
     style={Object {}}
@@ -279,11 +286,12 @@ exports[`test Collect And Reveal Elements Components test PinElement component 1
   />
   <Text
     style={Object {}}
+    testID="pin-error"
   />
 </View>
 `;
 
-exports[`test Collect And Reveal Elements Components test RevealElement component 1`] = `
+exports[`test Collect Elements Components test Reveal Elements Components renders correctly with the handler & snapshot 1`] = `
 Array [
   <Text
     style={Object {}}
@@ -298,12 +306,33 @@ Array [
   </Text>,
   <Text
     style={Object {}}
+    testID="Card Number-error"
   />,
 ]
 `;
 
-exports[`test Collect And Reveal Elements Components test skyflow provider 1`] = `
+exports[`test Collect Elements Components test RevealElement component rendering 1`] = `
+Array [
+  <Text
+    style={Object {}}
+  >
+    Card Number
+  </Text>,
+  <Text
+    selectable={true}
+    style={Object {}}
+  >
+    XXXX XXXX XXXX XXXX
+  </Text>,
+  <Text
+    style={Object {}}
+    testID="Card Number-error"
+  />,
+]
+`;
+
+exports[`test Collect Elements Components test skyflow provider 1`] = `
 <Text>
-  Provider Childern
+  Provider Children
 </Text>
 `;

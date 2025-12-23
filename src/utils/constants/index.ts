@@ -3,7 +3,7 @@
 */
 import type CollectContainer from '../../core/CollectContainer';
 import RevealContainer from '../../core/RevealContainer';
-import { CardType } from '../../../src/core/constants';
+import { CardType } from '../../core/constants';
 
 export interface IConfig {
   vaultID: string;
@@ -55,6 +55,7 @@ export interface CollectElementProps {
   errorTextStyles?: StylesBaseVariant;
   containerMethods?: Record<any, any>;
   skyflowID?: string;
+  testID?: string;
 }
 
 export enum ElementType {
@@ -108,12 +109,16 @@ export interface RevealElementInput {
 export interface RevealElementProps {
   token: string;
   container: RevealContainer;
+  format?: string
+  translation?: Record<string, string>;
   label?: string;
   altText?: string;
   inputStyles?: StylesBaseVariant;
   labelStyles?: StylesBaseVariant;
   errorTextStyles?: StylesBaseVariant;
   redaction?: RedactionType;
+  testID?: string;
+  id?: string;
 }
 
 export enum MessageType {
@@ -131,6 +136,10 @@ export interface IRevealRecord {
 export interface IRevealResponseType {
   records?: Record<string, string>[];
   errors?: Record<string, any>[];
+}
+
+export interface SkyflowRevealElementRef {
+    setToken: (newToken: string) => void;
 }
 
 export enum ValidationRuleType {
