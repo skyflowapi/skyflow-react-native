@@ -358,7 +358,7 @@ class CollectElement extends SkyflowElement {
         ? DEFAULT_COLLECT_ELEMENT_REQUIRED_TEXT
         : this.#containerType === ContainerType.COLLECT
         ? DEFAULT_COLLECT_ELEMENT_ERROR_TEXT
-        : DEFAULT_ERROR_TEXT_ELEMENT_TYPES[this.#elementType];
+        : DEFAULT_ERROR_TEXT_ELEMENT_TYPES[this.#elementType] || DEFAULT_COLLECT_ELEMENT_ERROR_TEXT;
       this.hasError = true;
     } else {
       this.#errorText = '';

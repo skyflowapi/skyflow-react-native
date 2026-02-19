@@ -43,6 +43,20 @@ describe('test CollectConatiner Class', () => {
     expect(collectElement.getCardType()).toBe(CardType.DEFAULT);
   });
 
+  it('test create method sets containerType to COLLECT', () => {
+    const collectElement = collectContainer.create(
+      {
+        table: 'table1',
+        column: 'string1',
+        type: ElementType.PIN,
+      },
+      { required: false }
+    );
+    expect(collectElement).toBeInstanceOf(CollectElement);
+    const elementInput = collectElement.getElementInput();
+    expect(elementInput.containerType).toBe('COLLECT');
+  });
+
   it('test getContext method', () => {
     expect(collectContainer.getContext()).toEqual({
       env: Env.PROD,
