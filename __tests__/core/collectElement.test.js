@@ -637,4 +637,122 @@ describe('test Collect Element class', () => {
       expect(collectElement.getInternalState().isValid).toBe(true);
     });
   });
+
+  it('test error messages for elements without label in COLLECT container', () => {
+    const pinElement = new CollectElement(
+      {
+        table: 'cards',
+        column: 'pin',
+        type: ElementType.PIN,
+        containerType: ContainerType.COLLECT,
+      },
+      { required: false },
+      context
+    );
+
+    pinElement.onChangeElement('12'); // Invalid PIN (less than 4 digits)
+    expect(pinElement.getInternalState().isValid).toBe(false);
+    expect(pinElement.getErrorText()).toBe(DEFAULT_COLLECT_ELEMENT_ERROR_TEXT); // Should be "Invalid value"
+
+    const cvvElement = new CollectElement(
+      {
+        table: 'cards',
+        column: 'cvv',
+        type: ElementType.CVV,
+        containerType: ContainerType.COLLECT,
+      },
+      { required: false },
+      context
+    );
+
+    cvvElement.onChangeElement('12'); // Invalid CVV
+    expect(cvvElement.getInternalState().isValid).toBe(false);
+    expect(cvvElement.getErrorText()).toBe(DEFAULT_COLLECT_ELEMENT_ERROR_TEXT); // Should be "Invalid value"
+  });
+
+  it('test error messages for elements without label in COMPOSABLE container', () => {
+    // Test PIN element without label in COMPOSABLE container
+    const pinElement = new CollectElement(
+      {
+        table: 'cards',
+        column: 'pin',
+        type: ElementType.PIN,
+        containerType: ContainerType.COMPOSABLE,
+      },
+      { required: false },
+      context
+    );
+
+    pinElement.onChangeElement('12'); // Invalid PIN (less than 4 digits)
+    expect(pinElement.getInternalState().isValid).toBe(false);
+    expect(pinElement.getErrorText()).toBe('Invalid pin'); // Should be element-specific error
+
+    const cvvElement = new CollectElement(
+      {
+        table: 'cards',
+        column: 'cvv',
+        type: ElementType.CVV,
+        containerType: ContainerType.COMPOSABLE,
+      },
+      { required: false },
+      context
+    );
+
+    cvvElement.onChangeElement('12'); // Invalid CVV
+    expect(cvvElement.getInternalState().isValid).toBe(false);
+    expect(cvvElement.getErrorText()).toBe('Invalid cvv'); // Should be element-specific error
+  });
+
+  it('test error messages for elements with label', () => {
+    // Test PIN element with label
+    const pinElement = new CollectElement(
+      {
+        table: 'cards',
+        column: 'pin',
+        type: ElementType.PIN,
+        label: 'PIN',
+        containerType: ContainerType.COLLECT,
+      },
+      { required: false },
+      context
+    );
+
+    pinElement.onChangeElement('12'); // Invalid PIN
+    expect(pinElement.getInternalState().isValid).toBe(false);
+    expect(pinElement.getErrorText()).toBe('Invalid PIN'); // Should use label
+
+    // Test required field with label when empty
+    const requiredElement = new CollectElement(
+      {
+        table: 'cards',
+        column: 'cvv',
+        type: ElementType.CVV,
+        label: 'CVV',
+        containerType: ContainerType.COLLECT,
+      },
+      { required: true },
+      context
+    );
+
+    requiredElement.onChangeElement(''); // Empty required field
+    expect(requiredElement.getInternalState().isValid).toBe(false);
+    expect(requiredElement.getErrorText()).toBe('CVV is required'); // Should use label with "is required"
+  });
+
+  it('test error messages for empty required fields without label', () => {
+    const element = new CollectElement(
+      {
+        table: 'cards',
+        column: 'pin',
+        type: ElementType.PIN,
+        containerType: ContainerType.COLLECT,
+      },
+      { required: true },
+      context
+    );
+
+    element.onChangeElement(''); // Empty required field
+    expect(element.getInternalState().isValid).toBe(false);
+    expect(element.getErrorText()).toBe('Field is required'); // Should be generic required message
+  });
 });
