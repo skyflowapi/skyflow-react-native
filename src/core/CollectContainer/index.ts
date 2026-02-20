@@ -45,7 +45,7 @@ class CollectContainer extends Container {
 
   create(elementInput: CollectElementInput, options?: any) {
     const element = new CollectElement(
-      elementInput,
+      { ...elementInput, containerType: ContainerType.COLLECT },
       options,
       this.getContext()
     );
