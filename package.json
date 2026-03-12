@@ -1,6 +1,6 @@
 {
   "name": "skyflow-react-native",
-  "version": "1.10.1-dev.e4ecbdc",
+  "version": "1.10.1",
   "description": "Skyflow React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -36,7 +36,7 @@
     "prepare": "bob build",
     "example": "yarn --cwd example",
     "bootstrap": "yarn example && yarn && yarn example pods",
-    "build": "bob build"
+    "build": "bob build && cp -r assets lib/ && cp package.json lib/"
   },
   "keywords": [
     "react-native",
