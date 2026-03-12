@@ -63,7 +63,8 @@
     "recordss",
     "inputfield",
     "showlist",
-    "Showlist"
+    "Showlist",
+    "iframes"
   ],
   "ignorePaths": [
     "node_modules/**",
