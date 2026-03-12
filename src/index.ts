@@ -26,4 +26,3 @@ export { default as ExpirationDateElement } from './components/ExpirationDateEle
 export { default as CardNumberElement } from './components/CardNumberElement';
 export { default as RevealElement } from './components/RevealElement';
 export { default as ComposableContainer } from './components/ComposableContainer';
-
