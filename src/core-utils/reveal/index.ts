@@ -56,10 +56,10 @@ const getTokenRecordsFromVault = (
   tokenRecord: IRevealRecord,
   authToken: string
 ): Promise<any> => {
-  const vaultEndPointurl: string = `${skyflowClient.getVaultURL()}/v1/vaults/${skyflowClient.getVaultID()}/detokenize`;
+  const vaultEndpointUrl: string = `${skyflowClient.getVaultURL()}/v1/vaults/${skyflowClient.getVaultID()}/detokenize`;
   return skyflowClient.getHttpClient().request({
     requestMethod: 'POST',
-    url: vaultEndPointurl,
+    url: vaultEndpointUrl,
     headers: {
       'authorization': `Bearer ${authToken}`,
       'content-type': 'application/json',
@@ -300,11 +300,11 @@ export const getRecordsFromVault = (
   }
 
   const vault = config.vaultURL;
-  const vaultEndPointurl: string = `${vault}/v1/vaults/${config.vaultID}/${getRecord.table}?${paramList}`;
+  const vaultEndpointUrl: string = `${vault}/v1/vaults/${config.vaultID}/${getRecord.table}?${paramList}`;
 
   return client.request({
     requestMethod: 'GET',
-    url: vaultEndPointurl,
+    url: vaultEndpointUrl,
     headers: {
       authorization: `Bearer ${authToken}`,
       'content-type': 'application/json',

@@ -118,8 +118,8 @@ class Client {
                 {
                   code: httpRequest.status,
                   description: requestId
-                    ? `${logs.errorLogs.ERROR_OCCURED} - requestId: ${requestId}`
-                    : logs.errorLogs.ERROR_OCCURED,
+                    ? `${logs.errorLogs.ERROR_OCCURRED} - requestId: ${requestId}`
+                    : logs.errorLogs.ERROR_OCCURRED,
                 },
                 [],
                 true

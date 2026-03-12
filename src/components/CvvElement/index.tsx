@@ -9,7 +9,7 @@ import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 import uuid from 'react-native-uuid';
 
-const CvvElement: React.FC<CollectElementProps> = ({ container, options = { requried: false }, ...rest }) => {
+const CvvElement: React.FC<CollectElementProps> = ({ container, options = { required: false }, ...rest }) => {
     const [element, setElement] = React.useState<CollectElement>();
     const [elementValue, setElementValue] = React.useState<string>('');
     const [errorText, setErrorText] = React.useState<string>('');

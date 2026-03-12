@@ -182,9 +182,9 @@ const SKYFLOW_ERROR_CODE = {
     code: 400,
     description: logs.errorLogs.EMPTY_COLLECT_ELEMENTS,
   },
-  SKYFLOW_INTIALIZING_MISSING: {
+  SKYFLOW_INITIALIZING_MISSING: {
     code: 400,
-    description: logs.errorLogs.SKYFLOW_INTIALIZING_MISSING,
+    description: logs.errorLogs.SKYFLOW_INITIALIZING_MISSING,
   },
   CONTAINER_OBJECT_IS_REQUIRED: {
     code: 400,

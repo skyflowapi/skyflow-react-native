@@ -40,7 +40,7 @@ const CoBrandedCard = (props) => {
       method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: "follow"
+      redirect: "follow" as const
     };
     return fetch("https://<VAULT_URL>/v1/card_lookup", requestOptions);
   };

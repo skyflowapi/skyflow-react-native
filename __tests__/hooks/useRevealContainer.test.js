@@ -6,7 +6,7 @@ import useRevealContainer from '../../src/hooks/useRevealContainer';
 import RevealContainer from '../../src/core/RevealContainer';
 
 describe('test useRevealContainer hook', () => {
-  it('should return reveal conatiner instance', () => {
+  it('should return reveal container instance', () => {
     const { result } = renderHook(() => useRevealContainer());
     expect(result.current).toBeInstanceOf(RevealContainer);
   });
