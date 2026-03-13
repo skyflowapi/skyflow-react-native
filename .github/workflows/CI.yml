@@ -31,6 +31,9 @@ jobs:
       - name: install node_modules
         run: npm install
 
+      - name: Run spellcheck
+        run: npm run spellcheck
+
       - name: Run tests
         run: npm run test
 

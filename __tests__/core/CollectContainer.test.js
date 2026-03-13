@@ -20,7 +20,7 @@ jest.mock('../../src/core-utils/collect', () => ({
   __esModule: true,
   tokenize: jest.fn(),
 }));
-describe('test CollectConatiner Class', () => {
+describe('test CollectContainer Class', () => {
   let collectContainer;
   beforeEach(() => {
     collectContainer = new CollectContainer(testSkyflowClient);

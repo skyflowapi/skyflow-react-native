@@ -570,7 +570,7 @@ describe('fetchRecordGET fn test', () => {
       });
   });
 
-  it('should give success reponse in case of success', (done) => {
+  it('should give success response in case of success', (done) => {
     jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
       request: () => Promise.resolve(getSuccessResponse),
     }));

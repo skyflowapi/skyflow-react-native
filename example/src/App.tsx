@@ -32,13 +32,13 @@ const App = () => {
               const response = JSON.parse(Http.responseText);
               resolve(response.accessToken);
             } else {
-              reject('Error occured');
+              reject('Error occurred');
             }
           }
         };
 
         Http.onerror = error => {
-          reject('Error occured');
+          reject('Error occurred');
         };
 
         const url = '<YOUR_AUTH_BEARER_TOKEN_API_URL>';

@@ -12,7 +12,7 @@ export interface IConfig {
   options?: Record<string, any>;
 }
 
-export const SkyflowConfigIntialState: IConfig = {
+export const SkyflowConfigInitialState: IConfig = {
   vaultID: '',
   vaultURL: '',
   getBearerToken: () => {
@@ -196,9 +196,9 @@ export interface IInsertRecordInput {
 }
 
 export interface IInsertResponse {
-  records: IInsertResponseReocrds[];
+  records: IInsertResponseRecords[];
 }
-export interface IInsertResponseReocrds {
+export interface IInsertResponseRecords {
   table: string;
   fields?: Record<string, any>;
   skyflowID?: string;

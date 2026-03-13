@@ -9,7 +9,7 @@ import discoverIcon from '../../../assets/discover.png';
 import hipperCardIcon from '../../../assets/hipercard.png';
 import jcbIcon from '../../../assets/jcb.png';
 import maestroIcon from '../../../assets/maestro.png';
-import maseterCardIcon from '../../../assets/mastercard.png';
+import masterCardIcon from '../../../assets/mastercard.png';
 import unionPayIcon from '../../../assets/unionpay.png';
 import visaCardIcon from '../../../assets/visa.png';
 import cartesBancairesIcon from '../../../assets/carter-banceris.png'
@@ -76,7 +76,7 @@ export const CARD_ENCODED_ICONS = {
   [CardType.HIPERCARD]: hipperCardIcon,
   [CardType.JCB]: jcbIcon,
   [CardType.MAESTRO]: maestroIcon,
-  [CardType.MASTERCARD]: maseterCardIcon,
+  [CardType.MASTERCARD]: masterCardIcon,
   [CardType.UNIONPAY]: unionPayIcon,
   [CardType.VISA]: visaCardIcon,
 }
