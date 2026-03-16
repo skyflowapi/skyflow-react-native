@@ -20,13 +20,10 @@ jobs:
         with:
           node-version: 14.21.3
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install
+
 
       - name: install modules
         run: npm install
-
-      - name: Build
-        run: npm run build
 
       - name: Get Previous tag
         id: previoustag
@@ -46,6 +43,9 @@ jobs:
           git add package.json
           git commit -m "[AUTOMATED] Public Release - ${{ steps.previoustag.outputs.tag }}"
           git push
+
+      - name: Build
+        run: npm run build
 
       - name: publish to npm
         run: npm publish

@@ -7,7 +7,7 @@ import SkyflowError from '../../utils/skyflow-error';
 import SKYFLOW_ERROR_CODE from '../../utils/skyflow-error-code';
 import { getMetaObject } from '../../utils/helpers';
 import { Platform } from 'react-native';
-import sdkDetails from '../../../package.json';
+import { sdkDetails } from '../../sdkDetails';
 
 export interface IClientRequest {
   body?: any;

@@ -1,17 +1,10 @@
 {
   "name": "skyflow-react-native",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "description": "Skyflow React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
-  "types": "lib/typescript/src/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./lib/typescript/src/index.d.ts",
-      "import": "./lib/module/index.js",
-      "require": "./lib/commonjs/index.js"
-    }
-  },
+  "types": "lib/typescript/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
@@ -37,7 +30,7 @@
     "prepare": "bob build",
     "example": "yarn --cwd example",
     "bootstrap": "yarn example && yarn && yarn example pods",
-    "build": "bob build && cp -r assets lib/ && cp package.json lib/"
+    "build": "node scripts/generateSdkDetails.js && bob build && cp -r assets lib/"
   },
   "keywords": [
     "react-native",

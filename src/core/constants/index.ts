@@ -13,7 +13,7 @@ import masterCardIcon from '../../../assets/mastercard.png';
 import unionPayIcon from '../../../assets/unionpay.png';
 import visaCardIcon from '../../../assets/visa.png';
 import cartesBancairesIcon from '../../../assets/carter-banceris.png'
-import sdkDetails from '../../../package.json';
+import { sdkDetails } from '../../sdkDetails';
 
 export const SDK_DETAILS = {
   sdkName: 'React Native',
