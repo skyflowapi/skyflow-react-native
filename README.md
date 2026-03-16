@@ -155,7 +155,7 @@ The following `props` can be passed to Skyflow Collection Element:
 
 ``` javascript
 {
-  conatiner: 'CollectContainer'  // Required, the collect container.
+  container: 'CollectContainer'  // Required, the collect container.
   table: 'string',               // Required, the table this data belongs to.
   column: 'string',              // Required, the column into which this data should be inserted.
   label: 'string',               // Optional, label for the form element.
@@ -590,7 +590,7 @@ The following `props` can be passed to Skyflow Collection Element:
 
 ``` javascript
 {
-  conatiner: 'CollectContainer'  // Required, the collect container.
+  container: 'CollectContainer'  // Required, the collect container.
   table: 'string',               // Required, the table this data belongs to.
   column: 'string',              // Required, the column into which this data should be inserted.
   label: 'string',               // Optional, label for the form element.
@@ -1421,7 +1421,7 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
           "table": String,               // name of table from where records are to be fetched
           "redaction": RedactionType,    // redaction to be applied to retrieved data
           "columnName": String,          // a unique column name
-          "colunmnValues": Array         // Array of Column Values of the records to be fetched
+          "columnValues": Array         // Array of Column Values of the records to be fetched
         }
       ]
     }

@@ -7,7 +7,7 @@ const testSkyflowClient = new Skyflow({
   getBearerToken: () => Promise.resolve('valid_auth_token'),
 });
 
-describe('test SkyflowContiner class', () => {
+describe('test SkyflowContainer Class', () => {
   let skyflowContainer;
   beforeEach(() => {
     skyflowContainer = new SkyflowContainer(testSkyflowClient);

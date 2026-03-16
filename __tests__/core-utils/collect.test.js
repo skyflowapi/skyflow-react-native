@@ -103,7 +103,7 @@ describe('test collect utils class', () => {
       });
   });
 
-  it('test tokenize with addtional fields', (done) => {
+  it('test tokenize with additional fields', (done) => {
     const successResponse = {
       responses: [
         { records: [{ skyflow_id: 'test_skyflow_id' }] },
@@ -268,7 +268,7 @@ describe('test collect utils class', () => {
       });
   });
 
-  it('test tokenize with addtional fields duplicate columns', (done) => {
+  it('test tokenize with additional fields duplicate columns', (done) => {
     const testSkyflowClient = new Skyflow({
       vaultID: '1234',
       vaultURL: 'https://url.com',

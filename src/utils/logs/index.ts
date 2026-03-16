@@ -73,7 +73,7 @@ const logs = {
     INVALID_TOKENS_IN_COLLECT:
       `${SDK_NAME_VERSION} Validation error. Invalid tokens. Specify a boolean value for tokens.`,
     RECORDS_KEY_NOT_FOUND_IN_ADDITIONAL_FIELDS:
-      `${SDK_NAME_VERSION} Validation error.'records' key not found in additionalFields. Specify a 'records' key in addtionalFields.`,
+      `${SDK_NAME_VERSION} Validation error.'records' key not found in additionalFields. Specify a 'records' key in additionalFields.`,
     INVALID_RECORDS_IN_ADDITIONAL_FIELDS:
       `${SDK_NAME_VERSION} Validation error.'records' must be an array within additionalFields.`,
     EMPTY_RECORDS_IN_ADDITIONAL_FIELDS:
@@ -85,7 +85,7 @@ const logs = {
     MISSING_FIELDS_IN_ADDITIONAL_FIELDS:
     `${SDK_NAME_VERSION} Validation error.'fields' key not found in additionalFields record at index %s1. Specify a 'fields' key in additionalFields record at index %s1.`,
     INVALID_FIELDS_IN_ADDITIONAL_FIELDS:
-      `${SDK_NAME_VERSION} Validation error.invaid 'fields' key value in additionalFields record at index %s1. Specify a value of type array for 'fields' key.`,
+      `${SDK_NAME_VERSION} Validation error.invalid 'fields' key value in additionalFields record at index %s1. Specify a value of type array for 'fields' key.`,
     EMPTY_RECORDS_REVEAL:
       `${SDK_NAME_VERSION} Validation error. \'records\' key cannot be empty. Provide a non-empty value instead.`,
     MISSING_TOKEN_KEY_REVEAL:
@@ -125,11 +125,11 @@ const logs = {
     UNKNOWN_ERROR: 'Unknown Error.',
     NETWORK_ERROR:
       `${SDK_NAME_VERSION} A network error occurred. This could be a CORS issue or a dropped internet connection. It is not possible for us to know. Please reach out to skyflow if you see this error`,
-    ERROR_OCCURED: 'Error occurred.',
+    ERROR_OCCURRED: 'Error occurred.',
     CONNECTION_ERROR: `${SDK_NAME_VERSION} Error while initializing the connection.`,
     EMPTY_COLLECT_ELEMENTS:
     `${SDK_NAME_VERSION} collect failed. Make sure to create all elements before invoking 'collect' function.`,
-    SKYFLOW_INTIALIZING_MISSING:
+    SKYFLOW_INITIALIZING_MISSING:
       `Skyflow ${SDK_NAME_VERSION} initialization failed - SkyflowProvider config is missing. `,
     CONTAINER_OBJECT_IS_REQUIRED:
       `${SDK_NAME_VERSION} cannot create %s1 element without container object, create a container using %s2 hook.`,
@@ -138,7 +138,7 @@ const logs = {
     INVALID_UPSERT_OPTION_TYPE:
       `${SDK_NAME_VERSION} Validation error. Invalid \'upsert\' key in insert options. Specify a value of type array instead`,
     EMPTY_UPSERT_OPTIONS_ARRAY:
-      `${SDK_NAME_VERSION} Validation error. 'upsert' key cannot be an empty array in insert options. Make sure to add atleast one table column object in upsert array.`,
+      `${SDK_NAME_VERSION} Validation error. 'upsert' key cannot be an empty array in insert options. Make sure to add at least one table column object in upsert array.`,
     INVALID_UPSERT_OPTION_OBJECT_TYPE:
       `${SDK_NAME_VERSION} Validation error. Invalid value in upsert array at index %s1 in insert options. Specify objects with 'table' and 'column' keys instead.`,
     MISSING_TABLE_IN_UPSERT_OPTION:
@@ -219,7 +219,7 @@ const logs = {
     `${SDK_NAME_VERSION} Validation error. ids and columnName can not be specified together.`,
     GET_BY_SKYFLOWID_RESOLVED: '%s1 - GetById request is resolved.',
     GET_REJECTED: `${SDK_NAME_VERSION} Get failed. Get request is rejected.`,
-    EMPTY_SKYFLOW_ID_IN_ADDITIONAL_FIELDS: `${SDK_NAME_VERSION} Validation error.\'id\' cannot be empty in addtionalFields record at index %s1. Specify a non-empty value for \'id\'.`,
+    EMPTY_SKYFLOW_ID_IN_ADDITIONAL_FIELDS: `${SDK_NAME_VERSION} Validation error.\'id\' cannot be empty in additionalFields record at index %s1. Specify a non-empty value for \'id\'.`,
     EMPTY_SKYFLOW_ID_COLLECT: `${SDK_NAME_VERSION} Validation error.\'skyflowID\' cannot be empty for collect element. Specify a non-empty value for \'skyflowID\'.`,
     INVALID_SKYFLOW_ID_IN_ADDITIONAL_FIELDS: `${SDK_NAME_VERSION} Validation error.Invalid \'skyflow_id\' key value in additionalFields record at index %s1. Specify a valid value for \'skyflow_id\' key.`,
   },

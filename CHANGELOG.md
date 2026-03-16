@@ -36,7 +36,7 @@ All notable changes to this project will be documented in this file.
 - Added Asterisk symbol for label of required collect element. 
 - `requiredAsterisk` custom styles to collect element labelStyles.
 ### Changed
-- OnFoucs of invalid collect element, removed errorText. 
+- OnFocus of invalid collect element, removed errorText. 
 ## [1.0.1] - 2022-11-01
 
 ### Changed
@@ -47,4 +47,4 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.0] - 2022-10-11
 
-- Inital Skyflow React Native SDK release
+- Initial Skyflow React Native SDK release

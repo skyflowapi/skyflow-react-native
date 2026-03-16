@@ -3,7 +3,7 @@
 */
 import React from 'react';
 import Skyflow from '../../core/Skyflow';
-import { IConfig, SkyflowConfigIntialState } from '../../utils/constants';
+import { IConfig } from '../../utils/constants';
 
 export interface ISkyflowProvider {
     config: IConfig,

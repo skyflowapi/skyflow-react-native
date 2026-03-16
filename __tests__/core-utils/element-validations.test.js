@@ -94,7 +94,7 @@ describe('test validateUpsertOptions', () => {
     }
   });
 
-  it('should throw error for inavlid upsert object type', () => {
+  it('should throw error for invalid upsert object type', () => {
     try {
       validateUpsertOptions([true, 123]);
     } catch (err) {
@@ -181,7 +181,7 @@ describe('test validatePin function', () => {
     expect(validatePin('1234')).toBe(true);
     expect(validatePin('123456789')).toBe(true);
   });
-  it('should return true for value length outof range', () => {
+  it('should return true for value length out of range', () => {
     expect(validatePin('12')).toBe(false);
     expect(validatePin('12345678901234677')).toBe(false);
   });
@@ -710,7 +710,7 @@ describe('test validateGetInput', () => {
         records: [
           {
             columnValues: [],
-            columnName: 'cloumn',
+            columnName: 'column',
             table: 'test',
             redaction: RedactionType.PLAIN_TEXT,
           },

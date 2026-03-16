@@ -35,7 +35,7 @@ const onBlurMock = jest.fn();
 const onFocusMock = jest.fn();
 
 const changeTrigger = jest.fn();
-const foucsTrigger = jest.fn();
+const focusTrigger = jest.fn();
 const blurTrigger = jest.fn();
 
 describe('test Collect Elements Components', () => {
@@ -47,7 +47,7 @@ describe('test Collect Elements Components', () => {
     jest.spyOn(collectContainer, 'create').mockImplementation(() => ({
       getClientState: () => ({}),
       onChangeElement: changeTrigger,
-      onFocusElement: foucsTrigger,
+      onFocusElement: focusTrigger,
       onBlurElement: blurTrigger,
       updateLabelStyles: jest.fn(),
       updateInputStyles: jest.fn(),
@@ -84,7 +84,7 @@ describe('test Collect Elements Components', () => {
     expect(changeTrigger).toBeCalledWith('hello');
 
     fireEvent(textField, 'focus');
-    expect(foucsTrigger).toBeCalled();
+    expect(focusTrigger).toBeCalled();
 
     fireEvent(textField, 'blur');
     expect(blurTrigger).toBeCalled();
@@ -146,7 +146,7 @@ describe('test Collect Elements Components', () => {
     expect(changeTrigger).toBeCalledWith('1234');
 
     fireEvent(textField, 'focus');
-    expect(foucsTrigger).toBeCalled();
+    expect(focusTrigger).toBeCalled();
 
     fireEvent(textField, 'blur');
     expect(blurTrigger).toBeCalled();
@@ -204,7 +204,7 @@ describe('test Collect Elements Components', () => {
     expect(changeTrigger).toBeCalledWith('123');
 
     fireEvent(textField, 'focus');
-    expect(foucsTrigger).toBeCalled();
+    expect(focusTrigger).toBeCalled();
 
     fireEvent(textField, 'blur');
     expect(blurTrigger).toBeCalled();
@@ -262,7 +262,7 @@ describe('test Collect Elements Components', () => {
     expect(changeTrigger).toBeCalledWith('test');
 
     fireEvent(textField, 'focus');
-    expect(foucsTrigger).toBeCalled();
+    expect(focusTrigger).toBeCalled();
 
     fireEvent(textField, 'blur');
     expect(blurTrigger).toBeCalled();
@@ -324,7 +324,7 @@ describe('test Collect Elements Components', () => {
     expect(changeTrigger).toBeCalledWith('4111111111111111');
 
     fireEvent(textField, 'focus');
-    expect(foucsTrigger).toBeCalled();
+    expect(focusTrigger).toBeCalled();
 
     fireEvent(textField, 'blur');
     expect(blurTrigger).toBeCalled();
@@ -394,7 +394,7 @@ describe('test Collect Elements Components', () => {
     expect(changeTrigger).toBeCalledWith('12/2032');
 
     fireEvent(textField, 'focus');
-    expect(foucsTrigger).toBeCalled();
+    expect(focusTrigger).toBeCalled();
 
     fireEvent(textField, 'blur');
     expect(blurTrigger).toBeCalled();
@@ -458,7 +458,7 @@ describe('test Collect Elements Components', () => {
     expect(changeTrigger).toBeCalledWith('12');
 
     fireEvent(textField, 'focus');
-    expect(foucsTrigger).toBeCalled();
+    expect(focusTrigger).toBeCalled();
 
     fireEvent(textField, 'blur');
     expect(blurTrigger).toBeCalled();
@@ -521,7 +521,7 @@ describe('test Collect Elements Components', () => {
     expect(changeTrigger).toBeCalledWith('2032');
 
     fireEvent(textField, 'focus');
-    expect(foucsTrigger).toBeCalled();
+    expect(focusTrigger).toBeCalled();
 
     fireEvent(textField, 'blur');
     expect(blurTrigger).toBeCalled();

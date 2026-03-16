@@ -32,7 +32,7 @@ jest.mock('../../src/utils/logs-helper', () => ({
 }));
 
 describe('getDeviceModel', () => {
-  it('shloud return model names as iPad for systemName as iPadOS', () => {
+  it('should return model names as iPad for systemName as iPadOS', () => {
     const platform = {
       OS: 'ios',
       constants: {
@@ -43,7 +43,7 @@ describe('getDeviceModel', () => {
     expect(result).toEqual('iPad');
   });
 
-  it('shloud return model names as iPhone for systemName as iOS', () => {
+  it('should return model names as iPhone for systemName as iOS', () => {
     const platform = {
       OS: 'ios',
       constants: {
@@ -54,7 +54,7 @@ describe('getDeviceModel', () => {
     expect(result).toEqual('Iphone');
   });
 
-  it('shloud return model names as gphone64 for android', () => {
+  it('should return model names as gphone64 for android', () => {
     const platform = {
       OS: 'android',
       constants: {
@@ -65,7 +65,7 @@ describe('getDeviceModel', () => {
     expect(result).toEqual('sdk_gphone64_arm64');
   });
 
-  it('shloud return model names as windows for unknown', () => {
+  it('should return model names as windows for unknown', () => {
     const platform = {
       OS: 'windows',
     };
@@ -75,7 +75,7 @@ describe('getDeviceModel', () => {
 });
 
 describe('getMetaObject', () => {
-  it('shloud return full metaobject with all the fields filled', () => {
+  it('should return full metaobject with all the fields filled', () => {
     const platform = {
       OS: 'ios',
       Version: '16.0',
@@ -99,7 +99,7 @@ describe('getMetaObject', () => {
     });
   });
 
-  it('shloud return full metaobject with all the fields except for the version', () => {
+  it('should return full metaobject with all the fields except for the version', () => {
     const platform = {
       OS: 'ios',
       constants: {
@@ -128,7 +128,7 @@ describe('test appendZero function', () => {
     expect(appendZeroToOne('1')).toEqual('01');
   });
 
-  it('should not apppend 0 if we pass other than 1', () => {
+  it('should not append 0 if we pass other than 1', () => {
     expect(appendZeroToOne('5')).toEqual('5');
   });
 });

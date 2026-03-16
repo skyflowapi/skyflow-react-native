@@ -162,10 +162,10 @@ describe('test Collect Element class', () => {
     );
     expect(collectElement.getCardType()).toBe(undefined);
     const currentDate = new Date();
-    const validExipryDate = `${currentDate.getFullYear() + 1}/${
+    const validExpiryDate = `${currentDate.getFullYear() + 1}/${
       currentDate.getMonth() + 1
     }`;
-    collectElement.onChangeElement(validExipryDate);
+    collectElement.onChangeElement(validExpiryDate);
     expect(collectElement.getInternalState().isValid).toBe(true);
     const elementValue = collectElement.getInternalState().value;
     const [year, month] = elementValue.split('/');
@@ -214,32 +214,32 @@ describe('test Collect Element class', () => {
   });
 
   it('test isValidElement Function', () => {
-    let collecteElement;
+    let collectElement;
     const isValid = () => {
-      collecteElement.isValidElement();
+      collectElement.isValidElement();
     };
 
-    collecteElement = new CollectElement({}, {}, context);
+    collectElement = new CollectElement({}, {}, context);
     expect(isValid).toThrow(
       new SkyflowError(SKYFLOW_ERROR_CODE.MISSING_TABLE_IN_COLLECT, [], true)
     );
 
-    collecteElement = new CollectElement({ table: '' }, {}, context);
+    collectElement = new CollectElement({ table: '' }, {}, context);
     expect(isValid).toThrow(
       new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_TABLE_IN_COLLECT, [], true)
     );
 
-    collecteElement = new CollectElement({ table: true }, {}, context);
+    collectElement = new CollectElement({ table: true }, {}, context);
     expect(isValid).toThrow(
       new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_TABLE_IN_COLLECT, [], true)
     );
 
-    collecteElement = new CollectElement({ table: 'cards' }, {}, context);
+    collectElement = new CollectElement({ table: 'cards' }, {}, context);
     expect(isValid).toThrow(
       new SkyflowError(SKYFLOW_ERROR_CODE.MISSING_COLUMN_IN_COLLECT, [], true)
     );
 
-    collecteElement = new CollectElement(
+    collectElement = new CollectElement(
       { table: 'cards', column: '' },
       {},
       context
@@ -248,7 +248,7 @@ describe('test Collect Element class', () => {
       new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_COLUMN_IN_COLLECT, [], true)
     );
 
-    collecteElement = new CollectElement(
+    collectElement = new CollectElement(
       { table: 'cards', column: true },
       {},
       context
@@ -257,7 +257,7 @@ describe('test Collect Element class', () => {
       new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_COLUMN_IN_COLLECT, [], true)
     );
 
-    collecteElement = new CollectElement(
+    collectElement = new CollectElement(
       { table: 'cards', column: 'test', skyflowID: '' },
       {},
       context
@@ -339,7 +339,7 @@ describe('test Collect Element class', () => {
     });
   });
 
-  it('test updateLableStyles', () => {
+  it('test updateLabelStyles', () => {
     let collectElement;
     collectElement = new CollectElement(
       {
