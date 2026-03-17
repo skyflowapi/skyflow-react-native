@@ -6,7 +6,7 @@ import useCollectContainer from '../../src/hooks/useCollectContainer';
 import CollectContainer from '../../src/core/CollectContainer';
 
 describe('test useRevealContainer hook', () => {
-  it('should return reveal conatiner instance', () => {
+  it('should return reveal container instance', () => {
     const { result } = renderHook(() => useCollectContainer());
     expect(result.current).toBeInstanceOf(CollectContainer);
   });

@@ -44,7 +44,7 @@ describe('test Skyflow Class', () => {
   });
   it('test getAccessToken function error', (done) => {
     jest.spyOn(TokenUtils, 'default').mockReturnValue(true);
-    const failMock = jest.fn().mockRejectedValue('Error Occured');
+    const failMock = jest.fn().mockRejectedValue('Error Occurred');
     const skyflow = new Skyflow({
       ...testConfig,
       getBearerToken: failMock,
@@ -56,7 +56,7 @@ describe('test Skyflow Class', () => {
       })
       .catch((err) => {
         try {
-          expect(err).toBe('Error Occured');
+          expect(err).toBe('Error Occurred');
           done();
         } catch (error) {
           done(error);
@@ -64,7 +64,7 @@ describe('test Skyflow Class', () => {
       });
   });
 
-  it('test getAccessToken function invalid bearertoken function', (done) => {
+  it('test getAccessToken function invalid bearer token function', (done) => {
     jest.spyOn(TokenUtils, 'default').mockReturnValue(true);
     const skyflow = new Skyflow({
       ...testConfig,

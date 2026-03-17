@@ -13,7 +13,7 @@ const testSkyflowClient = new Skyflow({
   getBearerToken: () => Promise.resolve('valid_auth_token'),
 });
 
-describe('test RevealConatiner Class', () => {
+describe('test RevealContainer Class', () => {
   let revealContainer;
   beforeEach(() => {
     revealContainer = new RevealContainer(testSkyflowClient);
@@ -75,7 +75,7 @@ describe('test RevealConatiner Class', () => {
     });
     revealElement2.setMethods(setValueMock2, setErrorMock2);
 
-    const revealFailedVaule = {
+    const revealFailedValue = {
       records: [
         {
           token: 'random_token',
@@ -96,7 +96,7 @@ describe('test RevealConatiner Class', () => {
     };
     jest
       .spyOn(revealUtils, 'fetchRecordsByTokenId')
-      .mockRejectedValue(revealFailedVaule);
+      .mockRejectedValue(revealFailedValue);
 
     revealContainer
       .reveal()
@@ -111,7 +111,7 @@ describe('test RevealConatiner Class', () => {
           expect(setValueMock2).toBeCalledTimes(0);
           expect(err).toEqual({
             success: [{ token: 'random_token', valueType: 'STRING' }],
-            errors: revealFailedVaule.errors,
+            errors: revealFailedValue.errors,
           });
           done();
         } catch (error) {

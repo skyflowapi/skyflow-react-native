@@ -129,7 +129,7 @@ export const validRegexMatchRule = (regexRule, value): boolean => {
 export const validateInitConfig = (initConfig: IConfig) => {
   if (!initConfig) {
     throw new SkyflowError(
-      SKYFLOW_ERROR_CODE.SKYFLOW_INTIALIZING_MISSING,
+      SKYFLOW_ERROR_CODE.SKYFLOW_INITIALIZING_MISSING,
       [],
       true
     );
