@@ -1,6 +1,6 @@
 {
   "name": "skyflow-react-native",
-  "version": "1.10.2-dev.238fd28",
+  "version": "1.10.2-dev.2884a13",
   "description": "Skyflow React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
