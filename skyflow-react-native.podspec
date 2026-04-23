@@ -24,7 +24,6 @@ Pod::Spec.new do |s|
         "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\"",
         "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
     }
-
     s.dependency "React-Codegen"
     s.dependency "RCTRequired"
     s.dependency "RCTTypeSafety"
