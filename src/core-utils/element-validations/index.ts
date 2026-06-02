@@ -498,17 +498,15 @@ export const validateGetInput = (
     if (Object.keys(record).length === 0) {
       throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_RECORDS_GET);
     }
-    if (record.ids?.length === 0) {
-      throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_IDS_IN_GET, [`${index}`]);
-    }
     if (record.ids != null && !(record.ids && Array.isArray(record.ids))) {
       throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_IDS_IN_GET, [
         `${index}`,
       ]);
     }
-    record.ids?.forEach((skyflowId) => {
+    if (record.ids && record.ids.length > 0) {
+      record.ids?.forEach((skyflowId) => {
       if (!skyflowId) {
-        throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_SKYFLOWID_IN_GET, [
+          throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_SKYFLOWID_IN_GET, [
           `${index}`,
         ]);
       }
@@ -519,6 +517,7 @@ export const validateGetInput = (
         );
       }
     });
+    }
     if (!Object.prototype.hasOwnProperty.call(record, 'table')) {
       throw new SkyflowError(SKYFLOW_ERROR_CODE.MISSING_TABLE_IN_GET, [
         `${index}`,
