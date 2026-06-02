@@ -215,6 +215,22 @@ const logs = {
     EMPTY_COLUMN_VALUE: `${SDK_NAME_VERSION} Validation error. Column Value is empty in records at index %s1`,
     MISSING_IDS_OR_COLUMN_VALUES_IN_GET:
     `${SDK_NAME_VERSION} Validation error. Both 'ids' or 'columnValues' keys are missing. Either provide 'ids' or 'columnValues' with 'columnName' to fetch records.`,
+    INVALID_FIELDS_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. Invalid 'fields' in get options. Specify a value of type array instead.`,
+    EMPTY_FIELDS_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. 'fields' in get options cannot be empty. Specify a non-empty array instead.`,
+    EMPTY_FIELD_VALUE_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. 'fields' in get options contains an empty string. Specify non-empty string values.`,
+    INVALID_FIELD_VALUE_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. 'fields' in get options contains a non-string value. Specify string values instead.`,
+    INVALID_OFFSET_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. Invalid 'offset' in get options. Specify a value of type string instead.`,
+    INVALID_LIMIT_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. Invalid 'limit' in get options. Specify a value of type string instead.`,
+    INVALID_DOWNLOAD_URL_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. Invalid 'downloadURL' in get options. Specify a boolean value instead.`,
+    INVALID_ORDER_BY_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. Invalid 'orderBy' in get options. Specify a valid OrderBy value (ASCENDING, DESCENDING, NONE).`,
     SKYFLOW_IDS_AND_COLUMN_NAME_BOTH_SPECIFIED:
     `${SDK_NAME_VERSION} Validation error. ids and columnName can not be specified together.`,
     GET_BY_SKYFLOWID_RESOLVED: '%s1 - GetById request is resolved.',

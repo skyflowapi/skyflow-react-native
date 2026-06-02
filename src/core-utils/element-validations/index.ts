@@ -14,6 +14,7 @@ import {
   IGetInput,
   IGetOptions,
   IInsertRecordInput,
+  OrderBy,
   RedactionType,
   RevealElementInput,
 } from '../../utils/constants';
@@ -442,6 +443,55 @@ export const validateGetInput = (
     typeof options?.tokens !== 'boolean'
   ) {
     throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_TOKENS_IN_GET);
+  }
+
+  if (
+    options &&
+    Object.prototype.hasOwnProperty.call(options, 'offset') &&
+    typeof options.offset !== 'string'
+  ) {
+    throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET);
+  }
+
+  if (
+    options &&
+    Object.prototype.hasOwnProperty.call(options, 'limit') &&
+    typeof options.limit !== 'string'
+  ) {
+    throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET);
+  }
+
+  if (
+    options &&
+    Object.prototype.hasOwnProperty.call(options, 'downloadURL') &&
+    typeof options.downloadURL !== 'boolean'
+  ) {
+    throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_DOWNLOAD_URL_IN_GET);
+  }
+
+  if (
+    options &&
+    Object.prototype.hasOwnProperty.call(options, 'orderBy') &&
+    !Object.values(OrderBy).includes(options.orderBy as OrderBy)
+  ) {
+    throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_ORDER_BY_IN_GET);
+  }
+
+  if (options && Object.prototype.hasOwnProperty.call(options, 'fields')) {
+    if (!Array.isArray(options.fields)) {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_FIELDS_IN_GET);
+    }
+    if (options.fields.length === 0) {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_FIELDS_IN_GET);
+    }
+    (options.fields as any[]).forEach((field: any) => {
+      if (typeof field !== 'string') {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_FIELD_VALUE_IN_GET);
+      }
+      if (!field) {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_FIELD_VALUE_IN_GET);
+      }
+    });
   }
 
   records.forEach((record: any, index: number) => {

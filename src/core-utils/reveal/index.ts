@@ -296,7 +296,31 @@ export const getRecordsFromVault = (
   }
 
   if (getRecord?.redaction) {
-    paramList += `redaction=${getRecord.redaction}`;
+    paramList += `redaction=${getRecord.redaction}&`;
+  }
+
+  options?.fields?.forEach((field) => {
+    paramList += `fields=${field}&`;
+  });
+
+  if (options && Object.prototype.hasOwnProperty.call(options, 'offset')) {
+    paramList += `offset=${options.offset}&`;
+  }
+
+  if (options && Object.prototype.hasOwnProperty.call(options, 'limit')) {
+    paramList += `limit=${options.limit}&`;
+  }
+
+  if (options && Object.prototype.hasOwnProperty.call(options, 'downloadURL')) {
+    paramList += `downloadURL=${options.downloadURL}&`;
+  }
+
+  if (options && Object.prototype.hasOwnProperty.call(options, 'orderBy')) {
+    paramList += `order_by=${options.orderBy}&`;
+  }
+
+  if (paramList.endsWith('&')) {
+    paramList = paramList.slice(0, -1);
   }
 
   const vault = config.vaultURL;

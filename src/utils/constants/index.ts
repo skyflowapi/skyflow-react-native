@@ -245,6 +245,12 @@ export enum ContainerType {
   COMPOSABLE = 'COMPOSABLE',
 }
 
+export enum OrderBy {
+  ASCENDING = 'ASCENDING',
+  DESCENDING = 'DESCENDING',
+  NONE = 'NONE',
+}
+
 export const PUREJS_TYPES = {
   GET: 'GET',
 };
@@ -263,6 +269,11 @@ export interface IGetInput {
 
 export interface IGetOptions {
   tokens?: Boolean;
+  fields?: string[];
+  offset?: string;
+  limit?: string;
+  downloadURL?: boolean;
+  orderBy?: OrderBy;
 }
 
 export const CARD_ICON_DEFAULT_STYLE = {

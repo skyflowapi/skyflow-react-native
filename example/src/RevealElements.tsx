@@ -5,6 +5,7 @@
 import React from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import {
+  OrderBy,
   RedactionType,
   RevealElement,
   useRevealContainer,
@@ -27,47 +28,90 @@ const RevealElements = (props) => {
   };
 
   const handleGet = () =>{
-    const getRecord1 = {
-      ids: [
-        '<SKYFLOW_ID_1>',
-        '<SKYFLOW_ID_2>',
-      ],
+    const getRecordByIds = {
+      ids: ['<SKYFLOW_ID_1>', '<SKYFLOW_ID_2>'],
       table: 'cards',
     };
 
-    const getRecord2 = {
+    const getRecordByColumn = {
       table: 'cards',
       columnName: '<COLUMN_NAME>',
       columnValues: ['<COLUMN_VALUE_1>', '<COLUMN_VALUE_2>'],
     };
 
-    const getRequest1 = { records: [getRecord1] };
-
-    const getRequest2 = {
-      records: [
-        { ...getRecord1, redaction: RedactionType.PLAIN_TEXT },
-        { ...getRecord2, redaction: RedactionType.PLAIN_TEXT },
-      ],
-    };
-
-    // Get Tokens by Skyflow ID
+    // Get tokens by Skyflow ID
     skyflowContainer
-      .get(getRequest1, { tokens: true })
+      .get(
+        { records: [getRecordByIds] },
+        { tokens: true }
+      )
       .then((response) => {
-        console.log('Get request 1 Success', JSON.stringify(response));
+        console.log('Get tokens Success', JSON.stringify(response));
       })
       .catch((err) => {
-        console.error('Get request 1 Failed', JSON.stringify(err));
+        console.error('Get tokens Failed', JSON.stringify(err));
       });
 
-    // get by Skyflow ID and Column Values
+    // Get plain text by Skyflow ID and column values
     skyflowContainer
-      .get(getRequest2, { tokens: false })
+      .get(
+        {
+          records: [
+            { ...getRecordByIds, redaction: RedactionType.PLAIN_TEXT },
+            { ...getRecordByColumn, redaction: RedactionType.PLAIN_TEXT },
+          ],
+        },
+        { tokens: false }
+      )
       .then((response) => {
-        console.log('Get request 2 Success', JSON.stringify(response));
+        console.log('Get plain text Success', JSON.stringify(response));
       })
       .catch((err) => {
-        console.error('Get request 2 Failed', JSON.stringify(err));
+        console.error('Get plain text Failed', JSON.stringify(err));
+      });
+
+    // Get specific fields only (column-scoped policy compatible)
+    skyflowContainer
+      .get(
+        {
+          records: [
+            { ...getRecordByIds, redaction: RedactionType.PLAIN_TEXT },
+          ],
+        },
+        {
+          tokens: false,
+          fields: ['occupation', 'annual_income'],
+        }
+      )
+      .then((response) => {
+        console.log('Get with fields Success', JSON.stringify(response));
+      })
+      .catch((err) => {
+        console.error('Get with fields Failed', JSON.stringify(err));
+      });
+
+    // Get with pagination and ordering
+    skyflowContainer
+      .get(
+        {
+          records: [
+            { ...getRecordByColumn, redaction: RedactionType.PLAIN_TEXT },
+          ],
+        },
+        {
+          tokens: false,
+          fields: ['name', 'email'],
+          offset: '0',
+          limit: '10',
+          orderBy: OrderBy.ASCENDING,
+          downloadURL: false,
+        }
+      )
+      .then((response) => {
+        console.log('Get with pagination Success', JSON.stringify(response));
+      })
+      .catch((err) => {
+        console.error('Get with pagination Failed', JSON.stringify(err));
       });
   };
 
