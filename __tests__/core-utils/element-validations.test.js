@@ -328,12 +328,15 @@ describe('test validateGetInput', () => {
     }
   });
 
-  it('should throw error for empty ids', () => {
+  it('should throw error for missing table when ids is empty array', () => {
     try {
       validateGetInput({ records: [{ ids: [] }] });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        parameterizedString(SKYFLOW_ERROR_CODE.EMPTY_IDS_IN_GET.description, 0)
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.MISSING_TABLE_IN_GET.description,
+          0
+        )
       );
     }
   });
