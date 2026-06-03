@@ -1590,7 +1590,7 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
         table: 'customers',
         redaction: RedactionType.PLAIN_TEXT,
         columnName: 'email',
-        columnValues: ['john.doe@gmail.com'],
+        ids: [],
         fields: ['name', 'email'],
         offset: '0',
         limit: '10',
