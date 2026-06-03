@@ -207,6 +207,7 @@ const logs = {
     `${SDK_NAME_VERSION} Validation error. Column Values is required when Column Name is specified.`,
     MISSING_RECORD_COLUMN_NAME:
     `${SDK_NAME_VERSION} Validation error. Column Name is required when Column Values are specified.`,
+    EMPTY_RECORD_COLUMN_NAME: `${SDK_NAME_VERSION} Validation error. 'columnName' cannot be empty in records at index %s1. Specify a non-empty string value instead.`,
     INVALID_RECORD_COLUMN_NAME_TYPE: `${SDK_NAME_VERSION} Validation error. Invalid Type of Records Column Name.`,
     INVALID_RECORD_COLUMN_VALUE_TYPE: `${SDK_NAME_VERSION} Validation error. Invalid Type of Records Column Values in records at index %s1`,
     INVALID_COLUMN_VALUES_TYPE:

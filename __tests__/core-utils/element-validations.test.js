@@ -704,6 +704,41 @@ describe('test validateGetInput', () => {
     }
   });
 
+  it('should throw error for empty string columnName', () => {
+    expect(() =>
+      validateGetInput({
+        records: [
+          {
+            columnValues: ['value1'],
+            columnName: '',
+            table: 'test',
+            redaction: RedactionType.PLAIN_TEXT,
+          },
+        ],
+      })
+    ).toThrow();
+
+    try {
+      validateGetInput({
+        records: [
+          {
+            columnValues: ['value1'],
+            columnName: '',
+            table: 'test',
+            redaction: RedactionType.PLAIN_TEXT,
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_RECORD_COLUMN_NAME.description,
+          0
+        )
+      );
+    }
+  });
+
   it('should throw error for empty column values error', () => {
     try {
       validateGetInput({

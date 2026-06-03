@@ -390,6 +390,10 @@ const SKYFLOW_ERROR_CODE = {
     code: 400,
     description: logs.errorLogs.MISSING_RECORD_COLUMN_NAME,
   },
+  EMPTY_RECORD_COLUMN_NAME: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_RECORD_COLUMN_NAME,
+  },
   INVALID_RECORD_COLUMN_VALUE: {
     code: 400,
     description: logs.errorLogs.INVALID_RECORD_COLUMN_VALUE,

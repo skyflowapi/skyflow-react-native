@@ -596,6 +596,11 @@ export const validateGetInput = (
         [`${index}`]
       );
     }
+    if (columnName === '') {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_RECORD_COLUMN_NAME, [
+        `${index}`,
+      ]);
+    }
     const columnValues = record.columnValues;
     if (columnValues != null) {
       columnValues.forEach((eachColumnValue) => {
