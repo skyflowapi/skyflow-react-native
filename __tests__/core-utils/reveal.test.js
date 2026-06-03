@@ -676,6 +676,173 @@ describe('fetchRecordGET fn test', () => {
       });
   });
 
+  it('should call rootReject when Promise.all rejects', (done) => {
+    const promiseAllError = new Error('Promise.all internal failure');
+    const promiseAllSpy = jest
+      .spyOn(Promise, 'all')
+      .mockRejectedValueOnce(promiseAllError);
+
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.resolve(getSuccessResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordID], optionsFalse)
+      .then(
+        () => {
+          promiseAllSpy.mockRestore();
+          done(new Error('should have rejected'));
+        },
+        (err) => {
+          promiseAllSpy.mockRestore();
+          expect(err).toBe(promiseAllError);
+          done();
+        }
+      )
+      .catch((err) => {
+        promiseAllSpy.mockRestore();
+        done(err);
+      });
+  });
+
+  it('should not include ids key in error response for column-based record', (done) => {
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.reject(getErrorResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordColumn], optionsFalse)
+      .then(
+        (res) => {},
+        (err) => {
+          expect(err.errors[0].ids).toBeUndefined();
+          expect(err.errors[0].columnName).toBe(getRecordColumn.columnName);
+          done();
+        }
+      )
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should include record with empty fields when fields key is missing in vault response', (done) => {
+    const responseWithMissingFields = {
+      records: [{ skyflow_id: 'id1' }], // no `fields` key
+    };
+
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.resolve(responseWithMissingFields),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordID], optionsFalse)
+      .then((res) => {
+        expect(res.records.length).toBe(1);
+        expect(res.records[0].fields).toEqual({ id: '' });
+        expect(res.records[0].table).toBe(getRecordID.table);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should set id to empty string in success record when skyflow_id is absent', (done) => {
+    const responseWithoutSkyflowId = {
+      records: [
+        {
+          fields: {
+            card_number: '4111111111111111',
+            // no skyflow_id
+          },
+          table: 'pii_fields',
+        },
+      ],
+    };
+
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.resolve(responseWithoutSkyflowId),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordID], optionsFalse)
+      .then((res) => {
+        expect(res.records.length).toBe(1);
+        expect(res.records[0].fields.id).toBe('');
+        expect(res.records[0].fields.card_number).toBe('4111111111111111');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should include columnName in error response when column-based record fails', (done) => {
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.reject(getErrorResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordColumn], optionsFalse)
+      .then(
+        (res) => {},
+        (err) => {
+          expect(err.errors.length).toBe(1);
+          expect(err.errors[0].error.code).toBe(404);
+          expect(err.errors[0].columnName).toBe(getRecordColumn.columnName);
+          done();
+        }
+      )
+      .catch((err) => {
+        done(err);
+      });
+  });
+
   it('should include fields params in url when fields are specified in options', (done) => {
     let reqArg;
     jest.spyOn(ClientModule, 'default').mockImplementation(() => ({

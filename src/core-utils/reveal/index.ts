@@ -203,11 +203,12 @@ export const fetchRecordsGET = async (
                   (resolvedResult: any) => {
                     const recordsData: any[] = resolvedResult.records;
                     recordsData.forEach((fieldData) => {
-                      const id = fieldData.fields.skyflow_id;
-                      const currentRecord = {
+                      const fields = fieldData?.fields ?? {};
+                      const skyflowId = fields?.skyflow_id;
+                      const currentRecord: any = {
                         fields: {
-                          id,
-                          ...fieldData.fields,
+                          ...(skyflowId ? { id: skyflowId } : {id: ''}),
+                          ...fields,
                         },
                         table: skyflowIdRecord.table,
                       };
@@ -223,7 +224,9 @@ export const fetchRecordsGET = async (
                           code: rejectedResult?.error?.code,
                           description: rejectedResult?.error?.description,
                         },
-                        ids: skyflowIdRecord.ids,
+                        ...(skyflowIdRecord.ids
+                          ? { ids: skyflowIdRecord.ids }
+                          : {}),
                         ...(skyflowIdRecord?.columnName
                           ? { columnName: skyflowIdRecord?.columnName }
                           : {}),
@@ -265,7 +268,7 @@ export const fetchRecordsGET = async (
               rootReject({ records: recordsResponse, errors: errorResponse });
           })
           .catch((err) => {
-            console.log(err);
+            rootReject(err);
           });
       })
       .catch((err) => {

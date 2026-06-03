@@ -225,8 +225,12 @@ const logs = {
       `${SDK_NAME_VERSION} Validation error. 'fields' array contains a non-string value in records at index %s1. Specify string values instead.`,
     INVALID_OFFSET_IN_GET:
       `${SDK_NAME_VERSION} Validation error. Invalid 'offset' in records at index %s1. Specify a value of type string instead.`,
+    EMPTY_OFFSET_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. 'offset' cannot be empty in records at index %s1. Specify a non-empty string value instead.`,
     INVALID_LIMIT_IN_GET:
       `${SDK_NAME_VERSION} Validation error. Invalid 'limit' in records at index %s1. Specify a value of type string instead.`,
+    EMPTY_LIMIT_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. 'limit' cannot be empty in records at index %s1. Specify a non-empty string value instead.`,
     INVALID_DOWNLOAD_URL_IN_GET:
       `${SDK_NAME_VERSION} Validation error. Invalid 'downloadURL' in get options. Specify a boolean value instead.`,
     INVALID_ORDER_BY_IN_GET:

@@ -350,9 +350,17 @@ const SKYFLOW_ERROR_CODE = {
     code: 400,
     description: logs.errorLogs.INVALID_OFFSET_IN_GET,
   },
+  EMPTY_OFFSET_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_OFFSET_IN_GET,
+  },
   INVALID_LIMIT_IN_GET: {
     code: 400,
     description: logs.errorLogs.INVALID_LIMIT_IN_GET,
+  },
+  EMPTY_LIMIT_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_LIMIT_IN_GET,
   },
   INVALID_DOWNLOAD_URL_IN_GET: {
     code: 400,

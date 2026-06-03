@@ -1088,6 +1088,50 @@ describe('test get options validation', () => {
     }
   });
 
+  it('should throw error for empty string offset in record', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            offset: '',
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_OFFSET_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for empty string limit in record', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            limit: '',
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_LIMIT_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
   it('should throw error for non-boolean downloadURL in get options', () => {
     try {
       validateGetInput(

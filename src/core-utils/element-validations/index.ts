@@ -617,22 +617,30 @@ export const validateGetInput = (
       }
     }
 
-    if (
-      Object.prototype.hasOwnProperty.call(record, 'offset') &&
-      typeof record.offset !== 'string'
-    ) {
-      throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET, [
-        `${index}`,
-      ]);
+    if (Object.prototype.hasOwnProperty.call(record, 'offset')) {
+      if (typeof record.offset !== 'string') {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET, [
+          `${index}`,
+        ]);
+      }
+      if (record.offset === '') {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_OFFSET_IN_GET, [
+          `${index}`,
+        ]);
+      }
     }
 
-    if (
-      Object.prototype.hasOwnProperty.call(record, 'limit') &&
-      typeof record.limit !== 'string'
-    ) {
-      throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET, [
-        `${index}`,
-      ]);
+    if (Object.prototype.hasOwnProperty.call(record, 'limit')) {
+      if (typeof record.limit !== 'string') {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET, [
+          `${index}`,
+        ]);
+      }
+      if (record.limit === '') {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_LIMIT_IN_GET, [
+          `${index}`,
+        ]);
+      }
     }
 
     if (Object.prototype.hasOwnProperty.call(record, 'fields')) {
