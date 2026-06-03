@@ -19,7 +19,10 @@ jobs:
         with:
           node-version: 14.21.3
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install
+      # --ignore-scripts: guard against supply-chain postinstall execution.
+      # example/postinstall (patch-package) is not triggered here (root install only).
+      # react-native native postinstall not required — CI runs JS tests/build only.
+      - run: npm install --ignore-scripts
 
       - name: Build
         run: npm run build
