@@ -675,4 +675,422 @@ describe('fetchRecordGET fn test', () => {
         done(err);
       });
   });
+
+  it('should call rootReject when Promise.all rejects', (done) => {
+    const promiseAllError = new Error('Promise.all internal failure');
+    const promiseAllSpy = jest
+      .spyOn(Promise, 'all')
+      .mockRejectedValueOnce(promiseAllError);
+
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.resolve(getSuccessResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordID], optionsFalse)
+      .then(
+        () => {
+          promiseAllSpy.mockRestore();
+          done(new Error('should have rejected'));
+        },
+        (err) => {
+          promiseAllSpy.mockRestore();
+          expect(err).toBe(promiseAllError);
+          done();
+        }
+      )
+      .catch((err) => {
+        promiseAllSpy.mockRestore();
+        done(err);
+      });
+  });
+
+  it('should not include ids key in error response for column-based record', (done) => {
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.reject(getErrorResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordColumn], optionsFalse)
+      .then(
+        (res) => {},
+        (err) => {
+          expect(err.errors[0].ids).toBeUndefined();
+          expect(err.errors[0].columnName).toBe(getRecordColumn.columnName);
+          done();
+        }
+      )
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should include record with empty fields when fields key is missing in vault response', (done) => {
+    const responseWithMissingFields = {
+      records: [{ skyflow_id: 'id1' }], // no `fields` key
+    };
+
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.resolve(responseWithMissingFields),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordID], optionsFalse)
+      .then((res) => {
+        expect(res.records.length).toBe(1);
+        expect(res.records[0].fields).toEqual({ id: '' });
+        expect(res.records[0].table).toBe(getRecordID.table);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should set id to empty string in success record when skyflow_id is absent', (done) => {
+    const responseWithoutSkyflowId = {
+      records: [
+        {
+          fields: {
+            card_number: '4111111111111111',
+            // no skyflow_id
+          },
+          table: 'pii_fields',
+        },
+      ],
+    };
+
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.resolve(responseWithoutSkyflowId),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordID], optionsFalse)
+      .then((res) => {
+        expect(res.records.length).toBe(1);
+        expect(res.records[0].fields.id).toBe('');
+        expect(res.records[0].fields.card_number).toBe('4111111111111111');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should include columnName in error response when column-based record fails', (done) => {
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: () => Promise.reject(getErrorResponse),
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordColumn], optionsFalse)
+      .then(
+        (res) => {},
+        (err) => {
+          expect(err.errors.length).toBe(1);
+          expect(err.errors[0].error.code).toBe(404);
+          expect(err.errors[0].columnName).toBe(getRecordColumn.columnName);
+          done();
+        }
+      )
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should include fields params in url when fields are specified in options', (done) => {
+    let reqArg;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        reqArg = args;
+        return Promise.resolve(getSuccessResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest.spyOn(testSkyflowClient, 'getAccessToken').mockResolvedValue('valid token');
+
+    const recordWithFields = {
+      ...getRecordID,
+      fields: ['occupation', 'annual_income'],
+    };
+    fetchRecordsGET(testSkyflowClient, [recordWithFields], optionsFalse)
+      .then((res) => {
+        expect(reqArg.url).toContain('fields=occupation');
+        expect(reqArg.url).toContain('fields=annual_income');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should include offset and limit params in url when specified in record', (done) => {
+    let reqArg;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        reqArg = args;
+        return Promise.resolve(getSuccessResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest.spyOn(testSkyflowClient, 'getAccessToken').mockResolvedValue('valid token');
+
+    const recordWithPagination = { ...getRecordID, offset: '5', limit: '10' };
+    fetchRecordsGET(testSkyflowClient, [recordWithPagination], optionsFalse)
+      .then((res) => {
+        expect(reqArg.url).toContain('offset=5');
+        expect(reqArg.url).toContain('limit=10');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should include downloadURL param in url when specified in options', (done) => {
+    let reqArg;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        reqArg = args;
+        return Promise.resolve(getSuccessResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest.spyOn(testSkyflowClient, 'getAccessToken').mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordID], { ...optionsFalse, downloadURL: true })
+      .then((res) => {
+        expect(reqArg.url).toContain('downloadURL=true');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should include order_by param in url when orderBy is specified in options', (done) => {
+    let reqArg;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        reqArg = args;
+        return Promise.resolve(getSuccessResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest.spyOn(testSkyflowClient, 'getAccessToken').mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordID], { ...optionsFalse, orderBy: 'ASCENDING' })
+      .then((res) => {
+        expect(reqArg.url).toContain('order_by=ASCENDING');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should not include trailing & when all optional params are absent', (done) => {
+    let reqArg;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        reqArg = args;
+        return Promise.resolve(getSuccessResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest.spyOn(testSkyflowClient, 'getAccessToken').mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordID], optionsFalse)
+      .then((res) => {
+        expect(reqArg.url).not.toMatch(/&$/);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should include all new params together in url', (done) => {
+    let reqArg;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        reqArg = args;
+        return Promise.resolve(getSuccessResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest.spyOn(testSkyflowClient, 'getAccessToken').mockResolvedValue('valid token');
+
+    const recordWithFields = {
+      ...getRecordID,
+      fields: ['name', 'dob'],
+      offset: '0',
+      limit: '25',
+    };
+    const opts = {
+      ...optionsFalse,
+      downloadURL: false,
+      orderBy: 'DESCENDING',
+    };
+
+    fetchRecordsGET(testSkyflowClient, [recordWithFields], opts)
+      .then((res) => {
+        expect(reqArg.url).toContain('fields=name');
+        expect(reqArg.url).toContain('fields=dob');
+        expect(reqArg.url).toContain('offset=0');
+        expect(reqArg.url).toContain('limit=25');
+        expect(reqArg.url).toContain('downloadURL=false');
+        expect(reqArg.url).toContain('order_by=DESCENDING');
+        expect(reqArg.url).not.toMatch(/&$/);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should include order_by=NONE in url when orderBy is NONE', (done) => {
+    let reqArg;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        reqArg = args;
+        return Promise.resolve(getSuccessResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest.spyOn(testSkyflowClient, 'getAccessToken').mockResolvedValue('valid token');
+
+    fetchRecordsGET(testSkyflowClient, [getRecordID], {
+      ...optionsFalse,
+      orderBy: 'NONE',
+    })
+      .then((res) => {
+        expect(reqArg.url).toContain('order_by=NONE');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should not include new params in url when only fields is set', (done) => {
+    let reqArg;
+    jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
+      request: (args) => {
+        reqArg = args;
+        return Promise.resolve(getSuccessResponse);
+      },
+    }));
+
+    const testSkyflowClient = new Skyflow({
+      vaultID: '1234',
+      vaultURL: 'https://url.com',
+      getBearerToken: () => Promise.resolve('valid_token'),
+    });
+
+    jest
+      .spyOn(testSkyflowClient, 'getAccessToken')
+      .mockResolvedValue('valid token');
+
+    const recordWithFields = { ...getRecordID, fields: ['name'] };
+    fetchRecordsGET(testSkyflowClient, [recordWithFields], optionsFalse)
+      .then((res) => {
+        expect(reqArg.url).toContain('fields=name');
+        expect(reqArg.url).not.toContain('offset');
+        expect(reqArg.url).not.toContain('limit');
+        expect(reqArg.url).not.toContain('downloadURL');
+        expect(reqArg.url).not.toContain('order_by');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 });
