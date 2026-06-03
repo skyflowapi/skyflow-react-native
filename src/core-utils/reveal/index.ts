@@ -207,7 +207,7 @@ export const fetchRecordsGET = async (
                       const skyflowId = fields?.skyflow_id;
                       const currentRecord: any = {
                         fields: {
-                          ...(skyflowId ? { id: skyflowId } : {id: ''}),
+                          ...(skyflowId ? { id: skyflowId } : {}),
                           ...fields,
                         },
                         table: skyflowIdRecord.table,

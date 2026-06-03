@@ -765,7 +765,7 @@ describe('fetchRecordGET fn test', () => {
     fetchRecordsGET(testSkyflowClient, [getRecordID], optionsFalse)
       .then((res) => {
         expect(res.records.length).toBe(1);
-        expect(res.records[0].fields).toEqual({ id: '' });
+        expect(res.records[0].fields).toEqual({});
         expect(res.records[0].table).toBe(getRecordID.table);
         done();
       })
@@ -774,7 +774,7 @@ describe('fetchRecordGET fn test', () => {
       });
   });
 
-  it('should set id to empty string in success record when skyflow_id is absent', (done) => {
+  it('should not include id field in success record when skyflow_id is absent', (done) => {
     const responseWithoutSkyflowId = {
       records: [
         {
@@ -804,7 +804,7 @@ describe('fetchRecordGET fn test', () => {
     fetchRecordsGET(testSkyflowClient, [getRecordID], optionsFalse)
       .then((res) => {
         expect(res.records.length).toBe(1);
-        expect(res.records[0].fields.id).toBe('');
+        expect(res.records[0].fields.id).toBeUndefined();
         expect(res.records[0].fields.card_number).toBe('4111111111111111');
         done();
       })
