@@ -465,10 +465,24 @@ export const validateGetInput = (
     if (Object.keys(record).length === 0) {
       throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_RECORDS_GET);
     }
+    if (record.ids?.length === 0) {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_IDS_IN_GET, [
+        `${index}`,
+      ]);
+    }
     if (record.ids != null && !(record.ids && Array.isArray(record.ids))) {
       throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_IDS_IN_GET, [
         `${index}`,
       ]);
+    }
+    if (
+      Object.prototype.hasOwnProperty.call(record, 'ids') &&
+      (Object.prototype.hasOwnProperty.call(record, 'offset') ||
+        Object.prototype.hasOwnProperty.call(record, 'limit'))
+    ) {
+      throw new SkyflowError(
+        SKYFLOW_ERROR_CODE.IDS_AND_OFFSET_LIMIT_BOTH_SPECIFIED
+      );
     }
     record.ids?.forEach((skyflowId) => {
       if (!skyflowId) {
@@ -535,10 +549,12 @@ export const validateGetInput = (
       );
     }
     if (!Object.prototype.hasOwnProperty.call(record, 'columnName')) {
-      if (
-        Object.prototype.hasOwnProperty.call(record, 'ids') === false &&
-        Object.prototype.hasOwnProperty.call(record, 'columnValues') === false
-      ) {
+      const hasIds = Object.prototype.hasOwnProperty.call(record, 'ids');
+      const hasColumnValues = Object.prototype.hasOwnProperty.call(record, 'columnValues');
+      const hasOffsetOrLimit =
+        Object.prototype.hasOwnProperty.call(record, 'offset') ||
+        Object.prototype.hasOwnProperty.call(record, 'limit');
+      if (!hasIds && !hasColumnValues && !hasOffsetOrLimit) {
         throw new SkyflowError(
           SKYFLOW_ERROR_CODE.MISSING_IDS_OR_COLUMN_VALUES_IN_GET,
           [`${index}`]
@@ -564,11 +580,6 @@ export const validateGetInput = (
       !(record.columnValues && Array.isArray(record.columnValues))
     ) {
       throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_COLUMN_VALUES_IN_GET, [
-        `${index}`,
-      ]);
-    }
-    if (record.columnName !== undefined && record.columnValues === undefined) {
-      throw new SkyflowError(SKYFLOW_ERROR_CODE.MISSING_RECORD_COLUMN_VALUE, [
         `${index}`,
       ]);
     }

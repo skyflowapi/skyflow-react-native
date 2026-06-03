@@ -346,6 +346,10 @@ const SKYFLOW_ERROR_CODE = {
     code: 400,
     description: logs.errorLogs.INVALID_FIELD_VALUE_IN_GET,
   },
+  IDS_AND_OFFSET_LIMIT_BOTH_SPECIFIED: {
+    code: 400,
+    description: logs.errorLogs.IDS_AND_OFFSET_LIMIT_BOTH_SPECIFIED,
+  },
   INVALID_OFFSET_IN_GET: {
     code: 400,
     description: logs.errorLogs.INVALID_OFFSET_IN_GET,

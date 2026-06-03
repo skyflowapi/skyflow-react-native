@@ -223,6 +223,8 @@ const logs = {
       `${SDK_NAME_VERSION} Validation error. 'fields' array contains an empty string in records at index %s1. Specify non-empty string values.`,
     INVALID_FIELD_VALUE_IN_GET:
       `${SDK_NAME_VERSION} Validation error. 'fields' array contains a non-string value in records at index %s1. Specify string values instead.`,
+    IDS_AND_OFFSET_LIMIT_BOTH_SPECIFIED:
+      `${SDK_NAME_VERSION} Validation error. Invalid request. 'offset' and 'limit' aren't supported when fetching records by 'skyflow_id'. Remove 'offset' and 'limit'.`,
     INVALID_OFFSET_IN_GET:
       `${SDK_NAME_VERSION} Validation error. Invalid 'offset' in records at index %s1. Specify a value of type string instead.`,
     EMPTY_OFFSET_IN_GET:
