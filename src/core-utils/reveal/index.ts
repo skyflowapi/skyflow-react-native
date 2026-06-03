@@ -299,16 +299,16 @@ export const getRecordsFromVault = (
     paramList += `redaction=${getRecord.redaction}&`;
   }
 
-  options?.fields?.forEach((field) => {
+  getRecord.fields?.forEach((field) => {
     paramList += `fields=${field}&`;
   });
 
-  if (options && Object.prototype.hasOwnProperty.call(options, 'offset')) {
-    paramList += `offset=${options.offset}&`;
+  if (getRecord.offset !== undefined) {
+    paramList += `offset=${getRecord.offset}&`;
   }
 
-  if (options && Object.prototype.hasOwnProperty.call(options, 'limit')) {
-    paramList += `limit=${options.limit}&`;
+  if (getRecord.limit !== undefined) {
+    paramList += `limit=${getRecord.limit}&`;
   }
 
   if (options && Object.prototype.hasOwnProperty.call(options, 'downloadURL')) {

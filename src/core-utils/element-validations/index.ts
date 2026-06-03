@@ -447,22 +447,6 @@ export const validateGetInput = (
 
   if (
     options &&
-    Object.prototype.hasOwnProperty.call(options, 'offset') &&
-    typeof options.offset !== 'string'
-  ) {
-    throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET);
-  }
-
-  if (
-    options &&
-    Object.prototype.hasOwnProperty.call(options, 'limit') &&
-    typeof options.limit !== 'string'
-  ) {
-    throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET);
-  }
-
-  if (
-    options &&
     Object.prototype.hasOwnProperty.call(options, 'downloadURL') &&
     typeof options.downloadURL !== 'boolean'
   ) {
@@ -477,23 +461,6 @@ export const validateGetInput = (
     throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_ORDER_BY_IN_GET);
   }
 
-  if (options && Object.prototype.hasOwnProperty.call(options, 'fields')) {
-    if (!Array.isArray(options.fields)) {
-      throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_FIELDS_IN_GET);
-    }
-    if (options.fields.length === 0) {
-      throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_FIELDS_IN_GET);
-    }
-    (options.fields as any[]).forEach((field: any) => {
-      if (typeof field !== 'string') {
-        throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_FIELD_VALUE_IN_GET);
-      }
-      if (!field) {
-        throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_FIELD_VALUE_IN_GET);
-      }
-    });
-  }
-
   records.forEach((record: any, index: number) => {
     if (Object.keys(record).length === 0) {
       throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_RECORDS_GET);
@@ -503,10 +470,9 @@ export const validateGetInput = (
         `${index}`,
       ]);
     }
-    if (record.ids && record.ids.length > 0) {
-      record.ids?.forEach((skyflowId) => {
+    record.ids?.forEach((skyflowId) => {
       if (!skyflowId) {
-          throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_SKYFLOWID_IN_GET, [
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_SKYFLOWID_IN_GET, [
           `${index}`,
         ]);
       }
@@ -517,7 +483,6 @@ export const validateGetInput = (
         );
       }
     });
-    }
     if (!Object.prototype.hasOwnProperty.call(record, 'table')) {
       throw new SkyflowError(SKYFLOW_ERROR_CODE.MISSING_TABLE_IN_GET, [
         `${index}`,
@@ -650,6 +615,49 @@ export const validateGetInput = (
           SKYFLOW_ERROR_CODE.REDACTION_WITH_TOKENS_NOT_SUPPORTED
         );
       }
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(record, 'offset') &&
+      typeof record.offset !== 'string'
+    ) {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET, [
+        `${index}`,
+      ]);
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(record, 'limit') &&
+      typeof record.limit !== 'string'
+    ) {
+      throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET, [
+        `${index}`,
+      ]);
+    }
+
+    if (Object.prototype.hasOwnProperty.call(record, 'fields')) {
+      if (!Array.isArray(record.fields)) {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_FIELDS_IN_GET, [
+          `${index}`,
+        ]);
+      }
+      if (record.fields.length === 0) {
+        throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_FIELDS_IN_GET, [
+          `${index}`,
+        ]);
+      }
+      record.fields.forEach((field: any) => {
+        if (typeof field !== 'string') {
+          throw new SkyflowError(SKYFLOW_ERROR_CODE.INVALID_FIELD_VALUE_IN_GET, [
+            `${index}`,
+          ]);
+        }
+        if (!field) {
+          throw new SkyflowError(SKYFLOW_ERROR_CODE.EMPTY_FIELD_VALUE_IN_GET, [
+            `${index}`,
+          ]);
+        }
+      });
     }
   });
 };

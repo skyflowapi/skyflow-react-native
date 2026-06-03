@@ -1000,54 +1000,90 @@ describe('test get options validation', () => {
     }
   });
 
-  it('should throw error for non-string offset in get options', () => {
+  it('should throw error for non-string offset in record', () => {
     try {
-      validateGetInput(
-        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
-        { offset: 10 }
-      );
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            offset: 10,
+          },
+        ],
+      });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET.description
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET.description,
+          0
+        )
       );
     }
   });
 
-  it('should throw error for null offset in get options', () => {
+  it('should throw error for null offset in record', () => {
     try {
-      validateGetInput(
-        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
-        { offset: null }
-      );
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            offset: null,
+          },
+        ],
+      });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET.description
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET.description,
+          0
+        )
       );
     }
   });
 
-  it('should throw error for non-string limit in get options', () => {
+  it('should throw error for non-string limit in record', () => {
     try {
-      validateGetInput(
-        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
-        { limit: true }
-      );
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            limit: true,
+          },
+        ],
+      });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET.description
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET.description,
+          0
+        )
       );
     }
   });
 
-  it('should throw error for null limit in get options', () => {
+  it('should throw error for null limit in record', () => {
     try {
-      validateGetInput(
-        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
-        { limit: null }
-      );
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            limit: null,
+          },
+        ],
+      });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET.description
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET.description,
+          0
+        )
       );
     }
   });
@@ -1117,12 +1153,19 @@ describe('test get options validation', () => {
     }
   });
 
-  it('should not throw for valid offset and limit in get options', () => {
+  it('should not throw for valid offset and limit in record', () => {
     expect(() =>
-      validateGetInput(
-        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
-        { offset: '5', limit: '10' }
-      )
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            offset: '5',
+            limit: '10',
+          },
+        ],
+      })
     ).not.toThrow();
   });
 
@@ -1163,81 +1206,92 @@ describe('test get options validation', () => {
   });
 });
 
-describe('test validateGetInput fields in options', () => {
+describe('test validateGetInput fields in record', () => {
   const validRecord = { ids: ['123'], table: 'test', redaction: RedactionType.PLAIN_TEXT };
 
-  it('should throw error for null fields in options', () => {
+  it('should throw error for null fields in record', () => {
     try {
-      validateGetInput({ records: [validRecord] }, { fields: null });
+      validateGetInput({ records: [{ ...validRecord, fields: null }] });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        SKYFLOW_ERROR_CODE.INVALID_FIELDS_IN_GET.description
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_FIELDS_IN_GET.description,
+          0
+        )
       );
     }
   });
 
-  it('should throw error for non-array fields in options', () => {
+  it('should throw error for non-array fields in record', () => {
     try {
-      validateGetInput(
-        { records: [validRecord] },
-        { fields: 'occupation' }
-      );
+      validateGetInput({ records: [{ ...validRecord, fields: 'occupation' }] });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        SKYFLOW_ERROR_CODE.INVALID_FIELDS_IN_GET.description
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_FIELDS_IN_GET.description,
+          0
+        )
       );
     }
   });
 
-  it('should throw error for empty fields array in options', () => {
+  it('should throw error for empty fields array in record', () => {
     try {
-      validateGetInput(
-        { records: [validRecord] },
-        { fields: [] }
-      );
+      validateGetInput({ records: [{ ...validRecord, fields: [] }] });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        SKYFLOW_ERROR_CODE.EMPTY_FIELDS_IN_GET.description
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_FIELDS_IN_GET.description,
+          0
+        )
       );
     }
   });
 
-  it('should throw error for non-string value inside fields array in options', () => {
+  it('should throw error for non-string value inside fields array in record', () => {
     try {
-      validateGetInput({ records: [validRecord] }, { fields: [123] });
+      validateGetInput({ records: [{ ...validRecord, fields: [123] }] });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        SKYFLOW_ERROR_CODE.INVALID_FIELD_VALUE_IN_GET.description
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_FIELD_VALUE_IN_GET.description,
+          0
+        )
       );
     }
   });
 
-  it('should throw error for null value inside fields array in options', () => {
+  it('should throw error for null value inside fields array in record', () => {
     try {
-      validateGetInput({ records: [validRecord] }, { fields: [null] });
+      validateGetInput({ records: [{ ...validRecord, fields: [null] }] });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        SKYFLOW_ERROR_CODE.INVALID_FIELD_VALUE_IN_GET.description
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_FIELD_VALUE_IN_GET.description,
+          0
+        )
       );
     }
   });
 
-  it('should throw error for empty string inside fields array in options', () => {
+  it('should throw error for empty string inside fields array in record', () => {
     try {
-      validateGetInput({ records: [validRecord] }, { fields: [''] });
+      validateGetInput({ records: [{ ...validRecord, fields: [''] }] });
     } catch (err) {
       expect(err?.errors[0]?.description).toEqual(
-        SKYFLOW_ERROR_CODE.EMPTY_FIELD_VALUE_IN_GET.description
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_FIELD_VALUE_IN_GET.description,
+          0
+        )
       );
     }
   });
 
-  it('should not throw for valid fields array in options', () => {
+  it('should not throw for valid fields array in record', () => {
     expect(() =>
-      validateGetInput(
-        { records: [validRecord] },
-        { fields: ['occupation', 'annual_income'] }
-      )
+      validateGetInput({
+        records: [{ ...validRecord, fields: ['occupation', 'annual_income'] }],
+      })
     ).not.toThrow();
   });
 });

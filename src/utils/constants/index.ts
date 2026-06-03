@@ -261,6 +261,9 @@ export interface IGetRecord {
   table: string;
   columnName?: string;
   columnValues?: string[];
+  fields?: string[];
+  offset?: string;
+  limit?: string;
 }
 
 export interface IGetInput {
@@ -269,9 +272,6 @@ export interface IGetInput {
 
 export interface IGetOptions {
   tokens?: Boolean;
-  fields?: string[];
-  offset?: string;
-  limit?: string;
   downloadURL?: boolean;
   orderBy?: OrderBy;
 }

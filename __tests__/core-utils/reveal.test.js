@@ -693,7 +693,11 @@ describe('fetchRecordGET fn test', () => {
 
     jest.spyOn(testSkyflowClient, 'getAccessToken').mockResolvedValue('valid token');
 
-    fetchRecordsGET(testSkyflowClient, [getRecordID], { ...optionsFalse, fields: ['occupation', 'annual_income'] })
+    const recordWithFields = {
+      ...getRecordID,
+      fields: ['occupation', 'annual_income'],
+    };
+    fetchRecordsGET(testSkyflowClient, [recordWithFields], optionsFalse)
       .then((res) => {
         expect(reqArg.url).toContain('fields=occupation');
         expect(reqArg.url).toContain('fields=annual_income');
@@ -704,7 +708,7 @@ describe('fetchRecordGET fn test', () => {
       });
   });
 
-  it('should include offset and limit params in url when specified in options', (done) => {
+  it('should include offset and limit params in url when specified in record', (done) => {
     let reqArg;
     jest.spyOn(ClientModule, 'default').mockImplementation(() => ({
       request: (args) => {
@@ -721,7 +725,8 @@ describe('fetchRecordGET fn test', () => {
 
     jest.spyOn(testSkyflowClient, 'getAccessToken').mockResolvedValue('valid token');
 
-    fetchRecordsGET(testSkyflowClient, [getRecordID], { ...optionsFalse, offset: '5', limit: '10' })
+    const recordWithPagination = { ...getRecordID, offset: '5', limit: '10' };
+    fetchRecordsGET(testSkyflowClient, [recordWithPagination], optionsFalse)
       .then((res) => {
         expect(reqArg.url).toContain('offset=5');
         expect(reqArg.url).toContain('limit=10');
@@ -830,16 +835,19 @@ describe('fetchRecordGET fn test', () => {
 
     jest.spyOn(testSkyflowClient, 'getAccessToken').mockResolvedValue('valid token');
 
-    const opts = {
-      ...optionsFalse,
+    const recordWithFields = {
+      ...getRecordID,
       fields: ['name', 'dob'],
       offset: '0',
       limit: '25',
+    };
+    const opts = {
+      ...optionsFalse,
       downloadURL: false,
       orderBy: 'DESCENDING',
     };
 
-    fetchRecordsGET(testSkyflowClient, [getRecordID], opts)
+    fetchRecordsGET(testSkyflowClient, [recordWithFields], opts)
       .then((res) => {
         expect(reqArg.url).toContain('fields=name');
         expect(reqArg.url).toContain('fields=dob');
@@ -904,10 +912,8 @@ describe('fetchRecordGET fn test', () => {
       .spyOn(testSkyflowClient, 'getAccessToken')
       .mockResolvedValue('valid token');
 
-    fetchRecordsGET(testSkyflowClient, [getRecordID], {
-      ...optionsFalse,
-      fields: ['name'],
-    })
+    const recordWithFields = { ...getRecordID, fields: ['name'] };
+    fetchRecordsGET(testSkyflowClient, [recordWithFields], optionsFalse)
       .then((res) => {
         expect(reqArg.url).toContain('fields=name');
         expect(reqArg.url).not.toContain('offset');

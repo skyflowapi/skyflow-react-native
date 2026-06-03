@@ -216,17 +216,17 @@ const logs = {
     MISSING_IDS_OR_COLUMN_VALUES_IN_GET:
     `${SDK_NAME_VERSION} Validation error. Both 'ids' or 'columnValues' keys are missing. Either provide 'ids' or 'columnValues' with 'columnName' to fetch records.`,
     INVALID_FIELDS_IN_GET:
-      `${SDK_NAME_VERSION} Validation error. Invalid 'fields' in get options. Specify a value of type array instead.`,
+      `${SDK_NAME_VERSION} Validation error. Invalid 'fields' key in records at index %s1. Specify a value of type array instead.`,
     EMPTY_FIELDS_IN_GET:
-      `${SDK_NAME_VERSION} Validation error. 'fields' in get options cannot be empty. Specify a non-empty array instead.`,
+      `${SDK_NAME_VERSION} Validation error. 'fields' key cannot be empty in records at index %s1. Specify a non-empty array instead.`,
     EMPTY_FIELD_VALUE_IN_GET:
-      `${SDK_NAME_VERSION} Validation error. 'fields' in get options contains an empty string. Specify non-empty string values.`,
+      `${SDK_NAME_VERSION} Validation error. 'fields' array contains an empty string in records at index %s1. Specify non-empty string values.`,
     INVALID_FIELD_VALUE_IN_GET:
-      `${SDK_NAME_VERSION} Validation error. 'fields' in get options contains a non-string value. Specify string values instead.`,
+      `${SDK_NAME_VERSION} Validation error. 'fields' array contains a non-string value in records at index %s1. Specify string values instead.`,
     INVALID_OFFSET_IN_GET:
-      `${SDK_NAME_VERSION} Validation error. Invalid 'offset' in get options. Specify a value of type string instead.`,
+      `${SDK_NAME_VERSION} Validation error. Invalid 'offset' in records at index %s1. Specify a value of type string instead.`,
     INVALID_LIMIT_IN_GET:
-      `${SDK_NAME_VERSION} Validation error. Invalid 'limit' in get options. Specify a value of type string instead.`,
+      `${SDK_NAME_VERSION} Validation error. Invalid 'limit' in records at index %s1. Specify a value of type string instead.`,
     INVALID_DOWNLOAD_URL_IN_GET:
       `${SDK_NAME_VERSION} Validation error. Invalid 'downloadURL' in get options. Specify a boolean value instead.`,
     INVALID_ORDER_BY_IN_GET:
