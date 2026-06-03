@@ -75,13 +75,14 @@ const RevealElements = (props) => {
       .get(
         {
           records: [
-            { ...getRecordByIds, redaction: RedactionType.PLAIN_TEXT },
+            {
+              ...getRecordByIds,
+              redaction: RedactionType.PLAIN_TEXT,
+              fields: ['occupation', 'annual_income'],
+            },
           ],
         },
-        {
-          tokens: false,
-          fields: ['occupation', 'annual_income'],
-        }
+        { tokens: false }
       )
       .then((response) => {
         console.log('Get with fields Success', JSON.stringify(response));
@@ -95,14 +96,17 @@ const RevealElements = (props) => {
       .get(
         {
           records: [
-            { ...getRecordByColumn, redaction: RedactionType.PLAIN_TEXT },
+            {
+              ...getRecordByColumn,
+              redaction: RedactionType.PLAIN_TEXT,
+              fields: ['name', 'email'],
+              offset: '0',
+              limit: '10',
+            },
           ],
         },
         {
           tokens: false,
-          fields: ['name', 'email'],
-          offset: '0',
-          limit: '10',
           orderBy: OrderBy.ASCENDING,
           downloadURL: false,
         }

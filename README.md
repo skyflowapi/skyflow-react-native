@@ -1396,36 +1396,54 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
 - #### Using Skyflow ID's or Unique Column Values
     For retrieving data from the vault, use the `get(getInput: IGetInput, options: IGetOptions)` method.
     
-    The `getInput` parameter takes an object that contains an array of the records to fetch. Each object inside array should contain:
+    The `getInput` parameter takes an object that contains an array of the records to fetch. Each object inside the array should contain:
 
     - Either an array of Skyflow IDs to fetch
     - Or a column name and an array of column values
 
-    The second parameter, `options`, is a `GetOptions` object that retrieves tokens of Skyflow IDs. 
+    The second parameter, `options`, is a `GetOptions` object that controls how records are retrieved.
 
-    Notes: 
-    - You can use either Skyflow IDs or unique values to retrieve records. You can't use both at the same time.
-    - GetOptions parameter is applicable only for retrieving tokens using Skyflow ID.
-    - You can't pass GetOptions along with the redaction type.
+    Notes:
+    - You can use either Skyflow IDs or unique column values to retrieve records. You can't use both at the same time.
+    - `tokens: true` is only applicable when fetching by Skyflow IDs and cannot be combined with `redaction`.
+    - Use `fields` to restrict which columns are returned — required when column-scoped policies limit access to certain fields.
+    - `offset` and `limit` are per-record and support pagination across results.
+    - `orderBy` accepts `OrderBy.ASCENDING`, `OrderBy.DESCENDING`, or `OrderBy.NONE`.
     - `tokens` defaults to false.
-    
+
     ```json5
     {
-      "records":[
+      "records": [
         {
           "ids": Array,                  // Array of SkyflowID's of the records to be fetched
           "table": String,               // name of table holding the above skyflow_id's
-          "redaction": RedactionType     // redaction to be applied to retrieved data
+          "redaction": RedactionType,    // redaction to be applied to retrieved data
+          "fields": Array,               // (optional) columns to return; omit to return all permitted columns
+          "offset": String,              // (optional) pagination start position
+          "limit": String                // (optional) max number of records to return
         },
         {
           "table": String,               // name of table from where records are to be fetched
           "redaction": RedactionType,    // redaction to be applied to retrieved data
           "columnName": String,          // a unique column name
-          "columnValues": Array         // Array of Column Values of the records to be fetched
+          "columnValues": Array,         // Array of Column Values of the records to be fetched
+          "fields": Array,               // (optional) columns to return; omit to return all permitted columns
+          "offset": String,              // (optional) pagination start position
+          "limit": String                // (optional) max number of records to return
         }
       ]
     }
     ```
+
+    ```json5
+    // options
+    {
+      "tokens": Boolean,       // if true, returns tokens instead of plain-text values
+      "downloadURL": Boolean,  // (optional) if true, returns pre-signed download URLs for file columns
+      "orderBy": OrderBy       // (optional) sort order: OrderBy.ASCENDING | OrderBy.DESCENDING | OrderBy.NONE
+    }
+    ```
+
   An Example of Get call to fetch records
 
   ```js
@@ -1527,11 +1545,69 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
           "code": "404",
           "description": "No Records Found"
         },
-        "columnName": "email",
+        "columnName": "email"
       }
     ]
   }
   ```
+
+  An Example of Get call to fetch specific fields (column-scoped policy compatible)
+
+  ```js
+  const skyflowContainer = useSkyflow();
+
+  const getRequestInput = {
+    records: [
+      {
+        ids: ['h4f5k569-c577-8o1j-r91c-x9gfd0b0fd9'],
+        table: 'persons',
+        redaction: RedactionType.PLAIN_TEXT,
+        fields: ['occupation', 'annual_income'],
+      },
+    ],
+  };
+
+  skyflowContainer
+    .get(getRequestInput, { tokens: false })
+    .then((response) => {
+      console.log(JSON.stringify(response));
+    })
+    .catch((err) => {
+      console.error(JSON.stringify(err));
+    });
+  ```
+
+  An Example of Get call to fetch records with pagination and ordering
+
+  ```js
+  import { useSkyflow, RedactionType, OrderBy } from 'skyflow-react-native';
+
+  const skyflowContainer = useSkyflow();
+
+  const getRequestInput = {
+    records: [
+      {
+        table: 'customers',
+        redaction: RedactionType.PLAIN_TEXT,
+        columnName: 'email',
+        columnValues: ['john.doe@gmail.com'],
+        fields: ['name', 'email'],
+        offset: '0',
+        limit: '10',
+      },
+    ],
+  };
+
+  skyflowContainer
+    .get(getRequestInput, { tokens: false, orderBy: OrderBy.ASCENDING })
+    .then((response) => {
+      console.log(JSON.stringify(response));
+    })
+    .catch((err) => {
+      console.error(JSON.stringify(err));
+    });
+  ```
+
   An Example of Get call to fetch Tokens
 
   ```js
