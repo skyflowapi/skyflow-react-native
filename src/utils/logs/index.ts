@@ -207,6 +207,7 @@ const logs = {
     `${SDK_NAME_VERSION} Validation error. Column Values is required when Column Name is specified.`,
     MISSING_RECORD_COLUMN_NAME:
     `${SDK_NAME_VERSION} Validation error. Column Name is required when Column Values are specified.`,
+    EMPTY_RECORD_COLUMN_NAME: `${SDK_NAME_VERSION} Validation error. 'columnName' cannot be empty in records at index %s1. Specify a non-empty string value instead.`,
     INVALID_RECORD_COLUMN_NAME_TYPE: `${SDK_NAME_VERSION} Validation error. Invalid Type of Records Column Name.`,
     INVALID_RECORD_COLUMN_VALUE_TYPE: `${SDK_NAME_VERSION} Validation error. Invalid Type of Records Column Values in records at index %s1`,
     INVALID_COLUMN_VALUES_TYPE:
@@ -215,6 +216,28 @@ const logs = {
     EMPTY_COLUMN_VALUE: `${SDK_NAME_VERSION} Validation error. Column Value is empty in records at index %s1`,
     MISSING_IDS_OR_COLUMN_VALUES_IN_GET:
     `${SDK_NAME_VERSION} Validation error. Both 'ids' or 'columnValues' keys are missing. Either provide 'ids' or 'columnValues' with 'columnName' to fetch records.`,
+    INVALID_FIELDS_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. Invalid 'fields' key in records at index %s1. Specify a value of type array instead.`,
+    EMPTY_FIELDS_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. 'fields' key cannot be empty in records at index %s1. Specify a non-empty array instead.`,
+    EMPTY_FIELD_VALUE_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. 'fields' array contains an empty string in records at index %s1. Specify non-empty string values.`,
+    INVALID_FIELD_VALUE_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. 'fields' array contains a non-string value in records at index %s1. Specify string values instead.`,
+    IDS_AND_OFFSET_LIMIT_BOTH_SPECIFIED:
+      `${SDK_NAME_VERSION} Validation error. Invalid request. 'offset' and 'limit' aren't supported when fetching records by 'skyflow_id'. Remove 'offset' and 'limit'.`,
+    INVALID_OFFSET_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. Invalid 'offset' in records at index %s1. Specify a value of type string instead.`,
+    EMPTY_OFFSET_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. 'offset' cannot be empty in records at index %s1. Specify a non-empty string value instead.`,
+    INVALID_LIMIT_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. Invalid 'limit' in records at index %s1. Specify a value of type string instead.`,
+    EMPTY_LIMIT_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. 'limit' cannot be empty in records at index %s1. Specify a non-empty string value instead.`,
+    INVALID_DOWNLOAD_URL_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. Invalid 'downloadURL' in get options. Specify a boolean value instead.`,
+    INVALID_ORDER_BY_IN_GET:
+      `${SDK_NAME_VERSION} Validation error. Invalid 'orderBy' in get options. Specify a valid OrderBy value (ASCENDING, DESCENDING, NONE).`,
     SKYFLOW_IDS_AND_COLUMN_NAME_BOTH_SPECIFIED:
     `${SDK_NAME_VERSION} Validation error. ids and columnName can not be specified together.`,
     GET_BY_SKYFLOWID_RESOLVED: '%s1 - GetById request is resolved.',

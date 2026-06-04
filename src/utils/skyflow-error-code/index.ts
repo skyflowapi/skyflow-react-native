@@ -330,6 +330,50 @@ const SKYFLOW_ERROR_CODE = {
     code: 400,
     description: logs.errorLogs.MISSING_IDS_OR_COLUMN_VALUES_IN_GET,
   },
+  INVALID_FIELDS_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_FIELDS_IN_GET,
+  },
+  EMPTY_FIELDS_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_FIELDS_IN_GET,
+  },
+  EMPTY_FIELD_VALUE_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_FIELD_VALUE_IN_GET,
+  },
+  INVALID_FIELD_VALUE_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_FIELD_VALUE_IN_GET,
+  },
+  IDS_AND_OFFSET_LIMIT_BOTH_SPECIFIED: {
+    code: 400,
+    description: logs.errorLogs.IDS_AND_OFFSET_LIMIT_BOTH_SPECIFIED,
+  },
+  INVALID_OFFSET_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_OFFSET_IN_GET,
+  },
+  EMPTY_OFFSET_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_OFFSET_IN_GET,
+  },
+  INVALID_LIMIT_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_LIMIT_IN_GET,
+  },
+  EMPTY_LIMIT_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_LIMIT_IN_GET,
+  },
+  INVALID_DOWNLOAD_URL_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_DOWNLOAD_URL_IN_GET,
+  },
+  INVALID_ORDER_BY_IN_GET: {
+    code: 400,
+    description: logs.errorLogs.INVALID_ORDER_BY_IN_GET,
+  },
   MISSING_RECORD_COLUMN_VALUE: {
     code: 400,
     description: logs.errorLogs.MISSING_RECORD_COLUMN_VALUE,
@@ -345,6 +389,10 @@ const SKYFLOW_ERROR_CODE = {
   MISSING_RECORD_COLUMN_NAME: {
     code: 400,
     description: logs.errorLogs.MISSING_RECORD_COLUMN_NAME,
+  },
+  EMPTY_RECORD_COLUMN_NAME: {
+    code: 400,
+    description: logs.errorLogs.EMPTY_RECORD_COLUMN_NAME,
   },
   INVALID_RECORD_COLUMN_VALUE: {
     code: 400,

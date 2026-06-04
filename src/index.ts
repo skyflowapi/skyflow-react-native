@@ -7,6 +7,7 @@ export {
   ElementType,
   Env,
   LogLevel,
+  OrderBy,
   ValidationRuleType,
   RedactionType,
   SkyflowRevealElementRef,

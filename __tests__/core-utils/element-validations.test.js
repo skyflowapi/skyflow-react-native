@@ -328,7 +328,7 @@ describe('test validateGetInput', () => {
     }
   });
 
-  it('should throw error for empty ids', () => {
+  it('should throw error for empty ids array', () => {
     try {
       validateGetInput({ records: [{ ids: [] }] });
     } catch (err) {
@@ -468,7 +468,7 @@ describe('test validateGetInput', () => {
     }
   });
 
-  it('should throw error for empty column values', () => {
+  it('should throw error for empty column values when columnValues is null', () => {
     try {
       validateGetInput({
         records: [
@@ -704,6 +704,41 @@ describe('test validateGetInput', () => {
     }
   });
 
+  it('should throw error for empty string columnName', () => {
+    expect(() =>
+      validateGetInput({
+        records: [
+          {
+            columnValues: ['value1'],
+            columnName: '',
+            table: 'test',
+            redaction: RedactionType.PLAIN_TEXT,
+          },
+        ],
+      })
+    ).toThrow();
+
+    try {
+      validateGetInput({
+        records: [
+          {
+            columnValues: ['value1'],
+            columnName: '',
+            table: 'test',
+            redaction: RedactionType.PLAIN_TEXT,
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_RECORD_COLUMN_NAME.description,
+          0
+        )
+      );
+    }
+  });
+
   it('should throw error for empty column values error', () => {
     try {
       validateGetInput({
@@ -794,6 +829,140 @@ describe('test validateGetInput', () => {
             table: 'test',
             redaction: RedactionType.PLAIN_TEXT,
             columnName: 'columnName',
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.MISSING_RECORD_COLUMN_VALUE.description,
+          0
+        )
+      );
+    }
+  });
+
+  // ids + columnValues without columnName
+  it('should throw MISSING_RECORD_COLUMN_NAME when ids and columnValues are present without columnName', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.PLAIN_TEXT,
+            columnValues: ['val1'],
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.MISSING_RECORD_COLUMN_NAME.description,
+          0
+        )
+      );
+    }
+  });
+
+  // fields with ids → valid
+  it('should not throw when fields is provided with ids', () => {
+    expect(() =>
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.PLAIN_TEXT,
+            fields: ['name', 'email'],
+          },
+        ],
+      })
+    ).not.toThrow();
+  });
+
+  // tokens:true + fields → valid (no restriction)
+  it('should not throw when tokens:true is combined with fields', () => {
+    expect(() =>
+      validateGetInput(
+        {
+          records: [
+            {
+              ids: ['123'],
+              table: 'test',
+              fields: ['name'],
+            },
+          ],
+        },
+        { tokens: true }
+      )
+    ).not.toThrow();
+  });
+
+  // error at record index 1
+  it('should include correct index in error when second record is invalid', () => {
+    try {
+      validateGetInput({
+        records: [
+          { ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT },
+          { ids: ['456'], table: null, redaction: RedactionType.DEFAULT },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_TABLE_IN_GET.description,
+          1
+        )
+      );
+    }
+  });
+
+  // offset alone without limit (column query) → valid
+  it('should not throw when only offset is provided with columnName and columnValues', () => {
+    expect(() =>
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            columnName: 'email',
+            columnValues: ['test@example.com'],
+            offset: '5',
+          },
+        ],
+      })
+    ).not.toThrow();
+  });
+
+  // limit alone without offset (column query) → valid
+  it('should not throw when only limit is provided with columnName and columnValues', () => {
+    expect(() =>
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            columnName: 'email',
+            columnValues: ['test@example.com'],
+            limit: '10',
+          },
+        ],
+      })
+    ).not.toThrow();
+  });
+
+  // offset/limit with columnName but missing columnValues
+  it('should throw MISSING_RECORD_COLUMN_VALUE when offset/limit with columnName but no columnValues', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            columnName: 'email',
+            offset: '0',
+            limit: '10',
           },
         ],
       });
@@ -995,5 +1164,439 @@ describe('test get options validation', () => {
         )
       );
     }
+  });
+
+  it('should throw error for non-string offset in record', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            columnName: 'email',
+            columnValues: ['test@example.com'],
+            offset: 10,
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for null offset in record', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            columnName: 'email',
+            columnValues: ['test@example.com'],
+            offset: null,
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_OFFSET_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for non-string limit in record', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            columnName: 'email',
+            columnValues: ['test@example.com'],
+            limit: true,
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for null limit in record', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            columnName: 'email',
+            columnValues: ['test@example.com'],
+            limit: null,
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_LIMIT_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for empty string offset in record', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            columnName: 'email',
+            columnValues: ['test@example.com'],
+            offset: '',
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_OFFSET_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for empty string limit in record', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            columnName: 'email',
+            columnValues: ['test@example.com'],
+            limit: '',
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_LIMIT_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for non-boolean downloadURL in get options', () => {
+    try {
+      validateGetInput(
+        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
+        { downloadURL: 'true' }
+      );
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        SKYFLOW_ERROR_CODE.INVALID_DOWNLOAD_URL_IN_GET.description
+      );
+    }
+  });
+
+  it('should throw error for number passed as downloadURL in get options', () => {
+    try {
+      validateGetInput(
+        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
+        { downloadURL: 1 }
+      );
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        SKYFLOW_ERROR_CODE.INVALID_DOWNLOAD_URL_IN_GET.description
+      );
+    }
+  });
+
+  it('should throw error for null downloadURL in get options', () => {
+    try {
+      validateGetInput(
+        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
+        { downloadURL: null }
+      );
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        SKYFLOW_ERROR_CODE.INVALID_DOWNLOAD_URL_IN_GET.description
+      );
+    }
+  });
+
+  it('should throw error for invalid orderBy value in get options', () => {
+    try {
+      validateGetInput(
+        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
+        { orderBy: 'INVALID_ORDER' }
+      );
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        SKYFLOW_ERROR_CODE.INVALID_ORDER_BY_IN_GET.description
+      );
+    }
+  });
+
+  it('should throw error for null orderBy in get options', () => {
+    try {
+      validateGetInput(
+        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
+        { orderBy: null }
+      );
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        SKYFLOW_ERROR_CODE.INVALID_ORDER_BY_IN_GET.description
+      );
+    }
+  });
+
+  it('should throw error when ids and offset are both specified', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            offset: '5',
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        SKYFLOW_ERROR_CODE.IDS_AND_OFFSET_LIMIT_BOTH_SPECIFIED.description
+      );
+    }
+  });
+
+  it('should throw error when ids and limit are both specified', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            limit: '10',
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        SKYFLOW_ERROR_CODE.IDS_AND_OFFSET_LIMIT_BOTH_SPECIFIED.description
+      );
+    }
+  });
+
+  it('should throw error when ids, offset and limit are all specified', () => {
+    try {
+      validateGetInput({
+        records: [
+          {
+            ids: ['123'],
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            offset: '0',
+            limit: '10',
+          },
+        ],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        SKYFLOW_ERROR_CODE.IDS_AND_OFFSET_LIMIT_BOTH_SPECIFIED.description
+      );
+    }
+  });
+
+  it('should not throw when offset and limit are used with columnName and columnValues', () => {
+    expect(() =>
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            columnName: 'email',
+            columnValues: ['test@example.com'],
+            offset: '5',
+            limit: '10',
+          },
+        ],
+      })
+    ).not.toThrow();
+  });
+
+  it('should not throw when only offset and limit are provided without ids or columnName', () => {
+    expect(() =>
+      validateGetInput({
+        records: [
+          {
+            table: 'test',
+            redaction: RedactionType.DEFAULT,
+            offset: '0',
+            limit: '10',
+          },
+        ],
+      })
+    ).not.toThrow();
+  });
+
+  it('should throw MISSING_IDS_OR_COLUMN_VALUES_IN_GET when no identifier and no offset/limit', () => {
+    try {
+      validateGetInput({
+        records: [{ table: 'test', redaction: RedactionType.PLAIN_TEXT }],
+      });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.MISSING_IDS_OR_COLUMN_VALUES_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should not throw for valid downloadURL in get options', () => {
+    expect(() =>
+      validateGetInput(
+        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
+        { downloadURL: true }
+      )
+    ).not.toThrow();
+  });
+
+  it('should not throw for valid orderBy ASCENDING in get options', () => {
+    expect(() =>
+      validateGetInput(
+        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
+        { orderBy: 'ASCENDING' }
+      )
+    ).not.toThrow();
+  });
+
+  it('should not throw for valid orderBy DESCENDING in get options', () => {
+    expect(() =>
+      validateGetInput(
+        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
+        { orderBy: 'DESCENDING' }
+      )
+    ).not.toThrow();
+  });
+
+  it('should not throw for valid orderBy NONE in get options', () => {
+    expect(() =>
+      validateGetInput(
+        { records: [{ ids: ['123'], table: 'test', redaction: RedactionType.DEFAULT }] },
+        { orderBy: 'NONE' }
+      )
+    ).not.toThrow();
+  });
+});
+
+describe('test validateGetInput fields in record', () => {
+  const validRecord = { ids: ['123'], table: 'test', redaction: RedactionType.PLAIN_TEXT };
+
+  it('should throw error for null fields in record', () => {
+    try {
+      validateGetInput({ records: [{ ...validRecord, fields: null }] });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_FIELDS_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for non-array fields in record', () => {
+    try {
+      validateGetInput({ records: [{ ...validRecord, fields: 'occupation' }] });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_FIELDS_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for empty fields array in record', () => {
+    try {
+      validateGetInput({ records: [{ ...validRecord, fields: [] }] });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_FIELDS_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for non-string value inside fields array in record', () => {
+    try {
+      validateGetInput({ records: [{ ...validRecord, fields: [123] }] });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_FIELD_VALUE_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for null value inside fields array in record', () => {
+    try {
+      validateGetInput({ records: [{ ...validRecord, fields: [null] }] });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.INVALID_FIELD_VALUE_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should throw error for empty string inside fields array in record', () => {
+    try {
+      validateGetInput({ records: [{ ...validRecord, fields: [''] }] });
+    } catch (err) {
+      expect(err?.errors[0]?.description).toEqual(
+        parameterizedString(
+          SKYFLOW_ERROR_CODE.EMPTY_FIELD_VALUE_IN_GET.description,
+          0
+        )
+      );
+    }
+  });
+
+  it('should not throw for valid fields array in record', () => {
+    expect(() =>
+      validateGetInput({
+        records: [{ ...validRecord, fields: ['occupation', 'annual_income'] }],
+      })
+    ).not.toThrow();
   });
 });

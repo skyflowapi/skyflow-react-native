@@ -203,11 +203,12 @@ export const fetchRecordsGET = async (
                   (resolvedResult: any) => {
                     const recordsData: any[] = resolvedResult.records;
                     recordsData.forEach((fieldData) => {
-                      const id = fieldData.fields.skyflow_id;
-                      const currentRecord = {
+                      const fields = fieldData?.fields ?? {};
+                      const skyflowId = fields?.skyflow_id;
+                      const currentRecord: any = {
                         fields: {
-                          id,
-                          ...fieldData.fields,
+                          ...(skyflowId ? { id: skyflowId } : {}),
+                          ...fields,
                         },
                         table: skyflowIdRecord.table,
                       };
@@ -223,7 +224,9 @@ export const fetchRecordsGET = async (
                           code: rejectedResult?.error?.code,
                           description: rejectedResult?.error?.description,
                         },
-                        ids: skyflowIdRecord.ids,
+                        ...(skyflowIdRecord.ids
+                          ? { ids: skyflowIdRecord.ids }
+                          : {}),
                         ...(skyflowIdRecord?.columnName
                           ? { columnName: skyflowIdRecord?.columnName }
                           : {}),
@@ -265,7 +268,7 @@ export const fetchRecordsGET = async (
               rootReject({ records: recordsResponse, errors: errorResponse });
           })
           .catch((err) => {
-            console.log(err);
+            rootReject(err);
           });
       })
       .catch((err) => {
@@ -296,7 +299,31 @@ export const getRecordsFromVault = (
   }
 
   if (getRecord?.redaction) {
-    paramList += `redaction=${getRecord.redaction}`;
+    paramList += `redaction=${getRecord.redaction}&`;
+  }
+
+  getRecord.fields?.forEach((field) => {
+    paramList += `fields=${field}&`;
+  });
+
+  if (getRecord.offset !== undefined) {
+    paramList += `offset=${getRecord.offset}&`;
+  }
+
+  if (getRecord.limit !== undefined) {
+    paramList += `limit=${getRecord.limit}&`;
+  }
+
+  if (options && Object.prototype.hasOwnProperty.call(options, 'downloadURL')) {
+    paramList += `downloadURL=${options.downloadURL}&`;
+  }
+
+  if (options && Object.prototype.hasOwnProperty.call(options, 'orderBy')) {
+    paramList += `order_by=${options.orderBy}&`;
+  }
+
+  if (paramList.endsWith('&')) {
+    paramList = paramList.slice(0, -1);
   }
 
   const vault = config.vaultURL;
