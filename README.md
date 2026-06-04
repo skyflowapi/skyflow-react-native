@@ -1407,7 +1407,7 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
     - You can use either Skyflow IDs or unique column values to retrieve records. You can't use both at the same time.
     - `tokens: true` is only applicable when fetching by Skyflow IDs and cannot be combined with `redaction`.
     - Use `fields` to restrict which columns are returned — required when column-scoped policies limit access to certain fields.
-    - `offset` and `limit` are per-record and support pagination across results.
+    - `offset` and `limit` are per-record and support pagination; they are only valid with `columnName`/`columnValues` queries or standalone — they cannot be used with `ids`.
     - `orderBy` accepts `OrderBy.ASCENDING`, `OrderBy.DESCENDING`, or `OrderBy.NONE`.
     - `tokens` defaults to false.
 
@@ -1418,9 +1418,8 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
           "ids": Array,                  // Array of SkyflowID's of the records to be fetched
           "table": String,               // name of table holding the above skyflow_id's
           "redaction": RedactionType,    // redaction to be applied to retrieved data
-          "fields": Array,               // (optional) columns to return; omit to return all permitted columns
-          "offset": String,              // (optional) pagination start position
-          "limit": String                // (optional) max number of records to return
+          "fields": Array                // (optional) columns to return; omit to return all permitted columns
+          // NOTE: offset and limit are NOT supported when using ids
         },
         {
           "table": String,               // name of table from where records are to be fetched
@@ -1590,10 +1589,38 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
         table: 'customers',
         redaction: RedactionType.PLAIN_TEXT,
         columnName: 'email',
-        ids: [],
+        columnValues: ['john.doe@gmail.com'],
         fields: ['name', 'email'],
         offset: '0',
         limit: '10',
+      },
+    ],
+  };
+
+  skyflowContainer
+    .get(getRequestInput, { tokens: false, orderBy: OrderBy.ASCENDING })
+    .then((response) => {
+      console.log(JSON.stringify(response));
+    })
+    .catch((err) => {
+      console.error(JSON.stringify(err));
+    });
+  ```
+
+  An Example of Get call to fetch all records with pagination (no Skyflow IDs or column filter)
+
+  ```js
+  import { useSkyflow, RedactionType, OrderBy } from 'skyflow-react-native';
+
+  const skyflowContainer = useSkyflow();
+
+  const getRequestInput = {
+    records: [
+      {
+        table: 'customers',
+        redaction: RedactionType.PLAIN_TEXT,
+        offset: '0',
+        limit: '25',
       },
     ],
   };
