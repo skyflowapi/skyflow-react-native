@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 14.21.3
 
-      - run: npm install
+      - run: npm install --ignore-scripts
 
       - name: Get Previous tag
         id: previoustag

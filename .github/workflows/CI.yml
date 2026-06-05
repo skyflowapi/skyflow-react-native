@@ -29,7 +29,7 @@ jobs:
           node-version: 14.21.3
 
       - name: install node_modules
-        run: npm install
+        run: npm install --ignore-scripts
 
       - name: Run spellcheck
         run: npm run spellcheck

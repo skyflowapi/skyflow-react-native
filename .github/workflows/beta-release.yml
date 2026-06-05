@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 14.21.3
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install
+      - run: npm install --ignore-scripts
 
       - name: Build
         run: npm run build
