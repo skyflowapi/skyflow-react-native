@@ -13,8 +13,8 @@ describe('Verify dropdown component', () => {
         listData={[{ label: 'test', value: 'test' }]}
       />
     );
-    const cardIcon = dropdown.getByTestId('dropdown-icon')
-    fireEvent.press(cardIcon)
+    const cardIcon = dropdown.getByTestId('dropdown-icon');
+    fireEvent.press(cardIcon);
     const listItem = dropdown.getByTestId('list-item');
     fireEvent.press(listItem);
   });
@@ -26,11 +26,11 @@ describe('Verify dropdown component', () => {
         listData={[{ label: 'test', value: 'test' }]}
       />
     );
-    const cardIcon = dropdown.getByTestId('dropdown-icon')
-    fireEvent.press(cardIcon)
+    const cardIcon = dropdown.getByTestId('dropdown-icon');
+    fireEvent.press(cardIcon);
+    const modal = dropdown.getByTestId('modal');
     const modalClose = dropdown.getByTestId('modal-close');
     fireEvent.press(modalClose);
-    const modal = dropdown.getByTestId('modal');
     fireEvent.press(modal);
   });
 });

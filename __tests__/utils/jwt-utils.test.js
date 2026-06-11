@@ -2,7 +2,7 @@
     Copyright (c) 2022 Skyflow, Inc.
 */
 import isTokenValid from '../../src/utils/jwt-utils';
-jest.mock('jwt-decode', () => () => ({ exp: 123 }));
+jest.mock('jwt-decode', () => ({ jwtDecode: () => ({ exp: 123 }) }));
 
 describe('Validation token', () => {
   it('empty token', () => {
