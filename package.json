@@ -51,7 +51,7 @@
     "@types/lodash": "4.17.13",
     "@types/react": "19.0.0",
     "commitlint": "19.8.1",
-    "cspell": "6.31.3",
+    "cspell": "4.2.8",
     "eslint": "8.57.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",
