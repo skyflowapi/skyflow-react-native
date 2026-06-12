@@ -15,7 +15,7 @@ const CvvElement: React.FC<CollectElementProps> = ({ container, options = { requ
     const [errorText, setErrorText] = React.useState<string>('');
     const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
     const [inputStyles, setInputStyles] = React.useState(rest?.inputStyles?.base || {});
-    const textInputRef = useRef();
+    const textInputRef = useRef<TextInput>(null);
     const uniqueElementID = useRef(uuid.v4() as string);
 
     useEffect(() => {

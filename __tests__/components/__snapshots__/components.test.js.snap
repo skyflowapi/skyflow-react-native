@@ -3,12 +3,12 @@
 exports[`test Collect Elements Components test CardHolderNameElement component 1`] = `
 <View>
   <Text
-    style={Object {}}
+    style={{}}
   >
     CardHolderName
     <Text
       style={
-        Object {
+        {
           "color": "red",
         }
       }
@@ -21,11 +21,11 @@ exports[`test Collect Elements Components test CardHolderNameElement component 1
     onChangeText={[Function]}
     onFocus={[Function]}
     placeholder="CardHolder Name"
-    style={Object {}}
+    style={{}}
     value=""
   />
   <Text
-    style={Object {}}
+    style={{}}
     testID="name-error"
   />
 </View>
@@ -34,12 +34,12 @@ exports[`test Collect Elements Components test CardHolderNameElement component 1
 exports[`test Collect Elements Components test CardNumberElement component 1`] = `
 <View>
   <Text
-    style={Object {}}
+    style={{}}
   >
     CardNumber
     <Text
       style={
-        Object {
+        {
           "color": "red",
         }
       }
@@ -49,7 +49,7 @@ exports[`test Collect Elements Components test CardNumberElement component 1`] =
   </Text>
   <View
     style={
-      Object {
+      {
         "borderColor": "#eae8ee",
         "borderRadius": 4,
         "borderWidth": 2,
@@ -62,12 +62,12 @@ exports[`test Collect Elements Components test CardNumberElement component 1`] =
     <Image
       resizeMode="contain"
       source={
-        Object {
+        {
           "testUri": "../../../assets/visa.png",
         }
       }
       style={
-        Object {
+        {
           "height": 50,
           "width": 50,
         }
@@ -81,7 +81,7 @@ exports[`test Collect Elements Components test CardNumberElement component 1`] =
       onFocus={[Function]}
       placeholder="card number"
       style={
-        Object {
+        {
           "flex": 1,
         }
       }
@@ -89,7 +89,7 @@ exports[`test Collect Elements Components test CardNumberElement component 1`] =
     />
   </View>
   <Text
-    style={Object {}}
+    style={{}}
     testID="cardnumber-error"
   />
 </View>
@@ -98,12 +98,12 @@ exports[`test Collect Elements Components test CardNumberElement component 1`] =
 exports[`test Collect Elements Components test CvvElement component 1`] = `
 <View>
   <Text
-    style={Object {}}
+    style={{}}
   >
     Cvv
     <Text
       style={
-        Object {
+        {
           "color": "red",
         }
       }
@@ -118,11 +118,11 @@ exports[`test Collect Elements Components test CvvElement component 1`] = `
     onChangeText={[Function]}
     onFocus={[Function]}
     placeholder="cvv"
-    style={Object {}}
+    style={{}}
     value=""
   />
   <Text
-    style={Object {}}
+    style={{}}
     testID="cvv-error"
   />
 </View>
@@ -131,12 +131,12 @@ exports[`test Collect Elements Components test CvvElement component 1`] = `
 exports[`test Collect Elements Components test ExpirationDateElement component 1`] = `
 <View>
   <Text
-    style={Object {}}
+    style={{}}
   >
     Expiration Date
     <Text
       style={
-        Object {
+        {
           "color": "red",
         }
       }
@@ -151,11 +151,11 @@ exports[`test Collect Elements Components test ExpirationDateElement component 1
     onChangeText={[Function]}
     onFocus={[Function]}
     placeholder="expiration date"
-    style={Object {}}
+    style={{}}
     value=""
   />
   <Text
-    style={Object {}}
+    style={{}}
     testID="date-error"
   />
 </View>
@@ -164,12 +164,12 @@ exports[`test Collect Elements Components test ExpirationDateElement component 1
 exports[`test Collect Elements Components test ExpirationMonthElement component 1`] = `
 <View>
   <Text
-    style={Object {}}
+    style={{}}
   >
     Expiration Month
     <Text
       style={
-        Object {
+        {
           "color": "red",
         }
       }
@@ -184,11 +184,11 @@ exports[`test Collect Elements Components test ExpirationMonthElement component 
     onChangeText={[Function]}
     onFocus={[Function]}
     placeholder="expiration month"
-    style={Object {}}
+    style={{}}
     value=""
   />
   <Text
-    style={Object {}}
+    style={{}}
     testID="month-error"
   />
 </View>
@@ -197,12 +197,12 @@ exports[`test Collect Elements Components test ExpirationMonthElement component 
 exports[`test Collect Elements Components test ExpirationYearElement component 1`] = `
 <View>
   <Text
-    style={Object {}}
+    style={{}}
   >
     Expiration Year
     <Text
       style={
-        Object {
+        {
           "color": "red",
         }
       }
@@ -217,11 +217,11 @@ exports[`test Collect Elements Components test ExpirationYearElement component 1
     onChangeText={[Function]}
     onFocus={[Function]}
     placeholder="expiration year"
-    style={Object {}}
+    style={{}}
     value=""
   />
   <Text
-    style={Object {}}
+    style={{}}
     testID="year-error"
   />
 </View>
@@ -230,12 +230,12 @@ exports[`test Collect Elements Components test ExpirationYearElement component 1
 exports[`test Collect Elements Components test InputFieldElement component 1`] = `
 <View>
   <Text
-    style={Object {}}
+    style={{}}
   >
     First Name
     <Text
       style={
-        Object {
+        {
           "color": "red",
         }
       }
@@ -248,11 +248,11 @@ exports[`test Collect Elements Components test InputFieldElement component 1`] =
     onChangeText={[Function]}
     onFocus={[Function]}
     placeholder="first name"
-    style={Object {}}
+    style={{}}
     value=""
   />
   <Text
-    style={Object {}}
+    style={{}}
     testID="inputfield-error"
   />
 </View>
@@ -261,12 +261,12 @@ exports[`test Collect Elements Components test InputFieldElement component 1`] =
 exports[`test Collect Elements Components test PinElement component 1`] = `
 <View>
   <Text
-    style={Object {}}
+    style={{}}
   >
     Pin
     <Text
       style={
-        Object {
+        {
           "color": "red",
         }
       }
@@ -281,51 +281,51 @@ exports[`test Collect Elements Components test PinElement component 1`] = `
     onChangeText={[Function]}
     onFocus={[Function]}
     placeholder="pin"
-    style={Object {}}
+    style={{}}
     value=""
   />
   <Text
-    style={Object {}}
+    style={{}}
     testID="pin-error"
   />
 </View>
 `;
 
 exports[`test Collect Elements Components test Reveal Elements Components renders correctly with the handler & snapshot 1`] = `
-Array [
+[
   <Text
-    style={Object {}}
+    style={{}}
   >
     Card Number
   </Text>,
   <Text
     selectable={true}
-    style={Object {}}
+    style={{}}
   >
     XXXX XXXX XXXX XXXX
   </Text>,
   <Text
-    style={Object {}}
+    style={{}}
     testID="Card Number-error"
   />,
 ]
 `;
 
 exports[`test Collect Elements Components test RevealElement component rendering 1`] = `
-Array [
+[
   <Text
-    style={Object {}}
+    style={{}}
   >
     Card Number
   </Text>,
   <Text
     selectable={true}
-    style={Object {}}
+    style={{}}
   >
     XXXX XXXX XXXX XXXX
   </Text>,
   <Text
-    style={Object {}}
+    style={{}}
     testID="Card Number-error"
   />,
 ]

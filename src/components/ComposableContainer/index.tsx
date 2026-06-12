@@ -1,11 +1,12 @@
 import React, { useRef } from "react";
-import ComposableRow from "../composableContainerRow";
+import ComposableRow from "../ComposableContainerRow";
 import CoreComposableContainer from "../../core/ComposableContainer";
 import _ from "lodash";
 import SkyflowError from "../../utils/skyflow-error";
 import SKYFLOW_ERROR_CODE from "../../utils/skyflow-error-code";
 
 export interface IComposableContainer {
+    children?: React.ReactNode;
     container: CoreComposableContainer,
     onSubmit?: () => void
 }
