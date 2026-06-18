@@ -18,7 +18,7 @@ const ExpirationDateElement: React.FC<CollectElementProps> = ({ container, optio
     const [labelStyles, setLabelStyles] = React.useState(rest?.labelStyles?.base || {});
     const [inputStyles, setInputStyles] = React.useState(rest?.inputStyles?.base || {});
     const [maxLength, setMaxLength] = React.useState(DEFAULT_EXPIRATION_DATE_FORMAT.length);
-    const textInputRef = useRef();
+    const textInputRef = useRef<TextInput>(null);
     const uniqueElementID = useRef(uuid.v4() as string);
 
     useEffect(() => {

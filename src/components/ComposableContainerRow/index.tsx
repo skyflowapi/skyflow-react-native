@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { StylesBaseVariant } from '../../utils/constants'
 
 interface IComposableRowProps{
+  children?: React.ReactNode;
   container?: any,
   styles?: StylesBaseVariant
   errorTextStyles?:StylesBaseVariant
