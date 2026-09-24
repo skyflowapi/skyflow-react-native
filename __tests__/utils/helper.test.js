@@ -17,6 +17,8 @@ import {
   getMetaObject,
   getDeviceModel,
   formatInputFieldValue,
+  isNonGaVersion,
+  isNonProdVaultUrl,
 } from '../../src/utils/helpers';
 import {
   CardType,
@@ -529,5 +531,45 @@ describe('test formatCollectElementOptions for different element types', () => {
       LogLevel.WARN
     );
     expect(result).toEqual(options);
+  });
+});
+
+// SK-2963: beta-build-in-prod warning
+describe('isNonGaVersion', () => {
+  it('treats a plain semver release as GA', () => {
+    expect(isNonGaVersion('1.10.6')).toBe(false);
+    expect(isNonGaVersion('2.11.3')).toBe(false);
+  });
+  it('treats a beta suffix as non-GA', () => {
+    expect(isNonGaVersion('1.8.0-beta.1')).toBe(true);
+  });
+  it('treats a dev suffix as non-GA', () => {
+    expect(isNonGaVersion('1.8.0-dev.abc1234')).toBe(true);
+  });
+  it('treats an empty or missing version as non-GA', () => {
+    expect(isNonGaVersion('')).toBe(true);
+    expect(isNonGaVersion(undefined)).toBe(true);
+  });
+  it('treats a garbage string as non-GA', () => {
+    expect(isNonGaVersion('not-a-version')).toBe(true);
+  });
+});
+
+describe('isNonProdVaultUrl', () => {
+  it('returns false (looks like prod) for a plain vault domain', () => {
+    expect(isNonProdVaultUrl('https://abc123.vault.skyflowapis.com')).toBe(false);
+  });
+  it('returns false (looks like prod) for an empty/missing vaultURL', () => {
+    expect(isNonProdVaultUrl('')).toBe(false);
+    expect(isNonProdVaultUrl(undefined)).toBe(false);
+  });
+  it('returns true (non-prod) for a sandbox/preview vault URL', () => {
+    expect(isNonProdVaultUrl('https://abc123.vault.skyflowapis-preview.com')).toBe(true);
+  });
+  it('returns true (non-prod) for a dev vault URL', () => {
+    expect(isNonProdVaultUrl('https://abc123.vault.skyflowapis.dev')).toBe(true);
+  });
+  it('returns true (non-prod) for a stage vault URL', () => {
+    expect(isNonProdVaultUrl('https://abc123.vault.skyflowapis.tech')).toBe(true);
   });
 });

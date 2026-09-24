@@ -2,8 +2,10 @@
  Copyright (c) 2022 Skyflow, Inc.
 */
 import Client from '../../core-utils/client';
+import { SDK_DETAILS } from '../constants';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Env, IConfig, LogLevel, MessageType } from '../../utils/constants';
+import { isNonGaVersion, isNonProdVaultUrl } from '../../utils/helpers';
 import isTokenValid from '../../utils/jwt-utils';
 import logs from '../../utils/logs';
 import { printLog, parameterizedString } from '../../utils/logs-helper';
@@ -51,6 +53,21 @@ class Skyflow {
       MessageType.LOG,
       this.#config.options.logLevel
     );
+
+    if (
+      isNonGaVersion(SDK_DETAILS.sdkVersion) &&
+      !isNonProdVaultUrl(config.vaultURL)
+    ) {
+      printLog(
+        parameterizedString(
+          logs.warnLogs.BETA_BUILD_WARNING,
+          CLASS_NAME,
+          SDK_DETAILS.sdkVersion
+        ),
+        MessageType.WARN,
+        this.#config.options.logLevel
+      );
+    }
   }
 
   getAccessToken() {

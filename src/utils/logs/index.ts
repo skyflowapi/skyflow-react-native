@@ -253,6 +253,8 @@ const logs = {
       'EXPIRATION_YEAR format must be in one of %s1, the format is set to default YY',
     INVALID_CARD_NUMBER_FORMAT:
       `CARD_NUMBER format must be in one of %s1, the format is set to default XXXX XXXX XXXX XXXX`,
+    BETA_BUILD_WARNING:
+      '%s1 - This is a beta/pre-release build of the Skyflow SDK (v%s2). Beta builds are intended for acceptance testing only - you appear to be connecting to a Production vault. Contact your Skyflow representative before using this build in Production.',
   },
 };
 
