@@ -7,6 +7,8 @@ Skyflow’s React Native SDK can be used to securely collect, tokenize, and reve
 - [**Including Skyflow React Native**](#including-skyflow-react-native) 
 - [**Initializing Skyflow React Native**](#initializing-skyflow-react-native)
 - [**Securely collecting data client-side**](#securely-collecting-data-client-side)
+- [**Validations**](#validations)
+- [**Event Listener on Skyflow Elements**](#event-listener-on-skyflow-elements)
 - [**Securely collecting data client-side using composable elements**](#securely-collecting-data-client-side-using-composable-elements)
 - [**Securely revealing data client-side**](#securely-revealing-data-client-side)
 - [**Reporting a Vulnerability**](#reporting-a-vulnerability)
@@ -116,7 +118,7 @@ For `env` parameter, there are two accepted values in `Env`:
 - `PROD`
 - `DEV`
 
-In [Event Listeners](#event-listener-on-collect-elements), the actual value of element can only be accessed inside the handler when the `env` is set to `DEV`.
+In [Event Listeners](#event-listener-on-skyflow-elements), the actual value of element can only be accessed inside the handler when the `env` is set to `DEV`.
 
 **Note**:
   - Since `env` is optional, by default the environment will be  `PROD`.
@@ -162,12 +164,12 @@ The following `props` can be passed to Skyflow Collection Element:
   placeholder: 'string',         // Optional, placeholder for the form element.
   validations: [],               // Optional, array of validation rules.
   onChange: Function,            // Optional, function that is passed to trigger the onChange event.
-  onFocus: Function,             // Optional, function that is passed to trigger the onChange event.
-  onBlur: Function,              // Optional, function that is passed to trigger the onChange event.
-  onReady: Function,             // Optional, function that is passed to trigger the onChange event.
+  onFocus: Function,             // Optional, function that is passed to trigger the onFocus event.
+  onBlur: Function,              // Optional, function that is passed to trigger the onBlur event.
+  onReady: Function,             // Optional, function that is passed to trigger the onReady event.
   inputStyles: {},               // Optional, styles object applied to the textinput field.
   labelStyles: {},               // Optional, styles object applied to label of textinput field.
-  errorTextStyle: {},            // Optional, styles object applied to errortext of textinput field.
+  errorTextStyles: {},           // Optional, styles object applied to errortext of textinput field.
 }
 ```
 
@@ -266,7 +268,6 @@ The following collection elements are supported in the React Native SDK:
 - `ExpirationDateElement`
 - `CvvElement`
 - `PinElement`
-- `ExpirationDateElement`
 - `ExpirationMonthElement`
 - `ExpirationYearElement`
 - `InputFieldElement` 
@@ -597,12 +598,12 @@ The following `props` can be passed to Skyflow Collection Element:
   placeholder: 'string',         // Optional, placeholder for the form element.
   validations: [],               // Optional, array of validation rules.
   onChange: Function,            // Optional, function that is passed to trigger the onChange event.
-  onFocus: Function,             // Optional, function that is passed to trigger the onChange event.
-  onBlur: Function,              // Optional, function that is passed to trigger the onChange event.
-  onReady: Function,             // Optional, function that is passed to trigger the onChange event.
+  onFocus: Function,             // Optional, function that is passed to trigger the onFocus event.
+  onBlur: Function,              // Optional, function that is passed to trigger the onBlur event.
+  onReady: Function,             // Optional, function that is passed to trigger the onReady event.
   inputStyles: {},               // Optional, styles object applied to the textinput field.
   labelStyles: {},               // Optional, styles object applied to label of textinput field.
-  errorTextStyle: {},            // Optional, styles object applied to errortext of textinput field.
+  errorTextStyles: {},           // Optional, styles object applied to errortext of textinput field.
   skyflowID: 'string'            // The skyflow_id of the record to be updated.
 }
 ```
@@ -1130,12 +1131,12 @@ The following `props` can be passed to Skyflow Composable Element:
   placeholder: 'string',           // Optional, placeholder for the form element.
   validations: [],                 // Optional, array of validation rules.
   onChange: Function,              // Optional, function that is passed to trigger the onChange event.
-  onFocus: Function,               // Optional, function that is passed to trigger the onChange event.
-  onBlur: Function,                // Optional, function that is passed to trigger the onChange event.
-  onReady: Function,               // Optional, function that is passed to trigger the onChange event.
+  onFocus: Function,               // Optional, function that is passed to trigger the onFocus event.
+  onBlur: Function,                // Optional, function that is passed to trigger the onBlur event.
+  onReady: Function,               // Optional, function that is passed to trigger the onReady event.
   inputStyles: {},                 // Optional, styles object applied to the textinput field.
   labelStyles: {},                 // Optional, styles object applied to label of textinput field.
-  errorTextStyle: {},              // Optional, styles object applied to errortext of textinput field.
+  errorTextStyles: {},             // Optional, styles object applied to errortext of textinput field.
 }
 ```
 
@@ -1214,7 +1215,6 @@ The following collection elements are supported in the React Native SDK:
 - `ExpirationDateElement`
 - `CvvElement`
 - `PinElement`
-- `ExpirationDateElement`
 - `ExpirationMonthElement`
 - `ExpirationYearElement`
 - `InputFieldElement` 
@@ -1391,9 +1391,9 @@ For information on validations, see [validations](#validations).
 
 ### Retrieving data from the vault
 
-For non-PCI use-cases, retrieving data from the vault and revealing it in the mobile can be done using the SkyflowID's or Unique Column Values as described below
+Retrieving data from the vault and revealing it in the mobile app can be done using Skyflow IDs or unique column values, as described below.
 
-- #### Using Skyflow ID's or Unique Column Values
+- #### Using Skyflow IDs or unique column values
     For retrieving data from the vault, use the `get(getInput: IGetInput, options: IGetOptions)` method.
     
     The `getInput` parameter takes an object that contains an array of the records to fetch. Each object inside the array should contain:
@@ -1415,8 +1415,8 @@ For non-PCI use-cases, retrieving data from the vault and revealing it in the mo
     {
       "records": [
         {
-          "ids": Array,                  // Array of SkyflowID's of the records to be fetched
-          "table": String,               // name of table holding the above skyflow_id's
+          "ids": Array,                  // Array of Skyflow IDs of the records to be fetched
+          "table": String,               // name of table holding the above Skyflow IDs
           "redaction": RedactionType,    // redaction to be applied to retrieved data
           "fields": Array                // (optional) columns to return; omit to return all permitted columns
           // NOTE: offset and limit are NOT supported when using ids
